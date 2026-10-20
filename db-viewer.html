@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Database Viewer & Inspector — JosjisNews SQLite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              500: '#f43f5e',
+              600: '#e11d48',
+              700: '#be123c'
+            }
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased flex flex-col">
+
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-30 border-b border-slate-200 bg-white px-6 py-3.5 shadow-sm">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 text-lg font-black text-white shadow-sm">🗄️</span>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-extrabold text-slate-900">JosjisNews Database Manager</h1>
+            <span id="db-driver-badge" class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">SQLite 3</span>
+          </div>
+          <p class="text-xs text-slate-500">Lokasi File Fisik: <code id="db-path-label" class="font-mono font-semibold text-brand-600 select-all">/Users/dakroni/www/josjisNews/database/database.sqlite</code></p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <button onclick="loadDatabaseInfo()" class="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600 transition-colors">
+          🔄 Muat Ulang Data
+        </button>
+        <a href="/admin.html" class="rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 hover:border-brand-500 transition-colors">
+          ← Dashboard Admin
+        </a>
+        <a href="/preview.html" class="rounded-xl bg-brand-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-brand-700 transition-colors">
+          🌐 Buka Web Publik ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- INFO BAR LOKASI PENYIMPANAN -->
+  <div class="border-b border-slate-200 bg-slate-100/80 px-6 py-2.5 text-xs">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
+      <div class="flex flex-wrap items-center gap-4">
+        <span>📁 <strong>File SQLite Aktif:</strong> <code class="rounded bg-white px-2 py-0.5 font-mono text-slate-800 border border-slate-200 select-all">/Users/dakroni/www/josjisNews/database/database.sqlite</code></span>
+        <span>📄 <strong>File Dump MySQL/MariaDB:</strong> <code class="rounded bg-white px-2 py-0.5 font-mono text-slate-800 border border-slate-200 select-all">/Users/dakroni/www/josjisNews/database/josjis_news_dump.sql</code></span>
+      </div>
+      <div class="flex items-center gap-3 text-slate-600">
+        <span>Ukuran: <strong id="db-size-label">0 KB</strong></span>
+        <span>•</span>
+        <span>Diperbarui: <strong id="db-mtime-label">-</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN WORKSPACE -->
+  <div class="mx-auto flex w-full max-w-7xl flex-1 gap-6 p-6">
+    <!-- Left Sidebar: Daftar Tabel -->
+    <aside class="w-64 shrink-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm h-fit">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-700">Daftar Tabel (<span id="tables-count-label">0</span>)</h2>
+      </div>
+      <div id="tables-nav-list" class="mt-3 space-y-1"></div>
+    </aside>
+
+    <!-- Right Content: Isi Baris & Struktur Tabel -->
+    <main class="min-w-0 flex-1 space-y-5">
+      <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <!-- Table Header & View Switcher -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-slate-50/70 px-6 py-4">
+          <div>
+            <div class="flex items-center gap-2.5">
+              <h2 id="active-table-name" class="font-mono text-base font-extrabold text-slate-900">-</h2>
+              <span id="active-table-count" class="rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-xs font-bold text-brand-700">0 baris</span>
+            </div>
+            <p class="mt-0.5 text-xs text-slate-500">Klik tab di kanan untuk melihat isi baris data atau struktur kolom SQL</p>
+          </div>
+
+          <div class="flex rounded-xl border border-slate-200 bg-white p-1">
+            <button onclick="switchSubView('rows')" id="subtab-rows" class="rounded-lg bg-brand-600 px-3.5 py-1.5 text-xs font-bold text-white">
+              📊 Data Baris (Browse)
+            </button>
+            <button onclick="switchSubView('structure')" id="subtab-structure" class="rounded-lg px-3.5 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900">
+              🧱 Struktur Kolom & SQL
+            </button>
+          </div>
+        </div>
+
+        <!-- SUBVIEW 1: DATA ROWS -->
+        <div id="view-rows" class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead id="rows-thead" class="border-b border-slate-200 bg-slate-50 font-mono uppercase text-slate-500"></thead>
+            <tbody id="rows-tbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+
+        <!-- SUBVIEW 2: TABLE STRUCTURE & DDL -->
+        <div id="view-structure" class="hidden p-6 space-y-6">
+          <div>
+            <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-3">Definisi Kolom (PRAGMA table_info)</h3>
+            <div class="overflow-x-auto rounded-xl border border-slate-200">
+              <table class="w-full text-left text-xs">
+                <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
+                  <tr>
+                    <th class="px-4 py-2.5">#</th>
+                    <th class="px-4 py-2.5">Nama Kolom</th>
+                    <th class="px-4 py-2.5">Tipe Data</th>
+                    <th class="px-4 py-2.5">Wajib (Not Null)</th>
+                    <th class="px-4 py-2.5">Nilai Default</th>
+                    <th class="px-4 py-2.5">Primary Key</th>
+                  </tr>
+                </thead>
+                <tbody id="structure-tbody" class="divide-y divide-slate-100 font-mono"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-2">Perintah DDL SQL (CREATE TABLE)</h3>
+            <pre id="ddl-code-box" class="overflow-x-auto rounded-xl border border-slate-200 bg-slate-900 p-4 font-mono text-xs text-emerald-400 leading-relaxed"></pre>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let DB_TABLES = [];
+    let currentTableIndex = 0;
+    let currentSubView = 'rows';
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '<span class="italic text-slate-400">NULL</span>';
+      const s = String(str);
+      return s
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    async function loadDatabaseInfo() {
+      try {
+        const res = await fetch('/api/v1/admin/db-inspect');
+        const json = await res.json();
+        if (json.status !== 'success') return;
+
+        document.getElementById('db-driver-badge').textContent = json.database.driver;
+        document.getElementById('db-path-label').textContent = json.database.file_path;
+        document.getElementById('db-size-label').textContent = json.database.file_size_kb + ' KB';
+        document.getElementById('db-mtime-label').textContent = json.database.last_modified;
+        document.getElementById('tables-count-label').textContent = json.database.tables_count;
+
+        DB_TABLES = json.tables || [];
+        // Pilih tabel categories atau advertisements atau tabel pertama secara default
+        const prefIdx = DB_TABLES.findIndex(t => t.name === 'advertisements');
+        if (currentTableIndex >= DB_TABLES.length) currentTableIndex = 0;
+        else if (currentTableIndex === 0 && prefIdx >= 0) currentTableIndex = prefIdx;
+
+        renderSidebarTables();
+        renderActiveTable();
+      } catch (err) {
+        console.error('Gagal memuat database:', err);
+      }
+    }
+
+    function renderSidebarTables() {
+      const list = document.getElementById('tables-nav-list');
+      list.innerHTML = DB_TABLES.map((t, idx) => {
+        const active = idx === currentTableIndex;
+        return `
+          <button onclick="selectTable(${idx})" class="flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-mono transition-colors ${active ? 'bg-brand-50 font-bold text-brand-600' : 'text-slate-600 hover:bg-slate-100'}">
+            <span class="truncate">${t.name}</span>
+            <span class="rounded-full ${active ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-600'} px-2 py-0.5 text-[10px] font-sans font-bold">${t.count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectTable(idx) {
+      currentTableIndex = idx;
+      renderSidebarTables();
+      renderActiveTable();
+    }
+
+    function switchSubView(view) {
+      currentSubView = view;
+      document.getElementById('view-rows').classList.toggle('hidden', view !== 'rows');
+      document.getElementById('view-structure').classList.toggle('hidden', view !== 'structure');
+      document.getElementById('subtab-rows').className = view === 'rows'
+        ? 'rounded-lg bg-brand-600 px-3.5 py-1.5 text-xs font-bold text-white'
+        : 'rounded-lg px-3.5 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900';
+      document.getElementById('subtab-structure').className = view === 'structure'
+        ? 'rounded-lg bg-brand-600 px-3.5 py-1.5 text-xs font-bold text-white'
+        : 'rounded-lg px-3.5 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900';
+    }
+
+    function renderActiveTable() {
+      const tbl = DB_TABLES[currentTableIndex];
+      if (!tbl) return;
+
+      document.getElementById('active-table-name').textContent = 'Tabel: ' + tbl.name;
+      document.getElementById('active-table-count').textContent = tbl.count + ' baris data';
+
+      const cols = tbl.columns || [];
+      const rows = tbl.rows || [];
+
+      // Render Header Kolom
+      document.getElementById('rows-thead').innerHTML = `
+        <tr>
+          ${cols.map(c => `<th class="px-4 py-3 whitespace-nowrap">${escapeHtml(c.name)} <span class="text-[10px] font-normal text-slate-400">(${escapeHtml(c.type)})</span></th>`).join('')}
+        </tr>
+      `;
+
+      // Render Isi Baris
+      if (rows.length === 0) {
+        document.getElementById('rows-tbody').innerHTML = `
+          <tr>
+            <td colspan="${Math.max(1, cols.length)}" class="px-6 py-10 text-center text-xs text-slate-400">
+              Tabel <code class="font-mono font-bold text-slate-600">${escapeHtml(tbl.name)}</code> saat ini kosong (0 baris).
+            </td>
+          </tr>
+        `;
+      } else {
+        document.getElementById('rows-tbody').innerHTML = rows.map(r => `
+          <tr class="hover:bg-slate-50/90">
+            ${cols.map(c => {
+              const val = r[c.name];
+              const strVal = val === null || val === undefined ? null : String(val);
+              const display = strVal !== null && strVal.length > 140 ? escapeHtml(strVal.slice(0, 140)) + '…' : escapeHtml(val);
+              return `<td class="px-4 py-3 align-top max-w-xs break-words font-mono text-[11px] text-slate-700">${display}</td>`;
+            }).join('')}
+          </tr>
+        `).join('');
+      }
+
+      // Render Struktur Kolom
+      document.getElementById('structure-tbody').innerHTML = cols.map(c => `
+        <tr>
+          <td class="px-4 py-2.5 text-slate-400">${c.cid}</td>
+          <td class="px-4 py-2.5 font-bold text-slate-900">${escapeHtml(c.name)}</td>
+          <td class="px-4 py-2.5 text-brand-600">${escapeHtml(c.type)}</td>
+          <td class="px-4 py-2.5">${c.notnull ? '<span class="text-emerald-600 font-bold">YES</span>' : 'NO'}</td>
+          <td class="px-4 py-2.5 text-slate-500">${escapeHtml(c.dflt_value)}</td>
+          <td class="px-4 py-2.5">${c.pk ? '<span class="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800">PRIMARY KEY</span>' : '—'}</td>
+        </tr>
+      `).join('');
+
+      document.getElementById('ddl-code-box').textContent = tbl.ddl || '';
+    }
+
+    loadDatabaseInfo();
+  </script>
+</body>
+</html>

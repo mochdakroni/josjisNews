@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin CMS — JosjisNews</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- CKEditor 5 SUPER-BUILD (Full MS Word Suite) -->
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              500: '#f43f5e',
+              600: '#e11d48',
+              700: '#be123c'
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    .ck-editor__editable_inline {
+      min-height: 400px !important;
+      padding: 1.5rem 2rem !important;
+      font-size: 16px;
+      line-height: 1.8;
+      background: #ffffff !important;
+      color: #0f172a !important;
+    }
+    .ck.ck-toolbar {
+      background: #f8fafc !important;
+      border-color: #e2e8f0 !important;
+      padding: 6px 8px !important;
+    }
+    .ck.ck-editor__main > .ck-editor__editable {
+      border-color: #e2e8f0 !important;
+    }
+    .ck-content .lead-paragraph {
+      font-size: 1.12em;
+      font-weight: 500;
+      color: #1e293b;
+      border-left: 3px solid #e11d48;
+      padding-left: 12px;
+    }
+    .ck-content .fact-box {
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+    .ck-content .baca-juga-box {
+      background: #f8fafc;
+      border-left: 4px solid #e11d48;
+      padding: 10px 14px;
+      font-weight: 600;
+    }
+    .ck-content blockquote {
+      border-left: 4px solid #e11d48;
+      padding-left: 1rem;
+      font-style: italic;
+      color: #334155;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased">
+
+  <!-- SCREEN 1: LOGIN PAGE (Default Tampil Sampai Sesi Terverifikasi) -->
+  <div id="login-screen" class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-white to-rose-50/50 px-4 py-12">
+    <div class="w-full max-w-md rounded-2xl border border-slate-200/90 bg-white p-8 shadow-xl shadow-slate-200/60">
+      <div class="flex flex-col items-center text-center">
+        <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-600 font-serif text-2xl font-black text-white shadow-md shadow-brand-600/20">J</span>
+        <h1 class="mt-4 text-xl font-extrabold tracking-tight text-slate-900">JosjisNews CMS</h1>
+        <p class="mt-1 text-xs text-slate-500">Masuk ke Panel Manajemen Redaksi</p>
+      </div>
+
+      <div id="login-info" class="hidden mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs font-semibold text-emerald-700"></div>
+      <div id="login-error" class="hidden mt-4 rounded-xl border border-rose-200 bg-rose-50 px-3.5 py-2.5 text-xs font-semibold text-rose-700"></div>
+
+      <form onsubmit="handleLogin(event)" class="mt-6 space-y-4" autocomplete="off">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Alamat Email</label>
+          <input id="login-email" type="email" required value="admin@josjisnews.com" placeholder="admin@josjisnews.com" class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Password</label>
+          <input id="login-password" type="password" required placeholder="Masukkan password..." class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
+        </div>
+        <button id="login-submit-btn" type="submit" class="w-full rounded-xl bg-brand-600 py-2.5 text-sm font-bold text-white shadow-md shadow-brand-600/20 hover:bg-brand-700 transition-colors">
+          Masuk ke Dashboard Admin →
+        </button>
+      </form>
+
+      <div class="mt-5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-[11px] text-slate-500 flex items-center justify-between">
+        <div>
+          <span class="font-bold text-slate-700">Akun Default:</span>
+          <code>admin@josjisnews.com</code> / <code>password123</code>
+        </div>
+        <button type="button" onclick="document.getElementById('login-email').value='admin@josjisnews.com'; document.getElementById('login-password').value='password123';" class="rounded-lg bg-white border border-slate-200 px-2 py-1 text-[10px] font-bold text-brand-600 hover:border-brand-500">
+          Isi Cepat
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: ADMIN SHELL (Default Disembunyikan Sampai Login Berhasil) -->
+  <div id="dashboard-screen" class="hidden min-h-screen">
+    <!-- Left Sidebar -->
+    <aside class="w-64 shrink-0 border-r border-slate-200 bg-white flex flex-col justify-between p-4 shadow-sm">
+      <div>
+        <!-- Brand Header -->
+        <div class="flex items-center gap-3 px-2 py-2 border-b border-slate-100 pb-4">
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 font-serif text-lg font-black text-white shadow-sm">J</span>
+          <div>
+            <div class="font-extrabold text-sm text-slate-900 leading-none">JosjisNews <span class="text-brand-600">CMS</span></div>
+            <span class="text-[11px] font-medium text-slate-400">Panel Redaksi</span>
+          </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="mt-5 space-y-1">
+          <div class="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Utama & Analitik</div>
+          <button onclick="switchTab('dashboard')" data-tab="dashboard" class="nav-btn flex w-full items-center justify-between rounded-xl bg-brand-50 px-3 py-2.5 text-xs font-bold text-brand-600 transition-colors">
+            <span class="flex items-center gap-2.5">📊 Dashboard</span>
+          </button>
+
+          <div class="pt-4 px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Redaksi & Konten</div>
+          <button onclick="switchTab('articles')" data-tab="articles" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+            <span class="flex items-center gap-2.5">📰 Artikel Berita</span>
+            <span id="badge-count-articles" class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
+          </button>
+
+          <button onclick="openArticleEditor(-1)" data-tab="editor" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+            <span class="flex items-center gap-2.5">✍️ Tulis Berita</span>
+          </button>
+
+          <button onclick="switchTab('categories')" data-tab="categories" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+            <span class="flex items-center gap-2.5">📁 Kategori Kanal</span>
+            <span id="badge-count-categories" class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
+          </button>
+
+          <button onclick="switchTab('ads')" data-tab="ads" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+            <span class="flex items-center gap-2.5">📢 Kelola Advertise</span>
+            <span id="badge-count-ads" class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
+          </button>
+
+          <div class="pt-4 px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Manajemen Akses</div>
+          <button onclick="switchTab('users')" data-tab="users" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+            <span class="flex items-center gap-2.5">👥 Tim Redaksi & User</span>
+            <span id="badge-count-users" class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Bottom Quick Links -->
+      <div class="space-y-2 border-t border-slate-200 pt-4">
+        <a href="/db-viewer.html" target="_blank" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700 hover:bg-emerald-100 transition-colors">
+          🗄️ Cek Isi Database (SQLite) ↗
+        </a>
+        <a href="/preview.html" target="_blank" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 hover:border-brand-500 hover:text-brand-600 transition-colors">
+          🌐 Buka Web Publik ↗
+        </a>
+        <button onclick="logout()" class="flex w-full items-center justify-center rounded-xl px-3 py-2 text-xs font-medium text-slate-500 hover:bg-rose-50 hover:text-brand-600 transition-colors">
+          Keluar / Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0">
+      <!-- Top Header Bar -->
+      <header class="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white/90 backdrop-blur-md px-6 py-3.5">
+        <div>
+          <h2 id="page-title" class="text-base font-extrabold text-slate-900">Dashboard Analitik Redaksi</h2>
+          <p id="page-subtitle" class="text-xs text-slate-500">Pantau performa artikel, antrean review, kategori, dan tim redaksi secara real-time.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            <span id="db-status-pill">Database Terhubung</span>
+          </div>
+
+          <div class="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1">
+            <span id="active-user-initial" class="flex h-6 w-6 items-center justify-center rounded-full bg-brand-600 text-[11px] font-bold text-white">A</span>
+            <span id="active-role-badge" class="text-xs font-bold text-slate-700">Administrator Redaksi</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Wrapper -->
+      <main class="p-6 space-y-6 flex-1 overflow-y-auto">
+        <!-- Global Notification Toast -->
+        <div id="toast-banner" class="hidden rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs font-semibold text-emerald-800 flex items-center justify-between shadow-sm">
+          <span id="toast-message">Data berhasil disimpan.</span>
+          <button onclick="document.getElementById('toast-banner').classList.add('hidden')" class="text-emerald-600 hover:text-emerald-900 font-bold">✕</button>
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- TAB 1: DASHBOARD -->
+        <!-- ========================================================== -->
+        <section id="section-dashboard" class="space-y-6">
+          <!-- 4 KPI Stat Cards (100% Real Data dari Database) -->
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Artikel</span>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 text-brand-600 text-base">📰</span>
+              </div>
+              <div class="mt-3 flex items-baseline gap-2">
+                <span id="kpi-articles" class="text-3xl font-extrabold text-slate-900">0</span>
+              </div>
+              <p class="mt-1 text-xs text-slate-500"><span id="kpi-published-sub">0</span> tayang • <span id="kpi-review-sub">0</span> review • <span id="kpi-draft-sub">0</span> draft</p>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Pembaca</span>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600 text-base">👁️</span>
+              </div>
+              <div class="mt-3 flex items-baseline gap-2">
+                <span id="kpi-views" class="text-3xl font-extrabold text-slate-900">0</span>
+              </div>
+              <p class="mt-1 text-xs text-slate-500">Akumulasi pembaca seluruh artikel</p>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Kategori Kanal</span>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-600 text-base">📁</span>
+              </div>
+              <div class="mt-3 flex items-baseline gap-2">
+                <span id="kpi-categories" class="text-3xl font-extrabold text-slate-900">0</span>
+              </div>
+              <p class="mt-1 text-xs text-slate-500">Kanal aktif di navigasi publik</p>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tim Redaksi & User</span>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 text-base">👥</span>
+              </div>
+              <div class="mt-3 flex items-baseline gap-2">
+                <span id="kpi-users" class="text-3xl font-extrabold text-slate-900">0</span>
+              </div>
+              <p class="mt-1 text-xs text-slate-500">Pengguna terdaftar di sistem</p>
+            </div>
+          </div>
+
+          <!-- Middle Row: Real Traffic Chart + Quick Actions -->
+          <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+            <!-- Grafik Kunjungan 7 Hari Terakhir (Real dari tabel article_views) -->
+            <div class="lg:col-span-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900">Statistik Kunjungan Pembaca (7 Hari Terakhir)</h3>
+                  <p class="text-xs text-slate-500">Data tercatat langsung dari tabel <code class="text-brand-600">article_views</code></p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button onclick="openArticleEditor(-1)" class="rounded-xl bg-brand-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                    + Tulis Berita Baru
+                  </button>
+                </div>
+              </div>
+
+              <!-- Dynamic Bar Chart Container -->
+              <div id="daily-views-chart" class="mt-6 grid grid-cols-7 items-end gap-3 h-48 pt-6 px-2"></div>
+            </div>
+
+            <!-- Pintasan Manajemen Cepat -->
+            <div class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Aksi Cepat Redaksi</h3>
+                <div class="mt-4 space-y-2.5">
+                  <button onclick="openArticleEditor(-1)" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                    <span>✍️ Tulis Artikel Baru</span>
+                    <span class="text-brand-600">→</span>
+                  </button>
+                  <button onclick="switchTab('categories'); resetCategoryForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                    <span>📁 Kelola Kategori Kanal</span>
+                    <span class="text-brand-600">→</span>
+                  </button>
+                  <button onclick="switchTab('ads'); resetAdForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                    <span>📢 Kelola Slot Advertise (Iklan)</span>
+                    <span class="text-brand-600">→</span>
+                  </button>
+                  <button onclick="switchTab('users'); resetUserForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                    <span>👥 Kelola Akun Redaksi</span>
+                    <span class="text-brand-600">→</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs text-slate-600">
+                <div class="font-bold text-slate-800">Direktori Penyimpanan Media</div>
+                <p class="mt-1 text-[11px] text-slate-500">File yang diunggah disimpan di <code class="text-brand-600">storage/uploads/</code> dan dapat dipilih kembali kapan saja.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Row on Dashboard: Tabel Artikel Terbaru -->
+          <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900">Artikel Terbaru</h3>
+                <p class="text-xs text-slate-500">Daftar artikel terakhir yang tersimpan di database</p>
+              </div>
+              <button onclick="switchTab('articles')" class="text-xs font-bold text-brand-600 hover:underline">Kelola Semua Artikel →</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3.5">Judul Berita</th>
+                    <th class="px-4 py-3.5">Kategori</th>
+                    <th class="px-4 py-3.5">Penulis</th>
+                    <th class="px-4 py-3.5">Status</th>
+                    <th class="px-4 py-3.5">Pembaca</th>
+                    <th class="px-6 py-3.5 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-recent-articles" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- TAB 2: DAFTAR & CRUD ARTIKEL BERITA -->
+        <!-- ========================================================== -->
+        <section id="section-articles" class="hidden space-y-4">
+          <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-6 py-4">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900">Manajemen Artikel Berita</h3>
+                <p class="text-xs text-slate-500">Tambah, edit dengan CKEditor 5, ubah status publikasi, atau hapus artikel</p>
+              </div>
+              <button onclick="openArticleEditor(-1)" class="rounded-xl bg-brand-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                + Tulis Berita Baru
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3.5">Judul Artikel</th>
+                    <th class="px-4 py-3.5">Kategori</th>
+                    <th class="px-4 py-3.5">Penulis</th>
+                    <th class="px-4 py-3.5">Status</th>
+                    <th class="px-4 py-3.5">Headline</th>
+                    <th class="px-4 py-3.5">Pembaca</th>
+                    <th class="px-6 py-3.5 text-right">Aksi CRUD</th>
+                  </tr>
+                </thead>
+                <tbody id="cms-table-body" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- TAB 3: CKEDITOR 5 ARTICLE EDITOR -->
+        <!-- ========================================================== -->
+        <section id="section-editor" class="hidden">
+          <form onsubmit="saveArticle(event)" class="grid grid-cols-1 gap-6 xl:grid-cols-12">
+            <input type="hidden" id="edit-article-index" value="-1" />
+
+            <!-- Left 9 Cols: CKEditor 5 Superbuild -->
+            <div class="xl:col-span-9 space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 id="editor-heading-label" class="text-sm font-bold text-slate-900">Tulis Berita Baru</h3>
+                <span class="rounded-full bg-emerald-50 border border-emerald-200 px-3 py-0.5 text-[11px] font-semibold text-emerald-700">CKEditor 5 Aktif</span>
+              </div>
+
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-12">
+                <div class="sm:col-span-8">
+                  <label class="block text-xs font-semibold text-slate-700">Judul Artikel Berita (H1) *</label>
+                  <input id="form-title" type="text" required oninput="autoSlug(this.value, 'form-slug')" placeholder="Masukkan judul berita..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-900 focus:border-brand-600 focus:outline-none" />
+                </div>
+                <div class="sm:col-span-4">
+                  <label class="block text-xs font-semibold text-slate-700">Slug URL SEO</label>
+                  <input id="form-slug" type="text" required class="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600" />
+                </div>
+              </div>
+
+              <!-- Multimedia & Library Manager Bar -->
+              <div class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5">
+                <span class="text-[11px] font-bold text-slate-600">Sisipkan Media ke Konten:</span>
+                <div class="flex flex-wrap items-center gap-2">
+                  <button type="button" onclick="openMediaModal('body', 'library')" class="rounded-lg border border-brand-200 bg-brand-50 px-3 py-1.5 text-[11px] font-bold text-brand-700 hover:bg-brand-100 shadow-sm">
+                    🗂️ Pilih dari Direktori Media
+                  </button>
+                  <button type="button" onclick="openMediaModal('body', 'upload')" class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-[11px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600 shadow-sm">
+                    📤 Unggah Baru (Gambar / Video MP4 / PDF)
+                  </button>
+                  <button type="button" onclick="openMediaModal('body', 'link')" class="rounded-lg border border-sky-200 bg-sky-50 px-3 py-1.5 text-[11px] font-bold text-sky-700 hover:bg-sky-100 shadow-sm">
+                    ☁️🔗 Tempel Link Gambar / Video / PDF / Google Drive
+                  </button>
+                </div>
+              </div>
+
+              <!-- CKEditor 5 Container -->
+              <div class="rounded-xl overflow-hidden border border-slate-300 shadow-sm">
+                <div id="ckeditor-container"></div>
+              </div>
+
+              <!-- Word Count Status Bar -->
+              <div class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
+                <div class="flex items-center gap-4">
+                  <span>📝 Kata: <strong id="stat-words" class="text-slate-900">0</strong></span>
+                  <span>🔤 Karakter: <strong id="stat-chars" class="text-slate-900">0</strong></span>
+                  <span>⏱️ Estimasi Baca: <strong id="stat-readtime" class="text-brand-600">1 menit</strong></span>
+                </div>
+                <span class="text-[11px] text-slate-400">Mendukung Gambar, Video MP4/WebM, Dokumen PDF, & Preview Google Drive</span>
+              </div>
+            </div>
+
+            <!-- Right 3 Cols: Featured Image + Metadata & Publish Settings -->
+            <div class="xl:col-span-3 space-y-4">
+              <!-- Card Gambar Utama (Featured Image) -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                  <h3 class="text-sm font-bold text-slate-900">Gambar Utama (Thumbnail)</h3>
+                </div>
+
+                <!-- Preview Thumbnail -->
+                <div class="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-100 flex items-center justify-center">
+                  <img id="featured-image-preview" src="" alt="Preview Thumbnail" class="hidden h-full w-full object-cover" />
+                  <span id="featured-image-empty" class="text-[11px] font-medium text-slate-400 px-4 text-center">Belum ada gambar utama dipilih</span>
+                </div>
+
+                <!-- 3 Tombol Mode Pilih Gambar Utama -->
+                <div class="grid grid-cols-3 gap-1.5 pt-1">
+                  <button type="button" onclick="openMediaModal('featured', 'upload')" class="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600">
+                    📤 Unggah Baru
+                  </button>
+                  <button type="button" onclick="openMediaModal('featured', 'library')" class="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600">
+                    🗂️ Direktori
+                  </button>
+                  <button type="button" onclick="openMediaModal('featured', 'link')" class="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600">
+                    🔗 Link / Drive
+                  </button>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-600">URL / Path Gambar Utama</label>
+                  <input id="form-featured-image" type="text" oninput="updateFeaturedPreview(this.value)" value="" placeholder="Unggah atau tempel URL gambar..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-600">Caption / Kredit Foto</label>
+                  <input id="form-caption" type="text" value="" placeholder="Keterangan foto..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+                </div>
+              </div>
+
+              <!-- Card Publikasi & Klasifikasi -->
+              <div class="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm h-fit">
+                <h3 class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Publikasi & Klasifikasi</h3>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700">Status Publikasi</label>
+                  <select id="form-status" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900">
+                    <option value="published">Published (Tayang)</option>
+                    <option value="review">Menunggu Review</option>
+                    <option value="draft">Draft</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700">Kategori Kanal</label>
+                  <select id="form-category" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"></select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700">Ringkasan SEO (Excerpt)</label>
+                  <textarea id="form-excerpt" rows="3" placeholder="Ringkasan singkat isi berita..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800"></textarea>
+                </div>
+
+                <label class="flex items-center gap-2 text-xs font-medium text-slate-700 pt-1">
+                  <input id="form-headline" type="checkbox" checked class="rounded border-slate-300 text-brand-600" />
+                  <span>Tampilkan di Headline Utama</span>
+                </label>
+
+                <div class="pt-3 flex flex-col gap-2">
+                  <button type="submit" class="w-full rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                    💾 Simpan Artikel
+                  </button>
+                  <button type="button" onclick="switchTab('articles')" class="w-full rounded-xl border border-slate-300 bg-white py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                    Batal
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- TAB 4: CRUD KATEGORI KANAL -->
+        <!-- ========================================================== -->
+        <section id="section-categories" class="hidden grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <div class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm h-fit">
+            <h3 id="cat-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah Kategori Baru</h3>
+            <form onsubmit="saveCategory(event)" class="mt-4 space-y-4">
+              <input type="hidden" id="cat-edit-index" value="-1" />
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Nama Kategori *</label>
+                <input id="cat-name" type="text" required oninput="autoSlug(this.value, 'cat-slug')" placeholder="Masukkan nama kategori" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Slug URL *</label>
+                <input id="cat-slug" type="text" required placeholder="slug-kategori" class="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-slate-600" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Deskripsi Kanal (SEO Meta)</label>
+                <textarea id="cat-desc" rows="3" placeholder="Deskripsi singkat kanal berita..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-brand-600 focus:outline-none"></textarea>
+              </div>
+              <label class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                <input id="cat-active" type="checkbox" checked class="rounded border-slate-300 text-brand-600" />
+                <span>Status Aktif (Tampil di Navbar Publik)</span>
+              </label>
+              <div class="flex gap-2 pt-2">
+                <button type="submit" class="flex-1 rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                  💾 Simpan Kategori
+                </button>
+                <button type="button" onclick="resetCategoryForm()" class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="lg:col-span-8 rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden h-fit">
+            <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900">Daftar Kategori Kanal Berita</h3>
+                <p class="text-xs text-slate-500">Data kategori aktif pada portal berita</p>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3.5">Nama Kategori</th>
+                    <th class="px-4 py-3.5">Slug</th>
+                    <th class="px-4 py-3.5">Deskripsi</th>
+                    <th class="px-4 py-3.5">Status</th>
+                    <th class="px-6 py-3.5 text-right">Aksi CRUD</th>
+                  </tr>
+                </thead>
+                <tbody id="categories-table-body" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- TAB 5: CRUD USER & TIM REDAKSI -->
+        <!-- ========================================================== -->
+        <section id="section-users" class="hidden grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <div class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm h-fit">
+            <h3 id="user-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah Anggota Redaksi / User</h3>
+            <form onsubmit="saveUser(event)" class="mt-4 space-y-4">
+              <input type="hidden" id="user-edit-index" value="-1" />
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Nama Lengkap *</label>
+                <input id="user-name" type="text" required placeholder="Nama lengkap" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Alamat Email *</label>
+                <input id="user-email" type="email" required placeholder="email@josjisnews.com" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Peran Redaksi (Role) *</label>
+                <select id="user-role" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none">
+                  <option value="super_admin">Super Admin (Akses Penuh)</option>
+                  <option value="editor">Editor Redaksi (Bisa Publish & Headline)</option>
+                  <option value="journalist" selected>Jurnalis / Wartawan (Draft & Review)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Password</label>
+                <input id="user-password" type="password" placeholder="Kosongkan jika tidak diubah" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+              </div>
+              <div class="flex gap-2 pt-2">
+                <button type="submit" class="flex-1 rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                  💾 Simpan User
+                </button>
+                <button type="button" onclick="resetUserForm()" class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="lg:col-span-8 rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden h-fit">
+            <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900">Daftar Tim Redaksi & Pengguna CMS</h3>
+                <p class="text-xs text-slate-500">Manajemen akun dan hak akses publikasi</p>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3.5">Nama & Email</th>
+                    <th class="px-4 py-3.5">Role Redaksi</th>
+                    <th class="px-4 py-3.5">Hak Publish</th>
+                    <th class="px-4 py-3.5">Artikel Ditulis</th>
+                    <th class="px-6 py-3.5 text-right">Aksi CRUD</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- TAB 6: CRUD ADVERTISE / PENGELOLAAN SLOT IKLAN HALAMAN DEPAN -->
+        <!-- ========================================================== -->
+        <section id="section-ads" class="hidden grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <!-- Left 4 Cols: Form Tambah / Edit Slot Iklan -->
+          <div class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm h-fit">
+            <h3 id="ad-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah / Edit Slot Advertise</h3>
+            <form onsubmit="saveAd(event)" class="mt-4 space-y-4">
+              <input type="hidden" id="ad-edit-index" value="-1" />
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Judul Kampanye / Nama Slot *</label>
+                <input id="ad-title" type="text" required placeholder="Misal: Banner Kampanye Bank Nasional" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Nama Sponsor / Pengiklan</label>
+                <input id="ad-sponsor" type="text" placeholder="Misal: PT Bank Nusantara Tbk" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Posisi Slot di Halaman Depan *</label>
+                <select id="ad-position" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-900 focus:border-brand-600 focus:outline-none">
+                  <option value="leaderboard_top">Leaderboard Atas Beranda (970×90 / 728×90)</option>
+                  <option value="infeed_home">In-Feed Beranda (Di Bawah Indeks Berita)</option>
+                  <option value="sidebar_home">Sidebar Kanan Beranda (300×250)</option>
+                  <option value="sidebar_article">Sidebar Halaman Baca Artikel (300×250)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Jenis Materi Iklan *</label>
+                <select id="ad-type" onchange="toggleAdTypeFields(this.value)" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-900 focus:border-brand-600 focus:outline-none">
+                  <option value="image">🖼️ Banner Gambar + Link Tujuan</option>
+                  <option value="html">💻 Kode HTML / Banner Teks Kustom</option>
+                </select>
+              </div>
+
+              <!-- Field Khusus Tipe Gambar Banner -->
+              <div id="ad-image-fields" class="space-y-3 rounded-xl border border-slate-200 bg-slate-50/70 p-3.5">
+                <div class="relative aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-white flex items-center justify-center">
+                  <img id="ad-image-preview" src="" alt="Preview Banner Iklan" class="hidden h-full w-full object-contain" />
+                  <span id="ad-image-empty" class="text-[11px] text-slate-400 px-3 text-center">Belum ada gambar banner dipilih</span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-1.5">
+                  <button type="button" onclick="openMediaModal('ad_banner', 'upload')" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600">
+                    📤 Unggah Baru
+                  </button>
+                  <button type="button" onclick="openMediaModal('ad_banner', 'library')" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600">
+                    🗂️ Direktori
+                  </button>
+                  <button type="button" onclick="openMediaModal('ad_banner', 'link')" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600">
+                    🔗 Link / Drive
+                  </button>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-600">URL / Path Gambar Banner</label>
+                  <input id="ad-image-url" type="text" oninput="updateAdBannerPreview(this.value)" placeholder="/storage/uploads/images/... atau https://..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+                </div>
+              </div>
+
+              <!-- Field Khusus Tipe HTML / Banner Teks -->
+              <div id="ad-html-fields" class="hidden space-y-2">
+                <label class="block text-xs font-semibold text-slate-700">Kode HTML Banner / Script Iklan</label>
+                <textarea id="ad-html-code" rows="4" placeholder="<div class='...'>Konten HTML Banner</div>" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 font-mono text-xs text-slate-800 focus:border-brand-600 focus:outline-none"></textarea>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700">Link URL Tujuan Saat Diklik</label>
+                <input id="ad-target-url" type="url" placeholder="https://..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+              </div>
+
+              <label class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                <input id="ad-active" type="checkbox" checked class="rounded border-slate-300 text-brand-600" />
+                <span>Tayangkan Slot Iklan Ini di Halaman Depan (Aktif)</span>
+              </label>
+
+              <div class="flex gap-2 pt-2">
+                <button type="submit" class="flex-1 rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                  💾 Simpan Slot Iklan
+                </button>
+                <button type="button" onclick="resetAdForm()" class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right 8 Cols: Daftar Slot Iklan Halaman Depan -->
+          <div class="lg:col-span-8 rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden h-fit">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-6 py-4">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900">Daftar Slot Advertise Halaman Depan & Artikel</h3>
+                <p class="text-xs text-slate-500">Kelola materi banner, posisi penempatan, status aktif/nonaktif, serta pantau jumlah tayangan & klik</p>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3.5">Slot Kampanye & Sponsor</th>
+                    <th class="px-4 py-3.5">Posisi di Halaman Depan</th>
+                    <th class="px-4 py-3.5">Tipe Materi</th>
+                    <th class="px-4 py-3.5">Tayangan / Klik</th>
+                    <th class="px-4 py-3.5">Status Tayang</th>
+                    <th class="px-6 py-3.5 text-right">Aksi CRUD</th>
+                  </tr>
+                </thead>
+                <tbody id="ads-table-body" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL MANAJER MEDIA TERPADU (Unggah Baru, Direktori Media, Link & Google Drive) -->
+  <!-- ========================================================================= -->
+  <div id="media-manager-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+    <div class="w-full max-w-4xl rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col max-h-[88vh]">
+      <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
+        <div>
+          <h3 id="media-modal-title" class="text-sm font-extrabold text-slate-900">Manajer Pustaka & Unggah Media Redaksi</h3>
+          <p id="media-modal-subtitle" class="text-xs text-slate-500">Pilih file dari direktori server, unggah file baru (Gambar/Video/PDF), atau tempel link URL / Google Drive.</p>
+        </div>
+        <button type="button" onclick="closeMediaModal()" class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700 font-bold">✕</button>
+      </div>
+
+      <div class="flex border-b border-slate-200 bg-white px-6 pt-2 gap-2">
+        <button type="button" onclick="switchMediaModalTab('library')" id="mm-tab-library" class="border-b-2 border-brand-600 px-4 py-2.5 text-xs font-bold text-brand-600">
+          🗂️ Direktori Media
+        </button>
+        <button type="button" onclick="switchMediaModalTab('upload')" id="mm-tab-upload" class="border-b-2 border-transparent px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800">
+          📤 Unggah File Baru (Gambar / Video / PDF)
+        </button>
+        <button type="button" onclick="switchMediaModalTab('link')" id="mm-tab-link" class="border-b-2 border-transparent px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800">
+          ☁️🔗 Tempel Link URL / Google Drive
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto flex-1">
+        <!-- TAB 1: DIREKTORI MEDIA -->
+        <div id="mm-panel-library" class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-semibold text-slate-500 mr-1">Filter Direktori:</span>
+              <button type="button" onclick="filterMediaLibrary('all')" data-mfilter="all" class="mfilter-btn rounded-full bg-brand-600 px-3 py-1 text-xs font-bold text-white">Semua</button>
+              <button type="button" onclick="filterMediaLibrary('image')" data-mfilter="image" class="mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200">🖼️ Gambar</button>
+              <button type="button" onclick="filterMediaLibrary('video')" data-mfilter="video" class="mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200">🎬 Video</button>
+              <button type="button" onclick="filterMediaLibrary('pdf')" data-mfilter="pdf" class="mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200">📄 Dokumen PDF</button>
+            </div>
+            <span class="text-[11px] text-slate-400">Menampilkan file asli dari direktori <code>storage/uploads/</code></span>
+          </div>
+
+          <div id="media-library-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4"></div>
+        </div>
+
+        <!-- TAB 2: UNGGAH FILE BARU DARI KOMPUTER -->
+        <div id="mm-panel-upload" class="hidden space-y-4">
+          <div class="rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 text-2xl">📤</div>
+            <h4 class="mt-3 text-sm font-bold text-slate-900">Pilih File dari Komputer untuk Diunggah ke Server</h4>
+            <p class="mt-1 text-xs text-slate-500">Mendukung Gambar (<strong>JPG, PNG, WebP, GIF</strong>), Video (<strong>MP4, WebM</strong>), serta Dokumen (<strong>PDF</strong>)</p>
+
+            <input id="mm-file-input" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,application/pdf" onchange="handleNewMediaUpload(event)" class="hidden" />
+            <div class="mt-5">
+              <button type="button" onclick="document.getElementById('mm-file-input').click()" class="rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                Pilih File Gambar / Video / PDF dari Komputer...
+              </button>
+            </div>
+            <p class="mt-3 text-[11px] text-slate-400">File yang diunggah akan disimpan ke direktori <code>storage/uploads/</code> dan langsung disisipkan.</p>
+          </div>
+        </div>
+
+        <!-- TAB 3: TEMPEL LINK URL EKSTERNAL ATAU GOOGLE DRIVE -->
+        <div id="mm-panel-link" class="hidden space-y-4">
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-5 space-y-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-slate-700">Tempel Link URL (Gambar / Video / PDF / Link Google Drive) *</label>
+                <input id="mm-external-url" type="url" placeholder="https://drive.google.com/file/d/.../view atau https://..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900 focus:border-brand-600 focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700">Jenis Media</label>
+                <select id="mm-external-type" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900">
+                  <option value="auto">Deteksi Otomatis</option>
+                  <option value="image">🖼️ Gambar (Image / Foto Google Drive)</option>
+                  <option value="video">🎬 Video (MP4 / Video Google Drive)</option>
+                  <option value="pdf">📄 Dokumen PDF (File PDF / PDF Google Drive)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700">Judul / Keterangan Caption Media</label>
+              <input id="mm-external-caption" type="text" placeholder="Masukkan keterangan media..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-900 focus:border-brand-600 focus:outline-none" />
+            </div>
+
+            <div class="pt-2">
+              <button type="button" onclick="insertExternalMedia()" class="rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                ✓ Sisipkan Link Media
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const AUTH_TOKEN_KEY = 'josjis_admin_token';
+    const AUTH_USER_KEY = 'josjis_admin_user';
+
+    let currentUser = null;
+    let ckEditorInstance = null;
+
+    // Seluruh array state dimulai kosong (100% diisi dari database SQLite via /api/v1/bootstrap?mode=admin)
+    const CMS_ARTICLES = [];
+    const CMS_CATEGORIES = [];
+    const CMS_USERS = [];
+    const CMS_ADS = [];
+    const MEDIA_LIBRARY = [];
+    let STATS = { total_views: 0, daily_views: [] };
+
+    // Interceptor fetch global agar setiap request ke /api/v1/ menyertakan token sesi admin
+    const nativeFetch = window.fetch.bind(window);
+    window.fetch = async function(input, init = {}) {
+      const url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
+      const token = localStorage.getItem(AUTH_TOKEN_KEY) || '';
+      const headers = new Headers(init.headers || {});
+      if (token && url.includes('/api/v1/')) {
+        headers.set('Authorization', 'Bearer ' + token);
+        headers.set('X-Admin-Token', token);
+      }
+      const nextInit = { ...init, headers, credentials: 'same-origin' };
+      const response = await nativeFetch(input, nextInit);
+
+      // Jika endpoint admin mengembalikan 401 (sesi berakhir / sudah logout), otomatis paksa ke layar login
+      if (
+        response.status === 401 &&
+        url.includes('/api/v1/') &&
+        !url.includes('/api/v1/admin/login') &&
+        !url.includes('/api/v1/admin/logout')
+      ) {
+        clearClientAuthState();
+        showLoginScreen('', 'Sesi login Anda telah berakhir atau sudah logout. Silakan login kembali.');
+      }
+      return response;
+    };
+
+    function clearClientAuthState() {
+      currentUser = null;
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+      localStorage.removeItem(AUTH_USER_KEY);
+      sessionStorage.removeItem(AUTH_TOKEN_KEY);
+      sessionStorage.removeItem(AUTH_USER_KEY);
+      CMS_ARTICLES.splice(0, CMS_ARTICLES.length);
+      CMS_CATEGORIES.splice(0, CMS_CATEGORIES.length);
+      CMS_USERS.splice(0, CMS_USERS.length);
+      CMS_ADS.splice(0, CMS_ADS.length);
+      MEDIA_LIBRARY.splice(0, MEDIA_LIBRARY.length);
+      STATS = { total_views: 0, daily_views: [] };
+    }
+
+    function showLoginScreen(infoMessage = '', errorMessage = '') {
+      const loginEl = document.getElementById('login-screen');
+      const dashEl = document.getElementById('dashboard-screen');
+      const infoBox = document.getElementById('login-info');
+      const errBox = document.getElementById('login-error');
+
+      dashEl.classList.add('hidden');
+      dashEl.classList.remove('flex');
+
+      loginEl.classList.remove('hidden');
+      loginEl.classList.add('flex');
+
+      if (infoMessage) {
+        infoBox.textContent = infoMessage;
+        infoBox.classList.remove('hidden');
+      } else {
+        infoBox.classList.add('hidden');
+      }
+
+      if (errorMessage) {
+        errBox.textContent = errorMessage;
+        errBox.classList.remove('hidden');
+      } else {
+        errBox.classList.add('hidden');
+      }
+    }
+
+    function showDashboardScreen(user) {
+      currentUser = user;
+      const loginEl = document.getElementById('login-screen');
+      const dashEl = document.getElementById('dashboard-screen');
+      document.getElementById('active-user-initial').textContent = (user.name || 'A').charAt(0).toUpperCase();
+      document.getElementById('active-role-badge').textContent = user.name || 'Administrator';
+
+      loginEl.classList.add('hidden');
+      loginEl.classList.remove('flex');
+
+      dashEl.classList.remove('hidden');
+      dashEl.classList.add('flex');
+    }
+
+    async function verifyAdminSessionOnBoot() {
+      const token = localStorage.getItem(AUTH_TOKEN_KEY);
+      if (!token) {
+        clearClientAuthState();
+        showLoginScreen();
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/v1/admin/me', { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) {
+          clearClientAuthState();
+          showLoginScreen();
+          return;
+        }
+        const json = await res.json();
+        if (json.status === 'success' && json.user) {
+          showDashboardScreen(json.user);
+          await syncAdminFromDatabase();
+        } else {
+          clearClientAuthState();
+          showLoginScreen();
+        }
+      } catch (err) {
+        clearClientAuthState();
+        showLoginScreen();
+      }
+    }
+
+    // Upload Adapter CKEditor 5 yang mengunggah langsung ke server (/api/v1/admin/media)
+    class ServerUploadAdapter {
+      constructor(loader) { this.loader = loader; }
+      upload() {
+        return this.loader.file.then(async file => {
+          const fd = new FormData();
+          fd.append('file', file);
+          const res = await fetch('/api/v1/admin/media', { method: 'POST', body: fd });
+          const json = await res.json();
+          if (res.ok && json.data && json.data.url) {
+            MEDIA_LIBRARY.unshift(json.data);
+            return { default: json.data.url };
+          }
+          throw new Error(json.message || 'Gagal mengunggah gambar');
+        });
+      }
+      abort() {}
+    }
+    function ServerUploadAdapterPlugin(editor) {
+      editor.plugins.get('FileRepository').createUploadAdapter = (loader) => new ServerUploadAdapter(loader);
+    }
+
+    async function syncAdminFromDatabase() {
+      if (!currentUser) return;
+      try {
+        const res = await fetch('/api/v1/bootstrap?mode=admin', { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) return;
+        const json = await res.json();
+        const data = json.data || {};
+        if (Array.isArray(data.articles)) {
+          CMS_ARTICLES.splice(0, CMS_ARTICLES.length, ...data.articles);
+        }
+        if (Array.isArray(data.categories)) {
+          CMS_CATEGORIES.splice(0, CMS_CATEGORIES.length, ...data.categories);
+        }
+        if (Array.isArray(data.users)) {
+          CMS_USERS.splice(0, CMS_USERS.length, ...data.users);
+        }
+        if (Array.isArray(data.advertisements)) {
+          CMS_ADS.splice(0, CMS_ADS.length, ...data.advertisements);
+        }
+        if (Array.isArray(data.media)) {
+          MEDIA_LIBRARY.splice(0, MEDIA_LIBRARY.length, ...data.media);
+        }
+        if (data.stats) {
+          STATS = data.stats;
+        }
+        renderAll();
+      } catch (err) {
+        console.error('Gagal menyinkronkan database:', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      verifyAdminSessionOnBoot();
+
+      if (window.CKEDITOR && window.CKEDITOR.ClassicEditor) {
+        CKEDITOR.ClassicEditor.create(document.querySelector('#ckeditor-container'), {
+          extraPlugins: [ServerUploadAdapterPlugin],
+          toolbar: {
+            items: [
+              'undo', 'redo', '|',
+              'findAndReplace', 'selectAll', 'sourceEditing', '|',
+              'heading', 'style', '|',
+              'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', 'highlight', 'removeFormat', '|',
+              'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', 'code', '|',
+              'alignment', 'outdent', 'indent', '|',
+              'bulletedList', 'numberedList', 'todoList', '|',
+              'link', 'uploadImage', 'insertImage', 'mediaEmbed', 'blockQuote', 'insertTable', 'codeBlock', 'horizontalLine', 'pageBreak', 'specialCharacters'
+            ],
+            shouldNotGroupWhenFull: true
+          },
+          heading: {
+            options: [
+              { model: 'paragraph', title: 'Paragraf Normal', class: 'ck-heading_paragraph' },
+              { model: 'heading1', view: 'h1', title: 'Judul Utama (H1)', class: 'ck-heading_heading1' },
+              { model: 'heading2', view: 'h2', title: 'Subjudul Utama (H2)', class: 'ck-heading_heading2' },
+              { model: 'heading3', view: 'h3', title: 'Subjudul Bagian (H3)', class: 'ck-heading_heading3' }
+            ]
+          },
+          style: {
+            definitions: [
+              { name: 'Teras Berita (Lead)', element: 'p', classes: ['lead-paragraph'] },
+              { name: 'Kotak Fakta Redaksi', element: 'p', classes: ['fact-box'] },
+              { name: 'Baca Juga Box', element: 'p', classes: ['baca-juga-box'] }
+            ]
+          },
+          fontFamily: {
+            options: ['default', 'Inter, sans-serif', 'Merriweather, Georgia, serif', 'Arial, Helvetica, sans-serif', 'Georgia, serif', 'Times New Roman, Times, serif'],
+            supportAllValues: true
+          },
+          fontSize: {
+            options: [10, 12, 14, 'default', 18, 20, 24, 28, 32, 36],
+            supportAllValues: true
+          },
+          alignment: { options: ['left', 'center', 'right', 'justify'] },
+          list: { properties: { styles: true, startIndex: true, reversed: true } },
+          image: {
+            resizeUnit: '%',
+            resizeOptions: [
+              { name: 'resizeImage:original', value: null, label: '100% Asli' },
+              { name: 'resizeImage:75', value: '75', label: '75%' },
+              { name: 'resizeImage:50', value: '50', label: '50%' },
+              { name: 'resizeImage:25', value: '25', label: '25%' }
+            ],
+            toolbar: [
+              'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', '|',
+              'toggleImageCaption', 'imageTextAlternative', '|',
+              'resizeImage:25', 'resizeImage:50', 'resizeImage:75', 'resizeImage:original'
+            ]
+          },
+          table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties', 'toggleTableCaption']
+          },
+          htmlSupport: {
+            allow: [
+              {
+                name: /^(iframe|video|source|div|figure|figcaption|p|a|span)$/,
+                attributes: true,
+                classes: true,
+                styles: true
+              }
+            ]
+          },
+          wordCount: {
+            onUpdate: stats => {
+              document.getElementById('stat-words').textContent = stats.words.toLocaleString('id-ID');
+              document.getElementById('stat-chars').textContent = stats.characters.toLocaleString('id-ID');
+              document.getElementById('stat-readtime').textContent = Math.max(1, Math.ceil(stats.words / 200)) + ' menit';
+            }
+          },
+          removePlugins: [
+            'AIAssistant', 'CKBox', 'CKFinder', 'EasyImage', 'MultiLevelList',
+            'RealTimeCollaborativeComments', 'RealTimeCollaborativeTrackChanges',
+            'RealTimeCollaborativeRevisionHistory', 'PresenceList', 'Comments',
+            'TrackChanges', 'TrackChangesData', 'RevisionHistory', 'Pagination',
+            'WProofreader', 'MathType', 'SlashCommand', 'Template', 'DocumentOutline',
+            'FormatPainter', 'TableOfContents', 'PasteFromOfficeEnhanced', 'CaseChange'
+          ]
+        }).then(editor => {
+          ckEditorInstance = editor;
+          editor.setData('');
+        }).catch(err => console.error(err));
+      }
+    });
+
+    function showToast(msg) {
+      const banner = document.getElementById('toast-banner');
+      document.getElementById('toast-message').textContent = msg;
+      banner.classList.remove('hidden');
+      document.getElementById('db-status-pill').textContent = 'Tersimpan @ ' + new Date().toLocaleTimeString('id-ID');
+    }
+
+    function switchTab(tab) {
+      const sections = ['dashboard', 'articles', 'editor', 'categories', 'ads', 'users'];
+      sections.forEach(s => {
+        document.getElementById('section-' + s).classList.toggle('hidden', s !== tab);
+      });
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.dataset.tab === tab) {
+          btn.className = 'nav-btn flex w-full items-center justify-between rounded-xl bg-brand-50 px-3 py-2.5 text-xs font-bold text-brand-600 transition-colors';
+        } else {
+          btn.className = 'nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors';
+        }
+      });
+
+      const titles = {
+        dashboard: ['Dashboard Analitik Redaksi', 'Pantau performa artikel, antrean review, kategori, dan tim redaksi secara real-time.'],
+        articles: ['Manajemen Artikel Berita', 'Kelola seluruh berita, status tayang, headline, dan buka artikel di CKEditor 5.'],
+        editor: ['Ruang Penulisan Berita (CKEditor 5)', 'Gunakan toolbar untuk mengatur font, paragraf, list, tabel, dan sisipkan media.'],
+        categories: ['Manajemen Kategori Kanal', 'Tambah, ubah, aktif/nonaktifkan, atau hapus kanal kategori berita.'],
+        ads: ['Manajemen Advertise & Slot Iklan Halaman Depan', 'Kelola banner sponsor, posisi penempatan di beranda & artikel, status tayang, serta pantau tayangan & klik.'],
+        users: ['Manajemen User & Tim Redaksi', 'Kelola akun Super Admin, Editor, dan Jurnalis beserta hak akses publikasi.']
+      };
+      document.getElementById('page-title').textContent = titles[tab][0];
+      document.getElementById('page-subtitle').textContent = titles[tab][1];
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function sanitizeRichHtml(rawHtml) {
+      if (!rawHtml) return '';
+      return String(rawHtml)
+        .replace(/<(script|object|embed|form|base|meta|svg|math)[\s\S]*?>[\s\S]*?<\/\1>/gi, '')
+        .replace(/<(script|object|embed|form|base|meta|input|button)[^>]*\/?>/gi, '')
+        .replace(/\s+on[a-z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+        .replace(/(href|src)\s*=\s*["']?\s*(?:javascript|vbscript|data:text\/html)[^"'\s>]*/gi, '$1="#"');
+    }
+
+    function renderAll() {
+      // Update KPI Counters secara real dari Database
+      document.getElementById('kpi-articles').textContent = CMS_ARTICLES.length.toLocaleString('id-ID');
+      document.getElementById('kpi-published-sub').textContent = CMS_ARTICLES.filter(a => a.status === 'published').length;
+      document.getElementById('kpi-review-sub').textContent = CMS_ARTICLES.filter(a => a.status === 'review').length;
+      document.getElementById('kpi-draft-sub').textContent = CMS_ARTICLES.filter(a => a.status === 'draft').length;
+      document.getElementById('kpi-views').textContent = Number(STATS.total_views || 0).toLocaleString('id-ID');
+      document.getElementById('kpi-categories').textContent = CMS_CATEGORIES.filter(c => c.active).length;
+      document.getElementById('kpi-users').textContent = CMS_USERS.length;
+
+      document.getElementById('badge-count-articles').textContent = CMS_ARTICLES.length;
+      document.getElementById('badge-count-categories').textContent = CMS_CATEGORIES.length;
+      document.getElementById('badge-count-ads').textContent = CMS_ADS.length;
+      document.getElementById('badge-count-users').textContent = CMS_USERS.length;
+
+      // Render Grafik Kunjungan 7 Hari Terakhir secara real dari STATS.daily_views
+      const chartEl = document.getElementById('daily-views-chart');
+      const days = Array.isArray(STATS.daily_views) && STATS.daily_views.length > 0
+        ? STATS.daily_views
+        : [
+            { label: 'H-6', views: 0 }, { label: 'H-5', views: 0 }, { label: 'H-4', views: 0 },
+            { label: 'H-3', views: 0 }, { label: 'H-2', views: 0 }, { label: 'Kemarin', views: 0 },
+            { label: 'Hari Ini', views: 0 }
+          ];
+      const maxViews = Math.max(1, ...days.map(d => Number(d.views || 0)));
+      chartEl.innerHTML = days.map((d, idx) => {
+        const v = Number(d.views || 0);
+        const pct = v === 0 ? 6 : Math.max(10, Math.round((v / maxViews) * 100));
+        const isToday = idx === days.length - 1;
+        return `
+          <div class="flex flex-col items-center gap-2 h-full justify-end">
+            <span class="text-[10px] ${isToday ? 'font-extrabold text-brand-600' : 'font-bold text-slate-500'}">${v.toLocaleString('id-ID')}</span>
+            <div class="w-full max-w-[42px] rounded-t-xl ${isToday ? 'bg-brand-600 shadow-md shadow-brand-600/25' : 'bg-slate-200 hover:bg-brand-500'} transition-all" style="height: ${pct}%"></div>
+            <span class="text-[11px] ${isToday ? 'font-bold text-slate-900' : 'font-medium text-slate-500'}">${escapeHtml(d.label)}</span>
+          </div>
+        `;
+      }).join('');
+
+      // Populate Category Select inside Article Editor
+      document.getElementById('form-category').innerHTML = CMS_CATEGORIES
+        .filter(c => c.active)
+        .map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`)
+        .join('');
+
+      const statusBadge = (st) => st === 'published'
+        ? '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">Published</span>'
+        : st === 'review'
+        ? '<span class="rounded-full bg-amber-50 border border-amber-200 px-2.5 py-0.5 text-[11px] font-bold text-amber-700">Review</span>'
+        : '<span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-600">Draft</span>';
+
+      // Render Dashboard Recent Table
+      const recentBody = document.getElementById('dashboard-recent-articles');
+      if (CMS_ARTICLES.length === 0) {
+        recentBody.innerHTML = `
+          <tr>
+            <td colspan="6" class="px-6 py-8 text-center text-xs text-slate-400">
+              Belum ada artikel di database. Klik <strong>+ Tulis Berita Baru</strong> untuk membuat berita pertama Anda.
+            </td>
+          </tr>
+        `;
+      } else {
+        recentBody.innerHTML = CMS_ARTICLES.slice(0, 5).map((a, idx) => `
+          <tr class="hover:bg-slate-50/80">
+            <td class="px-6 py-3.5 font-bold text-slate-900">${escapeHtml(a.title)}</td>
+            <td class="px-4 py-3.5"><span class="rounded-md bg-slate-100 px-2 py-0.5 font-semibold text-slate-700">${escapeHtml(a.category)}</span></td>
+            <td class="px-4 py-3.5 text-slate-600">${escapeHtml(a.author)}</td>
+            <td class="px-4 py-3.5">${statusBadge(a.status)}</td>
+            <td class="px-4 py-3.5 font-mono text-slate-600">${Number(a.views || 0).toLocaleString('id-ID')}</td>
+            <td class="px-6 py-3.5 text-right">
+              <button onclick="openArticleEditor(${idx})" class="rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-brand-600 hover:border-brand-500 shadow-sm">
+                ✏️ Edit
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // Render Full Articles Table
+      const fullTable = document.getElementById('cms-table-body');
+      if (CMS_ARTICLES.length === 0) {
+        fullTable.innerHTML = `
+          <tr>
+            <td colspan="7" class="px-6 py-8 text-center text-xs text-slate-400">
+              Belum ada artikel berita. Silakan klik tombol <strong>+ Tulis Berita Baru</strong> di kanan atas.
+            </td>
+          </tr>
+        `;
+      } else {
+        fullTable.innerHTML = CMS_ARTICLES.map((a, idx) => `
+          <tr class="hover:bg-slate-50/80">
+            <td class="px-6 py-3.5 font-bold text-slate-900">${escapeHtml(a.title)}</td>
+            <td class="px-4 py-3.5 text-slate-600">${escapeHtml(a.category)}</td>
+            <td class="px-4 py-3.5 text-slate-600">${escapeHtml(a.author)}</td>
+            <td class="px-4 py-3.5">${statusBadge(a.status)}</td>
+            <td class="px-4 py-3.5">${a.headline ? '<span class="text-emerald-600 font-bold">✓ Headline</span>' : '—'}</td>
+            <td class="px-4 py-3.5 font-mono text-slate-600">${Number(a.views || 0).toLocaleString('id-ID')}</td>
+            <td class="px-6 py-3.5 text-right space-x-1.5">
+              <button onclick="openArticleEditor(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-brand-600 hover:border-brand-500">✏️ Edit</button>
+              <button onclick="deleteArticle(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // Render Categories Table
+      document.getElementById('categories-table-body').innerHTML = CMS_CATEGORIES.map((c, idx) => `
+        <tr class="hover:bg-slate-50/80">
+          <td class="px-6 py-3.5 font-bold text-slate-900">${escapeHtml(c.name)}</td>
+          <td class="px-4 py-3.5"><code class="rounded bg-slate-100 px-2 py-0.5 text-slate-600">${escapeHtml(c.slug)}</code></td>
+          <td class="px-4 py-3.5 text-slate-500 max-w-xs truncate">${escapeHtml(c.desc)}</td>
+          <td class="px-4 py-3.5">
+            ${c.active
+              ? '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">Aktif</span>'
+              : '<span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-500">Nonaktif</span>'}
+          </td>
+          <td class="px-6 py-3.5 text-right space-x-1.5">
+            <button onclick="editCategory(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 hover:border-brand-500">✏️ Edit</button>
+            <button onclick="deleteCategory(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Render Users Table
+      const roleBadge = (r) => r === 'super_admin'
+        ? '<span class="rounded-full bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-[11px] font-bold text-rose-700">Super Admin</span>'
+        : r === 'editor'
+        ? '<span class="rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-sky-700">Editor Redaksi</span>'
+        : '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">Jurnalis</span>';
+
+      document.getElementById('users-table-body').innerHTML = CMS_USERS.map((u, idx) => `
+        <tr class="hover:bg-slate-50/80">
+          <td class="px-6 py-3.5">
+            <div class="font-bold text-slate-900">${escapeHtml(u.name)}</div>
+            <div class="text-[11px] text-slate-400">${escapeHtml(u.email)}</div>
+          </td>
+          <td class="px-4 py-3.5">${roleBadge(u.role)}</td>
+          <td class="px-4 py-3.5 text-slate-600">${u.role === 'journalist' ? 'Draft & Review' : '✓ Publish & Headline'}</td>
+          <td class="px-4 py-3.5 font-mono text-slate-700">${Number(u.articles || 0)} artikel</td>
+          <td class="px-6 py-3.5 text-right space-x-1.5">
+            <button onclick="editUser(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 hover:border-brand-500">✏️ Edit</button>
+            <button onclick="deleteUser(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Render Advertisements Table
+      const posLabels = {
+        leaderboard_top: '<span class="rounded-md bg-brand-50 border border-brand-200 px-2 py-0.5 text-[11px] font-bold text-brand-700">Leaderboard Atas Beranda</span>',
+        infeed_home: '<span class="rounded-md bg-sky-50 border border-sky-200 px-2 py-0.5 text-[11px] font-bold text-sky-700">In-Feed Beranda</span>',
+        sidebar_home: '<span class="rounded-md bg-amber-50 border border-amber-200 px-2 py-0.5 text-[11px] font-bold text-amber-700">Sidebar Kanan Beranda</span>',
+        sidebar_article: '<span class="rounded-md bg-indigo-50 border border-indigo-200 px-2 py-0.5 text-[11px] font-bold text-indigo-700">Sidebar Baca Artikel</span>'
+      };
+
+      const adsTable = document.getElementById('ads-table-body');
+      if (adsTable) {
+        if (CMS_ADS.length === 0) {
+          adsTable.innerHTML = `
+            <tr>
+              <td colspan="6" class="px-6 py-8 text-center text-xs text-slate-400">
+                Belum ada slot iklan yang terdaftar. Gunakan formulir di sebelah kiri untuk menambahkan slot iklan baru.
+              </td>
+            </tr>
+          `;
+        } else {
+          adsTable.innerHTML = CMS_ADS.map((ad, idx) => `
+            <tr class="hover:bg-slate-50/80">
+              <td class="px-6 py-3.5">
+                <div class="font-bold text-slate-900">${escapeHtml(ad.title)}</div>
+                <div class="text-[11px] text-slate-400">${escapeHtml(ad.sponsor_name || 'Tanpa Sponsor')} ${ad.target_url ? '• <a href="' + escapeHtml(ad.target_url) + '" target="_blank" class="text-brand-600 hover:underline">Link ↗</a>' : ''}</div>
+              </td>
+              <td class="px-4 py-3.5">${posLabels[ad.position] || escapeHtml(ad.position)}</td>
+              <td class="px-4 py-3.5">
+                ${ad.ad_type === 'image'
+                  ? `<div class="flex items-center gap-2">
+                       ${ad.image_url ? `<img src="${escapeHtml(ad.image_url)}" class="h-8 w-14 rounded border border-slate-200 object-cover" />` : ''}
+                       <span class="font-semibold text-slate-700">🖼️ Banner Gambar</span>
+                     </div>`
+                  : '<span class="font-semibold text-slate-700">💻 HTML / Script</span>'}
+              </td>
+              <td class="px-4 py-3.5 font-mono text-slate-600">
+                <div>👁️ ${Number(ad.views_count || 0).toLocaleString('id-ID')} tayangan</div>
+                <div class="text-[11px] text-brand-600 font-bold">🖱️ ${Number(ad.clicks_count || 0).toLocaleString('id-ID')} klik</div>
+              </td>
+              <td class="px-4 py-3.5">
+                <button onclick="toggleAdStatus(${idx})" title="Klik untuk mengubah status tayang" class="cursor-pointer">
+                  ${ad.active
+                    ? '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700 hover:bg-emerald-100">✓ Aktif Tayang</span>'
+                    : '<span class="rounded-full bg-slate-100 border border-slate-200 px-2.5 py-0.5 text-[11px] font-bold text-slate-500 hover:bg-slate-200">Nonaktif</span>'}
+                </button>
+              </td>
+              <td class="px-6 py-3.5 text-right space-x-1.5">
+                <button onclick="editAd(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 hover:border-brand-500">✏️ Edit</button>
+                <button onclick="deleteAd(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+    }
+
+    // CRUD ARTIKEL
+    function openArticleEditor(idx) {
+      document.getElementById('edit-article-index').value = String(idx);
+      if (idx >= 0 && CMS_ARTICLES[idx]) {
+        const a = CMS_ARTICLES[idx];
+        document.getElementById('editor-heading-label').textContent = 'Edit Artikel: ' + a.title;
+        document.getElementById('form-title').value = a.title;
+        document.getElementById('form-slug').value = a.slug;
+        document.getElementById('form-excerpt').value = a.excerpt || '';
+        document.getElementById('form-category').value = a.category;
+        document.getElementById('form-status').value = a.status;
+        document.getElementById('form-headline').checked = Boolean(a.headline);
+        setFeaturedImage(a.image || '', a.caption_image || '');
+        if (ckEditorInstance) ckEditorInstance.setData(a.body || '');
+      } else {
+        document.getElementById('editor-heading-label').textContent = 'Tulis Berita Baru';
+        document.getElementById('form-title').value = '';
+        document.getElementById('form-slug').value = '';
+        document.getElementById('form-excerpt').value = '';
+        setFeaturedImage('', '');
+        if (ckEditorInstance) {
+          ckEditorInstance.setData('');
+        }
+      }
+      switchTab('editor');
+    }
+
+    async function saveArticle(e) {
+      e.preventDefault();
+      const idx = Number(document.getElementById('edit-article-index').value);
+      const existing = idx >= 0 ? CMS_ARTICLES[idx] : null;
+      const payload = {
+        id: existing && existing.id ? existing.id : undefined,
+        title: document.getElementById('form-title').value,
+        slug: document.getElementById('form-slug').value,
+        excerpt: document.getElementById('form-excerpt').value,
+        category: document.getElementById('form-category').value,
+        author: existing && existing.author ? existing.author : currentUser.name,
+        status: document.getElementById('form-status').value,
+        headline: document.getElementById('form-headline').checked,
+        image: document.getElementById('form-featured-image').value,
+        image_caption: document.getElementById('form-caption').value,
+        body: ckEditorInstance ? sanitizeRichHtml(ckEditorInstance.getData()) : ''
+      };
+
+      await fetch('/api/v1/admin/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      await syncAdminFromDatabase();
+
+      switchTab('articles');
+      showToast('Artikel "' + payload.title + '" berhasil disimpan ke database!');
+    }
+
+    async function deleteArticle(idx) {
+      const target = CMS_ARTICLES[idx];
+      if (!target) return;
+      if (target.id) {
+        await fetch('/api/v1/admin/articles/' + encodeURIComponent(target.id), { method: 'DELETE' });
+      }
+      await syncAdminFromDatabase();
+      showToast('Artikel "' + target.title + '" berhasil dihapus.');
+    }
+
+    // CRUD KATEGORI
+    async function saveCategory(e) {
+      e.preventDefault();
+      const idx = Number(document.getElementById('cat-edit-index').value);
+      const existing = idx >= 0 ? CMS_CATEGORIES[idx] : null;
+      const payload = {
+        id: existing && existing.id ? existing.id : undefined,
+        name: document.getElementById('cat-name').value,
+        slug: document.getElementById('cat-slug').value,
+        desc: document.getElementById('cat-desc').value,
+        active: document.getElementById('cat-active').checked
+      };
+
+      await fetch('/api/v1/admin/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      await syncAdminFromDatabase();
+
+      resetCategoryForm();
+      showToast('Kategori "' + payload.name + '" berhasil disimpan.');
+    }
+
+    function editCategory(idx) {
+      const c = CMS_CATEGORIES[idx];
+      if (!c) return;
+      document.getElementById('cat-edit-index').value = String(idx);
+      document.getElementById('cat-form-title').textContent = 'Edit Kategori: ' + c.name;
+      document.getElementById('cat-name').value = c.name;
+      document.getElementById('cat-slug').value = c.slug;
+      document.getElementById('cat-desc').value = c.desc;
+      document.getElementById('cat-active').checked = c.active;
+    }
+
+    async function deleteCategory(idx) {
+      const target = CMS_CATEGORIES[idx];
+      if (!target) return;
+      if (target.id) {
+        await fetch('/api/v1/admin/categories/' + encodeURIComponent(target.id), { method: 'DELETE' });
+      }
+      await syncAdminFromDatabase();
+      showToast('Kategori "' + target.name + '" berhasil dihapus.');
+    }
+
+    function resetCategoryForm() {
+      document.getElementById('cat-edit-index').value = '-1';
+      document.getElementById('cat-form-title').textContent = 'Tambah Kategori Baru';
+      document.getElementById('cat-name').value = '';
+      document.getElementById('cat-slug').value = '';
+      document.getElementById('cat-desc').value = '';
+      document.getElementById('cat-active').checked = true;
+    }
+
+    // CRUD USER
+    async function saveUser(e) {
+      e.preventDefault();
+      const idx = Number(document.getElementById('user-edit-index').value);
+      const existing = idx >= 0 ? CMS_USERS[idx] : null;
+      const payload = {
+        id: existing && existing.id ? existing.id : undefined,
+        name: document.getElementById('user-name').value,
+        email: document.getElementById('user-email').value,
+        role: document.getElementById('user-role').value,
+        password: document.getElementById('user-password').value
+      };
+
+      await fetch('/api/v1/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      await syncAdminFromDatabase();
+
+      resetUserForm();
+      showToast('Akun "' + payload.name + '" berhasil disimpan.');
+    }
+
+    function editUser(idx) {
+      const u = CMS_USERS[idx];
+      if (!u) return;
+      document.getElementById('user-edit-index').value = String(idx);
+      document.getElementById('user-form-title').textContent = 'Edit User: ' + u.name;
+      document.getElementById('user-name').value = u.name;
+      document.getElementById('user-email').value = u.email;
+      document.getElementById('user-role').value = u.role;
+    }
+
+    async function deleteUser(idx) {
+      const target = CMS_USERS[idx];
+      if (!target) return;
+      if (target.id) {
+        await fetch('/api/v1/admin/users/' + encodeURIComponent(target.id), { method: 'DELETE' });
+      }
+      await syncAdminFromDatabase();
+      showToast('Akun "' + target.name + '" berhasil dihapus.');
+    }
+
+    function resetUserForm() {
+      document.getElementById('user-edit-index').value = '-1';
+      document.getElementById('user-form-title').textContent = 'Tambah Anggota Redaksi / User';
+      document.getElementById('user-name').value = '';
+      document.getElementById('user-email').value = '';
+      document.getElementById('user-role').value = 'journalist';
+      document.getElementById('user-password').value = '';
+    }
+
+    // CRUD ADVERTISE (PENGELOLAAN SLOT IKLAN HALAMAN DEPAN)
+    function toggleAdTypeFields(type) {
+      document.getElementById('ad-image-fields').classList.toggle('hidden', type !== 'image');
+      document.getElementById('ad-html-fields').classList.toggle('hidden', type !== 'html');
+    }
+
+    function setAdBannerImage(url) {
+      const inputEl = document.getElementById('ad-image-url');
+      const imgEl = document.getElementById('ad-image-preview');
+      const emptyEl = document.getElementById('ad-image-empty');
+      inputEl.value = url || '';
+      if (url) {
+        imgEl.src = url;
+        imgEl.classList.remove('hidden');
+        emptyEl.classList.add('hidden');
+      } else {
+        imgEl.src = '';
+        imgEl.classList.add('hidden');
+        emptyEl.classList.remove('hidden');
+      }
+    }
+
+    function updateAdBannerPreview(url) {
+      const trimmed = url.trim();
+      if (!trimmed) {
+        setAdBannerImage('');
+        return;
+      }
+      const driveId = extractGoogleDriveId(trimmed);
+      const finalUrl = driveId ? `https://drive.google.com/uc?export=view&id=${driveId}` : trimmed;
+      const imgEl = document.getElementById('ad-image-preview');
+      const emptyEl = document.getElementById('ad-image-empty');
+      imgEl.src = finalUrl;
+      imgEl.classList.remove('hidden');
+      emptyEl.classList.add('hidden');
+    }
+
+    async function saveAd(e) {
+      e.preventDefault();
+      const idx = Number(document.getElementById('ad-edit-index').value);
+      const existing = idx >= 0 ? CMS_ADS[idx] : null;
+      const payload = {
+        id: existing && existing.id ? existing.id : undefined,
+        title: document.getElementById('ad-title').value,
+        sponsor_name: document.getElementById('ad-sponsor').value,
+        position: document.getElementById('ad-position').value,
+        ad_type: document.getElementById('ad-type').value,
+        image_url: document.getElementById('ad-image-url').value,
+        html_code: sanitizeRichHtml(document.getElementById('ad-html-code').value),
+        target_url: document.getElementById('ad-target-url').value,
+        active: document.getElementById('ad-active').checked
+      };
+
+      await fetch('/api/v1/admin/advertisements', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      await syncAdminFromDatabase();
+
+      resetAdForm();
+      showToast('Slot iklan "' + payload.title + '" berhasil disimpan dan diperbarui di halaman depan!');
+    }
+
+    function editAd(idx) {
+      const ad = CMS_ADS[idx];
+      if (!ad) return;
+      document.getElementById('ad-edit-index').value = String(idx);
+      document.getElementById('ad-form-title').textContent = 'Edit Slot Iklan: ' + ad.title;
+      document.getElementById('ad-title').value = ad.title || '';
+      document.getElementById('ad-sponsor').value = ad.sponsor_name || '';
+      document.getElementById('ad-position').value = ad.position || 'leaderboard_top';
+      document.getElementById('ad-type').value = ad.ad_type || 'image';
+      toggleAdTypeFields(ad.ad_type || 'image');
+      setAdBannerImage(ad.image_url || '');
+      document.getElementById('ad-html-code').value = ad.html_code || '';
+      document.getElementById('ad-target-url').value = ad.target_url || '';
+      document.getElementById('ad-active').checked = Boolean(ad.active);
+    }
+
+    async function toggleAdStatus(idx) {
+      const ad = CMS_ADS[idx];
+      if (!ad || !ad.id) return;
+      await fetch('/api/v1/admin/advertisements/' + encodeURIComponent(ad.id) + '/toggle', { method: 'POST' });
+      await syncAdminFromDatabase();
+      showToast('Status tayang "' + ad.title + '" telah diperbarui.');
+    }
+
+    async function deleteAd(idx) {
+      const target = CMS_ADS[idx];
+      if (!target) return;
+      if (target.id) {
+        await fetch('/api/v1/admin/advertisements/' + encodeURIComponent(target.id), { method: 'DELETE' });
+      }
+      await syncAdminFromDatabase();
+      showToast('Slot iklan "' + target.title + '" berhasil dihapus.');
+    }
+
+    function resetAdForm() {
+      document.getElementById('ad-edit-index').value = '-1';
+      document.getElementById('ad-form-title').textContent = 'Tambah / Edit Slot Advertise';
+      document.getElementById('ad-title').value = '';
+      document.getElementById('ad-sponsor').value = '';
+      document.getElementById('ad-position').value = 'leaderboard_top';
+      document.getElementById('ad-type').value = 'image';
+      toggleAdTypeFields('image');
+      setAdBannerImage('');
+      document.getElementById('ad-html-code').value = '';
+      document.getElementById('ad-target-url').value = '';
+      document.getElementById('ad-active').checked = true;
+    }
+
+    // Multimedia Manager (Direktori Media Server, Unggah Baru, & Link / Google Drive)
+    let mediaModalTarget = 'body';
+    let mediaFilterType = 'all';
+
+    function openMediaModal(target, initialTab) {
+      mediaModalTarget = target;
+      document.getElementById('media-manager-modal').classList.remove('hidden');
+
+      if (target === 'featured') {
+        document.getElementById('media-modal-title').textContent = 'Pilih Gambar Utama (Featured Image)';
+        document.getElementById('media-modal-subtitle').textContent = 'Unggah gambar baru ke server, pilih dari direktori media, atau tempel link gambar / Google Drive.';
+        filterMediaLibrary('image');
+      } else if (target === 'ad_banner') {
+        document.getElementById('media-modal-title').textContent = 'Pilih Gambar Banner Advertise (Iklan)';
+        document.getElementById('media-modal-subtitle').textContent = 'Unggah gambar banner baru ke server, pilih dari direktori media, atau tempel link gambar / Google Drive.';
+        filterMediaLibrary('image');
+      } else {
+        document.getElementById('media-modal-title').textContent = 'Sisipkan Media ke Konten Berita (Gambar, Video, PDF, & Google Drive)';
+        document.getElementById('media-modal-subtitle').textContent = 'Pilih dari direktori media server, unggah file baru, atau tempel link URL / Google Drive.';
+        filterMediaLibrary('all');
+      }
+
+      switchMediaModalTab(initialTab || 'library');
+    }
+
+    function closeMediaModal() {
+      document.getElementById('media-manager-modal').classList.add('hidden');
+    }
+
+    function switchMediaModalTab(tab) {
+      ['library', 'upload', 'link'].forEach(t => {
+        document.getElementById('mm-panel-' + t).classList.toggle('hidden', t !== tab);
+        const btn = document.getElementById('mm-tab-' + t);
+        if (t === tab) {
+          btn.className = 'border-b-2 border-brand-600 px-4 py-2.5 text-xs font-bold text-brand-600';
+        } else {
+          btn.className = 'border-b-2 border-transparent px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800';
+        }
+      });
+      if (tab === 'library') renderMediaLibraryGrid();
+    }
+
+    function filterMediaLibrary(type) {
+      mediaFilterType = type;
+      document.querySelectorAll('.mfilter-btn').forEach(btn => {
+        if (btn.dataset.mfilter === type) {
+          btn.className = 'mfilter-btn rounded-full bg-brand-600 px-3 py-1 text-xs font-bold text-white';
+        } else {
+          btn.className = 'mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200';
+        }
+      });
+      renderMediaLibraryGrid();
+    }
+
+    function renderMediaLibraryGrid() {
+      const grid = document.getElementById('media-library-grid');
+      const items = MEDIA_LIBRARY.filter(item => {
+        if (mediaModalTarget === 'featured' || mediaModalTarget === 'ad_banner') return item.type === 'image';
+        return mediaFilterType === 'all' || item.type === mediaFilterType;
+      });
+
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full rounded-xl border border-dashed border-slate-200 bg-slate-50 p-8 text-center text-xs text-slate-500">
+            Belum ada file di direktori <code>storage/uploads/</code>. Silakan buka tab <strong>📤 Unggah File Baru</strong> untuk mengunggah file pertama Anda.
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
+        let previewHtml = '';
+        if (item.type === 'image') {
+          previewHtml = `<img src="${escapeHtml(item.url)}" alt="${escapeHtml(item.name)}" class="h-full w-full object-cover group-hover:scale-105 transition-transform" />`;
+        } else if (item.type === 'video') {
+          previewHtml = `<div class="flex h-full w-full flex-col items-center justify-center bg-slate-900 text-white"><span class="text-2xl">🎬</span><span class="mt-1 text-[10px] font-bold uppercase text-sky-400">Video</span></div>`;
+        } else {
+          previewHtml = `<div class="flex h-full w-full flex-col items-center justify-center bg-rose-50 text-brand-600"><span class="text-2xl">📄</span><span class="mt-1 text-[10px] font-bold uppercase">PDF</span></div>`;
+        }
+
+        const realIndex = MEDIA_LIBRARY.indexOf(item);
+        return `
+          <div onclick="selectFromMediaLibrary(${realIndex})" class="cursor-pointer group rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:border-brand-600 hover:ring-2 hover:ring-brand-500/20 transition-all">
+            <div class="relative aspect-video w-full overflow-hidden bg-slate-100">
+              ${previewHtml}
+              <span class="absolute right-2 top-2 rounded bg-slate-900/75 px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">${escapeHtml(item.type)}</span>
+            </div>
+            <div class="p-2.5">
+              <div class="truncate text-xs font-bold text-slate-800 group-hover:text-brand-600">${escapeHtml(item.name)}</div>
+              <div class="mt-0.5 flex items-center justify-between text-[10px] text-slate-400">
+                <span class="truncate">${escapeHtml(item.path)}</span>
+                <span class="shrink-0 font-semibold">${escapeHtml(item.size)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectFromMediaLibrary(index) {
+      const item = MEDIA_LIBRARY[index];
+      if (!item) return;
+
+      if (mediaModalTarget === 'featured') {
+        setFeaturedImage(item.url, item.name);
+        closeMediaModal();
+        showToast('Gambar utama dipilih dari direktori: ' + item.path);
+        return;
+      }
+
+      if (mediaModalTarget === 'ad_banner') {
+        setAdBannerImage(item.url);
+        closeMediaModal();
+        showToast('Banner iklan dipilih dari direktori: ' + item.path);
+        return;
+      }
+
+      insertMediaItemIntoEditor(item.url, item.type, item.name);
+      closeMediaModal();
+      showToast('Media "' + item.name + '" berhasil disisipkan.');
+    }
+
+    async function handleNewMediaUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const fd = new FormData();
+      fd.append('file', file);
+
+      try {
+        const res = await fetch('/api/v1/admin/media', { method: 'POST', body: fd });
+        const json = await res.json();
+        if (res.ok && json.data) {
+          const entry = json.data;
+          MEDIA_LIBRARY.unshift(entry);
+          if (mediaModalTarget === 'featured') {
+            setFeaturedImage(entry.url, file.name);
+          } else if (mediaModalTarget === 'ad_banner') {
+            setAdBannerImage(entry.url);
+          } else {
+            insertMediaItemIntoEditor(entry.url, entry.type, file.name);
+          }
+          closeMediaModal();
+          showToast('File "' + entry.name + '" berhasil diunggah ke ' + entry.path);
+          return;
+        }
+      } catch (err) {
+        console.error('Upload error:', err);
+      }
+      event.target.value = '';
+    }
+
+    function extractGoogleDriveId(url) {
+      const match = String(url).match(/(?:\/file\/d\/|\/d\/|[?&]id=)([a-zA-Z0-9_-]{10,})/);
+      return match ? match[1] : null;
+    }
+
+    function insertExternalMedia() {
+      const rawUrl = document.getElementById('mm-external-url').value.trim();
+      if (!rawUrl) return;
+
+      const selectedType = document.getElementById('mm-external-type').value;
+      const caption = document.getElementById('mm-external-caption').value.trim() || 'Lampiran Media';
+      const driveId = extractGoogleDriveId(rawUrl);
+
+      if (mediaModalTarget === 'featured') {
+        const finalImgUrl = driveId
+          ? `https://drive.google.com/uc?export=view&id=${driveId}`
+          : rawUrl;
+        setFeaturedImage(finalImgUrl, caption);
+        closeMediaModal();
+        showToast('Link gambar utama berhasil diterapkan.');
+        return;
+      }
+
+      if (mediaModalTarget === 'ad_banner') {
+        const finalImgUrl = driveId
+          ? `https://drive.google.com/uc?export=view&id=${driveId}`
+          : rawUrl;
+        setAdBannerImage(finalImgUrl);
+        closeMediaModal();
+        showToast('Link gambar banner iklan berhasil diterapkan.');
+        return;
+      }
+
+      if (driveId) {
+        if (selectedType === 'image') {
+          const directDriveImg = `https://drive.google.com/uc?export=view&id=${driveId}`;
+          insertHtmlToEditor(`<figure class="image"><img src="${escapeHtml(directDriveImg)}" alt="${escapeHtml(caption)}" /><figcaption>${escapeHtml(caption)}</figcaption></figure>`);
+        } else {
+          const previewUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+          const viewUrl = `https://drive.google.com/file/d/${driveId}/view`;
+          insertHtmlToEditor(`
+            <div class="fact-box">
+              <p><strong>Lampiran (${selectedType === 'video' ? 'Video' : 'Dokumen'}):</strong> ${escapeHtml(caption)}</p>
+              <iframe src="${escapeHtml(previewUrl)}" width="100%" height="440" allow="autoplay" allowfullscreen></iframe>
+              <p><a href="${escapeHtml(viewUrl)}" target="_blank" rel="noopener noreferrer">Buka File Asli di Google Drive ↗</a></p>
+            </div>
+          `);
+        }
+        closeMediaModal();
+        showToast('Media dari Google Drive berhasil disisipkan.');
+        return;
+      }
+
+      let resolvedType = selectedType;
+      if (resolvedType === 'auto') {
+        if (/\.pdf(\?.*)?$/i.test(rawUrl)) resolvedType = 'pdf';
+        else if (/\.(mp4|webm)(\?.*)?$/i.test(rawUrl)) resolvedType = 'video';
+        else resolvedType = 'image';
+      }
+
+      insertMediaItemIntoEditor(rawUrl, resolvedType, caption);
+      closeMediaModal();
+      showToast('Link media berhasil disisipkan.');
+    }
+
+    function insertMediaItemIntoEditor(url, type, caption) {
+      if (type === 'video') {
+        insertHtmlToEditor(`
+          <figure class="image">
+            <video src="${escapeHtml(url)}" controls preload="metadata" style="width:100%; border-radius:12px;"></video>
+            <figcaption>${escapeHtml(caption)}</figcaption>
+          </figure>
+        `);
+      } else if (type === 'pdf') {
+        insertHtmlToEditor(`
+          <div class="fact-box">
+            <p><strong>Lampiran Dokumen PDF:</strong> ${escapeHtml(caption)}</p>
+            <iframe src="${escapeHtml(url)}" width="100%" height="460"></iframe>
+            <p><a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">Unduh / Buka Dokumen PDF (${escapeHtml(caption)}) ↗</a></p>
+          </div>
+        `);
+      } else {
+        insertHtmlToEditor(`
+          <figure class="image image_resized" style="width:75%;">
+            <img src="${escapeHtml(url)}" alt="${escapeHtml(caption)}" />
+            <figcaption>${escapeHtml(caption)}</figcaption>
+          </figure>
+        `);
+      }
+    }
+
+    function insertHtmlToEditor(html) {
+      if (!ckEditorInstance) return;
+      const viewFragment = ckEditorInstance.data.processor.toView(html);
+      const modelFragment = ckEditorInstance.data.toModel(viewFragment);
+      ckEditorInstance.model.insertContent(modelFragment);
+    }
+
+    function setFeaturedImage(url, captionText) {
+      const inputEl = document.getElementById('form-featured-image');
+      const imgEl = document.getElementById('featured-image-preview');
+      const emptyEl = document.getElementById('featured-image-empty');
+      inputEl.value = url || '';
+      if (url) {
+        imgEl.src = url;
+        imgEl.classList.remove('hidden');
+        emptyEl.classList.add('hidden');
+      } else {
+        imgEl.src = '';
+        imgEl.classList.add('hidden');
+        emptyEl.classList.remove('hidden');
+      }
+      if (captionText !== undefined) {
+        document.getElementById('form-caption').value = captionText;
+      }
+    }
+
+    function updateFeaturedPreview(url) {
+      const trimmed = url.trim();
+      const imgEl = document.getElementById('featured-image-preview');
+      const emptyEl = document.getElementById('featured-image-empty');
+      if (!trimmed) {
+        imgEl.src = '';
+        imgEl.classList.add('hidden');
+        emptyEl.classList.remove('hidden');
+        return;
+      }
+      const driveId = extractGoogleDriveId(trimmed);
+      const finalUrl = driveId ? `https://drive.google.com/uc?export=view&id=${driveId}` : trimmed;
+      imgEl.src = finalUrl;
+      imgEl.classList.remove('hidden');
+      emptyEl.classList.add('hidden');
+    }
+
+    function autoSlug(val, targetId) {
+      document.getElementById(targetId).value = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errBox = document.getElementById('login-error');
+      const infoBox = document.getElementById('login-info');
+      const submitBtn = document.getElementById('login-submit-btn');
+      errBox.classList.add('hidden');
+      infoBox.classList.add('hidden');
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Memverifikasi...';
+      }
+
+      try {
+        const res = await fetch('/api/v1/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const json = await res.json();
+        if (!res.ok || json.status !== 'success' || !json.token) {
+          errBox.textContent = json.message || 'Login gagal. Periksa email dan password Anda.';
+          errBox.classList.remove('hidden');
+          return;
+        }
+
+        // Simpan token sesi & user ke localStorage
+        localStorage.setItem(AUTH_TOKEN_KEY, json.token);
+        localStorage.setItem(AUTH_USER_KEY, JSON.stringify(json.user));
+
+        // Kosongkan field password demi keamanan
+        document.getElementById('login-password').value = '';
+
+        showDashboardScreen(json.user);
+        await syncAdminFromDatabase();
+      } catch (err) {
+        errBox.textContent = 'Gagal menghubungi server autentikasi.';
+        errBox.classList.remove('hidden');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Masuk ke Dashboard Admin →';
+        }
+      }
+    }
+
+    async function logout() {
+      try {
+        await fetch('/api/v1/admin/logout', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' }
+        });
+      } catch (err) {
+        // Abaikan error jaringan saat logout, tetap hapus sesi lokal
+      }
+
+      clearClientAuthState();
+      const pwdInput = document.getElementById('login-password');
+      if (pwdInput) pwdInput.value = '';
+
+      showLoginScreen('Anda telah berhasil keluar (logout). Silakan login kembali untuk mengakses dashboard.');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="jv" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JosjisNews — Portal Kabar Jawa Ngoko, Cetha, Blaka & Keneng Dipercaya</title>
+  <meta name="description" content="Portal kabar digital sing nyuguhke berita paling anyar, kupasan jero, politik, ekonomi, bisnis, lan teknologi nganggo basa Jawa ngoko sing gampang ditempa." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="JosjisNews — Portal Kabar Jawa Ngoko, Cetha, Blaka & Keneng Dipercaya" />
+  <meta property="og:site_name" content="JosjisNews" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://josjisnews.com/" />
+
+  <!-- Google Fonts: Inter & Merriweather -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Merriweather', 'Georgia', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fef2f2',
+              100: '#fee2e2',
+              500: '#ef4444',
+              600: '#e11d48',
+              700: '#be123c',
+              900: '#881337',
+            },
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+          },
+          animation: {
+            marquee: 'marquee 34s linear infinite',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- JSON-LD Structured Data -->
+  <script id="json-ld-seo" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsMediaOrganization",
+    "name": "JosjisNews",
+    "url": "https://josjisnews.com/"
+  }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased selection:bg-brand-600 selection:text-white transition-colors duration-200">
+
+  <!-- TOP STICKY NAVBAR -->
+  <header class="sticky top-0 z-50 border-b border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md">
+    <!-- Utility Top Bar -->
+    <div class="hidden md:block border-b border-zinc-100 dark:border-zinc-900 bg-zinc-50/80 dark:bg-zinc-900/50 py-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <span id="current-date-label"></span>
+        <div class="flex items-center gap-4">
+          <button onclick="switchView('home')" class="hover:text-brand-600 font-medium transition-colors">Laman Ngarep</button>
+          <span>•</span>
+          <a href="#pedoman-media-siber" class="hover:text-brand-600 transition-colors">Patokan Media Siber</a>
+          <span>•</span>
+          <a href="/admin.html" class="hover:text-brand-600 font-semibold transition-colors">Dapur Redaksi / CMS</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navbar -->
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <button onclick="switchView('home')" class="flex items-center gap-2.5 text-left group">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 font-serif text-xl font-black text-white shadow-sm group-hover:bg-brand-700 transition-colors">J</span>
+          <div class="flex flex-col">
+            <span class="font-serif text-2xl font-black tracking-tight text-zinc-900 dark:text-white leading-none">
+              JOSJIS<span class="text-brand-600">NEWS</span>
+            </span>
+            <span class="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
+              Cetha • Blaka • Keneng Dipercaya
+            </span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Category Navigation -->
+      <nav aria-label="Kategori Utama" class="hidden lg:flex items-center gap-1" id="desktop-category-nav">
+        <button onclick="filterByCategory('all')" data-cat="all" class="cat-btn rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors">Kabeh</button>
+      </nav>
+
+      <!-- Search + Dark/Light Mode -->
+      <div class="flex items-center gap-2">
+        <div class="relative hidden sm:block">
+          <input
+            id="search-input"
+            type="search"
+            oninput="handleSearch(this.value)"
+            placeholder="Golek kabar utawa topik..."
+            class="w-48 lg:w-60 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/90 dark:bg-zinc-900 py-1.5 pl-9 pr-4 text-xs text-zinc-800 dark:text-zinc-200 placeholder-zinc-400 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20 transition-all"
+          />
+          <svg class="absolute left-3 top-2 h-4 w-4 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+
+        <button
+          onclick="toggleTheme()"
+          aria-label="Ganti Mode Peteng / Padhang"
+          class="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-amber-400 hover:border-brand-600 transition-colors"
+          title="Ganti Mode Peteng / Padhang"
+        >
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BREAKING NEWS RUNNING TICKER (Mung ketok yen ana kabar tayang) -->
+  <div id="ticker-bar" class="hidden border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/90 text-xs">
+    <div class="mx-auto flex max-w-7xl items-center overflow-hidden px-4 sm:px-6 lg:px-8 h-10">
+      <div class="z-10 flex shrink-0 items-center gap-1.5 rounded-md bg-brand-600 px-2.5 py-1 font-bold uppercase tracking-wider text-white shadow-sm">
+        <span class="inline-block h-2 w-2 rounded-full bg-white animate-ping"></span>
+        <span>Anyar Gress</span>
+      </div>
+      <div class="relative ml-4 flex flex-1 overflow-hidden">
+        <div id="ticker-track" class="flex w-max animate-marquee items-center gap-8 hover:[animation-play-state:paused]"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 1: HOMEPAGE (LAMAN NGAREP) -->
+  <main id="view-home" class="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8">
+
+    <!-- SLOT IKLAN 1: LEADERBOARD ATAS BERANDA (leaderboard_top) -->
+    <div id="ad-slot-leaderboard_top" class="hidden mb-6"></div>
+
+    <!-- EMPTY STATE (Yen durung ana berita sing ditayangke) -->
+    <section id="empty-portal-state" class="hidden my-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-10 text-center shadow-sm">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 dark:bg-brand-950/60 text-brand-600 text-2xl font-serif font-black">J</div>
+      <h1 class="mt-4 font-serif text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">Durung Ana Kabar Sing Ditayangke</h1>
+      <p class="mx-auto mt-2 max-w-md text-sm text-zinc-500 dark:text-zinc-400">
+        Database saiki wis resik tenan. Ayo ndang nulis lan tayangke kabar pertamamu lewat Dapur Admin CMS.
+      </p>
+      <div class="mt-6 flex justify-center gap-3">
+        <a href="/admin.html" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700 transition-colors">
+          ✍️ Nulis Kabar Nang Dapur Admin →
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTENT WRAPPER (Ketok yen wis ana berita nang database) -->
+    <div id="portal-content-wrapper" class="hidden">
+      <!-- HEADLINE HERO GRID -->
+      <section id="headline-section" class="py-2">
+        <div class="mb-4 flex items-center justify-between border-b-2 border-zinc-900 dark:border-zinc-100 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="inline-block h-3 w-3 rounded-sm bg-brand-600"></span>
+            <h1 class="text-sm font-black uppercase tracking-wider text-zinc-900 dark:text-white">Kabar Utama (Headline)</h1>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <div id="hero-main" class="lg:col-span-7 flex"></div>
+          <div id="hero-secondary" class="lg:col-span-5 flex flex-col justify-between divide-y divide-zinc-200/70 dark:divide-zinc-800/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 p-4 shadow-sm"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- TWO COLUMN: KABAR ANYAR + IN-FEED AD (KIWA 8 KOLOM) & LAGI RAME + SIDEBAR AD (TENGEN 4 KOLOM) -->
+    <div id="home-two-col-grid" class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <!-- Left: Kabar Anyar + Slot Iklan In-Feed -->
+      <div class="lg:col-span-8 space-y-8">
+        <section id="latest-feed-section" class="hidden">
+          <div class="mb-4 flex items-center justify-between border-b-2 border-zinc-900 dark:border-zinc-100 pb-2">
+            <h2 class="text-sm font-black uppercase tracking-wider text-zinc-900 dark:text-white">Kabar Paling Anyar</h2>
+            <span id="active-filter-badge" class="hidden rounded-full bg-brand-50 dark:bg-brand-950 px-3 py-0.5 text-xs font-semibold text-brand-600 dark:text-brand-400"></span>
+          </div>
+
+          <div id="latest-feed-list" class="divide-y divide-zinc-200/70 dark:divide-zinc-800/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 p-4 sm:p-5 shadow-sm"></div>
+        </section>
+
+        <!-- SLOT IKLAN 2: IN-FEED BERANDA (infeed_home) -->
+        <div id="ad-slot-infeed_home" class="hidden"></div>
+      </div>
+
+      <!-- Right Sticky Sidebar: Lagi Rame Diwaca + Slot Iklan Sidebar -->
+      <aside class="lg:col-span-4">
+        <div class="sticky top-24 space-y-6">
+          <div id="trending-card-box" class="hidden rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 p-5 shadow-sm">
+            <div class="flex items-center gap-2 border-b-2 border-brand-600 pb-3">
+              <h2 class="text-sm font-black uppercase tracking-wider text-zinc-900 dark:text-white">Lagi Rame Diwaca</h2>
+            </div>
+
+            <ol id="trending-list" class="mt-4 divide-y divide-zinc-100 dark:divide-zinc-800/80"></ol>
+
+            <div id="popular-tags-section" class="hidden mt-6 border-t border-zinc-100 dark:border-zinc-800 pt-4">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Rembugan Rame</h3>
+              <div id="popular-tags-list" class="mt-2.5 flex flex-wrap gap-1.5"></div>
+            </div>
+          </div>
+
+          <!-- SLOT IKLAN 3: SIDEBAR KANAN BERANDA 300x250 (sidebar_home) -->
+          <div id="ad-slot-sidebar_home" class="hidden"></div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- SOROTAN KATEGORI -->
+    <section id="category-spotlight-section" class="hidden py-8">
+      <div class="mb-4 flex items-center justify-between border-b-2 border-zinc-900 dark:border-zinc-100 pb-2">
+        <h2 class="text-sm font-black uppercase tracking-wider text-zinc-900 dark:text-white">Sorotan Kanal Pilihan</h2>
+      </div>
+      <div id="category-spotlight-grid" class="grid grid-cols-1 gap-6 md:grid-cols-3"></div>
+    </section>
+  </main>
+
+  <!-- VIEW 2: ARTICLE DETAIL PAGE (LAMAN MACA KABAR) -->
+  <main id="view-article" class="hidden mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8">
+    <!-- Top Back Button & Breadcrumb -->
+    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-4">
+      <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+        <button onclick="switchView('home')" class="hover:text-brand-600 transition-colors">Laman Ngarep</button>
+        <span>›</span>
+        <span id="detail-breadcrumb-cat" class="font-semibold text-brand-600"></span>
+        <span>›</span>
+        <span id="detail-breadcrumb-title" class="line-clamp-1 max-w-xs sm:max-w-md text-zinc-700 dark:text-zinc-300"></span>
+      </nav>
+
+      <button onclick="switchView('home')" class="inline-flex items-center gap-1.5 rounded-full bg-zinc-900 dark:bg-zinc-100 px-3.5 py-1.5 text-xs font-bold text-white dark:text-zinc-900 hover:bg-brand-600 dark:hover:bg-brand-500 dark:hover:text-white transition-colors">
+        ← Balik Nang Ngarep
+      </button>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-12">
+      <!-- Left 8 Columns: Article Reader -->
+      <article class="lg:col-span-8">
+        <header class="border-b border-zinc-200 dark:border-zinc-800 pb-6">
+          <span id="detail-category-badge" class="inline-block rounded-md bg-brand-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white"></span>
+          <h1 id="detail-title" class="mt-4 font-serif text-2xl sm:text-3xl lg:text-4xl font-black leading-[1.22] text-zinc-950 dark:text-white"></h1>
+          <p id="detail-excerpt" class="mt-4 text-base sm:text-lg leading-relaxed text-zinc-600 dark:text-zinc-300"></p>
+
+          <div class="mt-6 flex flex-wrap items-center justify-between gap-4 pt-2 text-xs text-zinc-500 dark:text-zinc-400">
+            <div class="flex items-center gap-3">
+              <div id="detail-author-avatar" class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-600 font-serif text-sm font-bold text-white">A</div>
+              <div>
+                <div id="detail-author-name" class="font-bold text-zinc-900 dark:text-zinc-100"></div>
+                <div id="detail-author-role" class="text-[11px] text-zinc-500"></div>
+              </div>
+            </div>
+            <div class="flex flex-col sm:items-end gap-1">
+              <span id="detail-published-at"></span>
+              <span id="detail-reading-time" class="font-semibold text-brand-600 dark:text-brand-400"></span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Featured Image + Caption -->
+        <figure id="detail-figure" class="my-6 overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900">
+          <div class="relative aspect-video w-full overflow-hidden">
+            <img id="detail-image" src="" alt="" class="h-full w-full object-cover" />
+          </div>
+          <figcaption id="detail-caption" class="border-t border-zinc-200/70 dark:border-zinc-800 px-4 py-3 text-xs text-zinc-600 dark:text-zinc-400"></figcaption>
+        </figure>
+
+        <!-- Sticky Share Bar + Font Size Controller + Prose Content -->
+        <div class="mt-8 flex flex-col gap-8 lg:flex-row">
+          <div class="shrink-0">
+            <div class="flex lg:flex-col items-center gap-2.5 lg:sticky lg:top-28">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mr-2 lg:mr-0">Sebarke</span>
+              <button onclick="shareTo('wa')" title="Sebarke nang WhatsApp" class="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-bold hover:bg-emerald-600 hover:text-white transition-colors">WA</button>
+              <button onclick="shareTo('tg')" title="Sebarke nang Telegram" class="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-bold hover:bg-sky-500 hover:text-white transition-colors">TG</button>
+              <button onclick="shareTo('x')" title="Sebarke nang X" class="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-black hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-colors">𝕏</button>
+              <button onclick="copyArticleLink()" id="copy-link-btn" title="Salin Link Kabar" class="flex h-10 px-3 lg:w-10 lg:px-0 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-bold hover:border-brand-600 hover:text-brand-600 transition-colors">🔗</button>
+            </div>
+          </div>
+
+          <!-- Reader Body -->
+          <div class="min-w-0 flex-1">
+            <!-- Font Sizer Toolbar (A- / A+) -->
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/70 px-4 py-2.5">
+              <div class="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                Gedhene Tulisan: <strong id="font-scale-label" class="text-zinc-900 dark:text-white">Biasa (18px)</strong>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="changeFontSize(-1)" class="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-1 text-xs font-bold hover:border-brand-600">A-</button>
+                <button onclick="changeFontSize(0)" class="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-2.5 py-1 text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-white">Asline</button>
+                <button onclick="changeFontSize(1)" class="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-1 text-xs font-bold hover:border-brand-600">A+</button>
+              </div>
+            </div>
+
+            <!-- Article HTML Content -->
+            <div id="detail-content-body" class="text-[18px] leading-[1.85] text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500"></div>
+
+            <!-- Related Tags -->
+            <div id="detail-tags-wrapper" class="hidden mt-10 border-t border-zinc-200 dark:border-zinc-800 pt-6">
+              <span class="text-xs font-bold uppercase tracking-wider text-zinc-500">Topik Sing Nyambung:</span>
+              <div id="detail-tags" class="mt-3 flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Right 4 Columns: Slot Iklan Sidebar Artikel + Kabar Terkait -->
+      <aside class="lg:col-span-4">
+        <div class="sticky top-24 space-y-6">
+          <!-- SLOT IKLAN 4: SIDEBAR HALAMAN BACA ARTIKEL (sidebar_article) -->
+          <div id="ad-slot-sidebar_article" class="hidden"></div>
+
+          <div class="rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 p-5 shadow-sm">
+            <h2 class="border-b-2 border-zinc-900 dark:border-zinc-100 pb-3 text-sm font-black uppercase tracking-wider text-zinc-900 dark:text-white">
+              Kabar Liyane Sing Nyambung
+            </h2>
+            <div id="detail-related-list" class="mt-4 divide-y divide-zinc-100 dark:divide-zinc-800/80"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- FOOTER (BASA JAWA NGOKO / PASARAN) -->
+  <footer id="pedoman-media-siber" class="mt-16 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-950 text-zinc-300">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 font-serif text-lg font-black text-white">J</span>
+            <span class="font-serif text-2xl font-black tracking-tight text-white">JOSJIS<span class="text-brand-500">NEWS</span></span>
+          </div>
+          <p class="text-sm leading-relaxed text-zinc-400">
+            Portal kabar digital mandhiri sing nyuguhke berita nganggo data cetha, kupasan jero, karo info paling anyar sing bener, blaka, lan ora berat sebelah.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-white">Kanal Utama</h3>
+          <ul id="footer-category-list" class="mt-4 space-y-2 text-sm text-zinc-400"></ul>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-white">Dapur Redaksi & Patokan</h3>
+          <ul class="mt-4 space-y-2 text-sm text-zinc-400">
+            <li>Konco-Konco Redaksi</li>
+            <li>Patokan Kabar Media Siber</li>
+            <li>Aturan Main Jurnalistik</li>
+            <li>Hak Jawab & Benerke Kabar</li>
+          </ul>
+        </div>
+
+        <div class="rounded-xl border border-zinc-800 bg-zinc-900/70 p-4">
+          <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">✓ Manut Patokan Dewan Pers</div>
+          <p class="mt-2 text-xs leading-relaxed text-zinc-400">
+            Kabeh isi kabar nang kene digarap manut UU No. 40 Taun 1999 babagan Pers lan Patokan Media Siber.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-10 flex flex-col items-center justify-between gap-4 border-t border-zinc-800/80 pt-6 text-xs text-zinc-500 sm:flex-row">
+        <p>© 2026 PT Josjis Media Nusantara. Kabeh Hak Cipta Dijaga Undang-Undang.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- INTERACTIVE SCRIPT -->
+  <script>
+    let ARTICLES = [];
+    let CATEGORIES = [];
+    let POPULAR_TAGS = [];
+    let ADVERTISEMENTS = [];
+    let currentFontStep = 0;
+
+    // Set dina & tanggal nganggo Basa Jawa Ngoko
+    (function setJavaneseDate() {
+      const d = new Date();
+      const dina = ['Minggu', 'Senen', 'Selasa', 'Rebo', 'Kemis', 'Jemuwah', 'Setu'][d.getDay()];
+      const sasi = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'][d.getMonth()];
+      document.getElementById('current-date-label').textContent = `${dina}, ${d.getDate()} ${sasi} ${d.getFullYear()}`;
+    })();
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function normalizeArticle(raw) {
+      const tagsArr = Array.isArray(raw.tags)
+        ? raw.tags.map(t => (typeof t === 'string' ? t : t.name))
+        : [];
+      return {
+        id: raw.id,
+        title: raw.title,
+        slug: raw.slug,
+        excerpt: raw.excerpt || '',
+        category: raw.category || { name: 'Nasional', slug: 'nasional' },
+        author: {
+          name: raw.author?.name || 'Redaksi JosjisNews',
+          role: raw.author?.role === 'editor' ? 'Editor Redaksi' : 'Jurnalis JosjisNews'
+        },
+        published_rel: raw.published_rel || 'Mentas wae',
+        published_full: raw.published_at || '',
+        reading_time: (raw.reading_time_minutes || 1) + ' menit maca',
+        views: Number(raw.views_count ?? raw.views ?? 0),
+        is_headline: Boolean(raw.is_headline),
+        image: raw.featured_image_url || raw.image || '',
+        caption: raw.caption_image || raw.caption || '',
+        tags: tagsArr,
+        content: raw.content_body || raw.content || `<p>${escapeHtml(raw.excerpt || '')}</p>`
+      };
+    }
+
+    async function loadRealDataFromDatabase() {
+      try {
+        const res = await fetch('/api/v1/bootstrap');
+        if (!res.ok) throw new Error('API Error');
+        const json = await res.json();
+        const dbData = json.data || {};
+
+        ARTICLES = (dbData.articles || []).map(normalizeArticle);
+        CATEGORIES = (dbData.categories || []).filter(c => Number(c.is_active) === 1);
+        POPULAR_TAGS = (dbData.tags || []).map(t => t.name);
+        ADVERTISEMENTS = (dbData.advertisements || []).filter(a => Number(a.is_active) === 1 || a.active === true);
+
+        renderDynamicCategoryNav();
+        renderAdvertisements();
+
+        if (ARTICLES.length === 0) {
+          document.getElementById('empty-portal-state').classList.remove('hidden');
+          document.getElementById('portal-content-wrapper').classList.add('hidden');
+          document.getElementById('latest-feed-section').classList.add('hidden');
+          document.getElementById('trending-card-box').classList.add('hidden');
+          document.getElementById('category-spotlight-section').classList.add('hidden');
+          document.getElementById('ticker-bar').classList.add('hidden');
+          return;
+        }
+
+        document.getElementById('empty-portal-state').classList.add('hidden');
+        document.getElementById('portal-content-wrapper').classList.remove('hidden');
+        document.getElementById('latest-feed-section').classList.remove('hidden');
+        document.getElementById('trending-card-box').classList.remove('hidden');
+
+        renderTicker();
+        renderHeadlines();
+        renderLatestFeed(ARTICLES);
+        renderTrendingAndTags();
+        renderCategorySpotlights();
+      } catch (err) {
+        console.error('Gagal njupuk data saka database:', err);
+      }
+    }
+
+    function trackAdClick(adId) {
+      fetch(`/api/v1/advertisements/${encodeURIComponent(adId)}/click`, { method: 'POST' }).catch(() => {});
+    }
+
+    function renderAdvertisements() {
+      const positions = ['leaderboard_top', 'infeed_home', 'sidebar_home', 'sidebar_article'];
+      positions.forEach(pos => {
+        const el = document.getElementById('ad-slot-' + pos);
+        if (!el) return;
+        const ad = ADVERTISEMENTS.find(item => item.position === pos);
+        if (!ad) {
+          el.classList.add('hidden');
+          el.innerHTML = '';
+          return;
+        }
+
+        el.classList.remove('hidden');
+        const sponsorBadge = ad.sponsor_name
+          ? `<div class="mb-1.5 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-zinc-400"><span>IKLAN SPONSOR • ${escapeHtml(ad.sponsor_name)}</span><span>${escapeHtml(ad.title)}</span></div>`
+          : `<div class="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-400">IKLAN SPONSOR • ${escapeHtml(ad.title)}</div>`;
+
+        if (ad.ad_type === 'image' && ad.image_url) {
+          const imgContent = `<img src="${escapeHtml(ad.image_url)}" alt="${escapeHtml(ad.title)}" class="w-full rounded-xl object-cover max-h-[260px]" />`;
+          el.innerHTML = `
+            <aside class="rounded-2xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-3.5 shadow-sm">
+              ${sponsorBadge}
+              ${ad.target_url
+                ? `<a href="${escapeHtml(ad.target_url)}" target="_blank" rel="noopener noreferrer" onclick="trackAdClick(${ad.id})" class="block overflow-hidden rounded-xl hover:opacity-95 transition-opacity">${imgContent}</a>`
+                : `<div class="overflow-hidden rounded-xl">${imgContent}</div>`
+              }
+            </aside>
+          `;
+        } else {
+          const innerHtml = ad.html_code || `<div class="py-4 text-center text-xs font-semibold text-zinc-600 dark:text-zinc-300">${escapeHtml(ad.title)}</div>`;
+          el.innerHTML = `
+            <aside class="rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/60 p-4 shadow-sm">
+              ${ad.target_url
+                ? `<a href="${escapeHtml(ad.target_url)}" target="_blank" rel="noopener noreferrer" onclick="trackAdClick(${ad.id})" class="block hover:opacity-90 transition-opacity">${innerHtml}</a>`
+                : innerHtml
+              }
+            </aside>
+          `;
+        }
+      });
+    }
+
+    function renderDynamicCategoryNav() {
+      const nav = document.getElementById('desktop-category-nav');
+      const footerList = document.getElementById('footer-category-list');
+      if (!nav) return;
+
+      nav.innerHTML = `
+        <button onclick="filterByCategory('all')" data-cat="all" class="cat-btn rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors">Kabeh</button>
+        ${CATEGORIES.map(c => `
+          <button onclick="filterByCategory('${escapeHtml(c.slug)}')" data-cat="${escapeHtml(c.slug)}" class="cat-btn rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+            ${escapeHtml(c.name)}
+          </button>
+        `).join('')}
+      `;
+
+      if (footerList) {
+        footerList.innerHTML = CATEGORIES.map(c => `
+          <li><button onclick="filterByCategory('${escapeHtml(c.slug)}')" class="hover:text-brand-500">${escapeHtml(c.name)}</button></li>
+        `).join('');
+      }
+    }
+
+    function renderTicker() {
+      const tickerBar = document.getElementById('ticker-bar');
+      if (ARTICLES.length === 0) {
+        tickerBar.classList.add('hidden');
+        return;
+      }
+      tickerBar.classList.remove('hidden');
+      const topItems = ARTICLES.slice(0, 6);
+      const doubled = [...topItems, ...topItems];
+      document.getElementById('ticker-track').innerHTML = doubled.map(a => `
+        <button onclick="openArticle(${a.id})" class="group flex items-center gap-2 whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-brand-600 transition-colors">
+          <span class="font-bold text-brand-600">[${escapeHtml(a.category.name)}]</span>
+          <span class="font-medium group-hover:underline">${escapeHtml(a.title)}</span>
+          <span class="text-[11px] text-zinc-400">• ${escapeHtml(a.published_rel)}</span>
+        </button>
+      `).join('');
+    }
+
+    function renderThumbHtml(imageUrl, titleText) {
+      if (imageUrl) {
+        return `<img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(titleText)}" loading="lazy" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />`;
+      }
+      return `<div class="flex h-full w-full items-center justify-center bg-zinc-200 dark:bg-zinc-800 font-serif text-lg font-black text-zinc-400">JOSJISNEWS</div>`;
+    }
+
+    function renderHeadlines() {
+      const headlines = ARTICLES.filter(a => a.is_headline);
+      const main = headlines[0] || ARTICLES[0];
+      if (!main) return;
+      const secondaries = (headlines.length > 1 ? headlines.slice(1, 5) : ARTICLES.filter(a => a.id !== main.id).slice(0, 4));
+
+      document.getElementById('hero-main').innerHTML = `
+        <article onclick="openArticle(${main.id})" class="cursor-pointer group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm w-full">
+          <div class="relative aspect-video w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
+            ${renderThumbHtml(main.image, main.title)}
+            <span class="absolute left-4 top-4 rounded-md bg-brand-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow">${escapeHtml(main.category.name)}</span>
+          </div>
+          <div class="flex flex-1 flex-col justify-between p-5 sm:p-6">
+            <div>
+              <h2 class="font-serif text-xl sm:text-2xl lg:text-3xl font-bold leading-tight text-zinc-900 dark:text-zinc-50 group-hover:text-brand-600 transition-colors">${escapeHtml(main.title)}</h2>
+              <p class="mt-3 line-clamp-3 text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-zinc-400">${escapeHtml(main.excerpt)}</p>
+            </div>
+            <div class="mt-5 flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800 pt-4 text-xs text-zinc-500">
+              <span class="font-semibold text-zinc-800 dark:text-zinc-200">${escapeHtml(main.author.name)}</span>
+              <span>${escapeHtml(main.published_rel)} • ${main.views.toLocaleString('id-ID')} sing maca</span>
+            </div>
+          </div>
+        </article>
+      `;
+
+      const secEl = document.getElementById('hero-secondary');
+      if (secondaries.length === 0) {
+        secEl.innerHTML = `<div class="flex h-full items-center justify-center p-6 text-center text-xs text-zinc-400">Durung ana kabar utama liyane.</div>`;
+      } else {
+        secEl.innerHTML = secondaries.map((item, idx) => `
+          <article onclick="openArticle(${item.id})" class="cursor-pointer group grid grid-cols-12 items-start gap-3.5 rounded-xl p-2 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors ${idx > 0 ? 'pt-3' : ''}">
+            <div class="relative col-span-5 sm:col-span-4 aspect-video w-full overflow-hidden rounded-lg bg-zinc-200 dark:bg-zinc-800">
+              ${renderThumbHtml(item.image, item.title)}
+            </div>
+            <div class="col-span-7 sm:col-span-8">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-brand-600">${escapeHtml(item.category.name)}</span>
+              <h3 class="mt-0.5 font-serif text-sm sm:text-base font-bold leading-snug text-zinc-900 dark:text-zinc-100 line-clamp-2 group-hover:text-brand-600 transition-colors">${escapeHtml(item.title)}</h3>
+              <div class="mt-1.5 text-[11px] text-zinc-500">${escapeHtml(item.author.name)} • ${escapeHtml(item.published_rel)}</div>
+            </div>
+          </article>
+        `).join('');
+      }
+    }
+
+    function renderLatestFeed(list) {
+      const container = document.getElementById('latest-feed-list');
+      if (list.length === 0) {
+        container.innerHTML = `<p class="py-8 text-center text-sm text-zinc-500">Durung ana kabar nang kanal utawa golekane iki.</p>`;
+        return;
+      }
+      container.innerHTML = list.map(item => `
+        <article onclick="openArticle(${item.id})" class="cursor-pointer group grid grid-cols-12 items-start gap-4 py-3.5 first:pt-0 last:pb-0 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40 rounded-xl px-2 transition-colors">
+          <div class="relative col-span-5 sm:col-span-4 aspect-video w-full overflow-hidden rounded-lg bg-zinc-200 dark:bg-zinc-800">
+            ${renderThumbHtml(item.image, item.title)}
+          </div>
+          <div class="col-span-7 sm:col-span-8">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-brand-600">${escapeHtml(item.category.name)}</span>
+            <h3 class="mt-1 font-serif text-base sm:text-lg font-bold leading-snug text-zinc-900 dark:text-zinc-100 group-hover:text-brand-600 transition-colors line-clamp-2">${escapeHtml(item.title)}</h3>
+            <p class="mt-1 hidden sm:line-clamp-2 text-xs text-zinc-500 dark:text-zinc-400">${escapeHtml(item.excerpt)}</p>
+            <div class="mt-2 flex items-center gap-2 text-[11px] text-zinc-500">
+              <span class="font-medium text-zinc-700 dark:text-zinc-300">${escapeHtml(item.author.name)}</span>
+              <span>•</span>
+              <span>${escapeHtml(item.published_rel)}</span>
+              <span>•</span>
+              <span>${item.views.toLocaleString('id-ID')} sing maca</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function renderTrendingAndTags() {
+      const top5 = [...ARTICLES].sort((a, b) => b.views - a.views).slice(0, 5);
+      document.getElementById('trending-list').innerHTML = top5.map((item, idx) => `
+        <li onclick="openArticle(${item.id})" class="cursor-pointer group flex items-start gap-4 py-3.5 first:pt-1 last:pb-1">
+          <span class="font-serif text-3xl font-black leading-none text-zinc-200 dark:text-zinc-800 group-hover:text-brand-600 transition-colors select-none">0${idx + 1}</span>
+          <div class="flex-1 min-w-0">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-brand-600">${escapeHtml(item.category.name)}</span>
+            <h3 class="mt-0.5 font-serif text-sm font-bold leading-snug text-zinc-900 dark:text-zinc-100 group-hover:text-brand-600 transition-colors line-clamp-2">${escapeHtml(item.title)}</h3>
+            <div class="mt-1 text-[11px] text-zinc-400">${escapeHtml(item.published_rel)} • ${item.views.toLocaleString('id-ID')} sing maca</div>
+          </div>
+        </li>
+      `).join('');
+
+      const tagSec = document.getElementById('popular-tags-section');
+      if (POPULAR_TAGS.length > 0) {
+        tagSec.classList.remove('hidden');
+        document.getElementById('popular-tags-list').innerHTML = POPULAR_TAGS.map(t => `
+          <button onclick="handleSearch('${escapeHtml(t)}')" class="rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-3 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:border-brand-600 hover:text-brand-600 transition-colors">#${escapeHtml(t)}</button>
+        `).join('');
+      } else {
+        tagSec.classList.add('hidden');
+      }
+    }
+
+    function renderCategorySpotlights() {
+      const activeCatsWithArticles = CATEGORIES.filter(c => ARTICLES.some(a => a.category.slug === c.slug)).slice(0, 3);
+      const sec = document.getElementById('category-spotlight-section');
+      if (activeCatsWithArticles.length === 0) {
+        sec.classList.add('hidden');
+        return;
+      }
+      sec.classList.remove('hidden');
+
+      document.getElementById('category-spotlight-grid').innerHTML = activeCatsWithArticles.map(g => {
+        const items = ARTICLES.filter(a => a.category.slug === g.slug);
+        const feat = items[0];
+        const rest = items.slice(1, 4);
+        return `
+          <div class="flex flex-col rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 p-4 sm:p-5 shadow-sm">
+            <div class="mb-4 flex items-center justify-between border-b-2 border-zinc-900 dark:border-zinc-100 pb-2">
+              <h3 class="text-xs font-black uppercase tracking-wider text-zinc-900 dark:text-white">${escapeHtml(g.name)}</h3>
+              <button onclick="filterByCategory('${escapeHtml(g.slug)}')" class="text-xs font-semibold text-brand-600 hover:underline">Deloken →</button>
+            </div>
+            <div onclick="openArticle(${feat.id})" class="cursor-pointer group">
+              <div class="relative aspect-video w-full overflow-hidden rounded-xl bg-zinc-200 dark:bg-zinc-800">
+                ${renderThumbHtml(feat.image, feat.title)}
+              </div>
+              <h4 class="mt-3 font-serif text-base font-bold leading-snug text-zinc-900 dark:text-zinc-100 group-hover:text-brand-600 transition-colors">${escapeHtml(feat.title)}</h4>
+              <div class="mt-1.5 text-[11px] text-zinc-400">${escapeHtml(feat.author.name)} • ${escapeHtml(feat.published_rel)}</div>
+            </div>
+            <div class="mt-3 divide-y divide-zinc-100 dark:divide-zinc-800 pt-2">
+              ${rest.map(sub => `
+                <div onclick="openArticle(${sub.id})" class="cursor-pointer group py-2.5">
+                  <h5 class="font-serif text-sm font-semibold leading-snug text-zinc-800 dark:text-zinc-200 group-hover:text-brand-600 transition-colors">${escapeHtml(sub.title)}</h5>
+                  <span class="text-[11px] text-zinc-400">${escapeHtml(sub.published_rel)}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function filterByCategory(slug) {
+      switchView('home');
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        if (btn.dataset.cat === slug) {
+          btn.className = 'cat-btn rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors';
+        } else {
+          btn.className = 'cat-btn rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors';
+        }
+      });
+
+      const badge = document.getElementById('active-filter-badge');
+      if (slug === 'all') {
+        badge.classList.add('hidden');
+        renderLatestFeed(ARTICLES);
+      } else {
+        badge.textContent = `Kanal: ${slug.toUpperCase()}`;
+        badge.classList.remove('hidden');
+        try {
+          const res = await fetch(`/api/v1/articles?category=${encodeURIComponent(slug)}`);
+          const json = await res.json();
+          renderLatestFeed((json.data || []).map(normalizeArticle));
+        } catch {
+          renderLatestFeed(ARTICLES.filter(a => a.category.slug === slug));
+        }
+      }
+    }
+
+    async function handleSearch(query) {
+      switchView('home');
+      document.getElementById('search-input').value = query;
+      const q = query.trim();
+      const badge = document.getElementById('active-filter-badge');
+      if (!q) {
+        badge.classList.add('hidden');
+        renderLatestFeed(ARTICLES);
+        return;
+      }
+      badge.textContent = `Golekan: "${q}"`;
+      badge.classList.remove('hidden');
+      try {
+        const res = await fetch(`/api/v1/articles?search=${encodeURIComponent(q)}`);
+        const json = await res.json();
+        renderLatestFeed((json.data || []).map(normalizeArticle));
+      } catch {
+        const lower = q.toLowerCase();
+        renderLatestFeed(ARTICLES.filter(a => a.title.toLowerCase().includes(lower) || a.excerpt.toLowerCase().includes(lower)));
+      }
+    }
+
+    async function openArticle(id) {
+      let article = ARTICLES.find(a => a.id === id);
+
+      try {
+        const res = await fetch(`/api/v1/articles/${id}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.data) {
+            article = normalizeArticle(json.data);
+            const idx = ARTICLES.findIndex(a => a.id === id);
+            if (idx >= 0) ARTICLES[idx] = article;
+            renderTrendingAndTags();
+          }
+        }
+      } catch {}
+
+      if (!article) return;
+
+      document.title = `${article.title} — JosjisNews`;
+      document.getElementById('detail-breadcrumb-cat').textContent = article.category.name;
+      document.getElementById('detail-breadcrumb-title').textContent = article.title;
+      document.getElementById('detail-category-badge').textContent = article.category.name;
+      document.getElementById('detail-title').textContent = article.title;
+      document.getElementById('detail-excerpt').textContent = article.excerpt;
+      document.getElementById('detail-author-avatar').textContent = article.author.name.charAt(0);
+      document.getElementById('detail-author-name').textContent = article.author.name;
+      document.getElementById('detail-author-role').textContent = article.author.role;
+      document.getElementById('detail-published-at').textContent = article.published_full ? 'Tayang: ' + article.published_full : article.published_rel;
+      document.getElementById('detail-reading-time').textContent = article.reading_time + ' • ' + article.views.toLocaleString('id-ID') + ' sing maca';
+
+      const fig = document.getElementById('detail-figure');
+      if (article.image) {
+        fig.classList.remove('hidden');
+        document.getElementById('detail-image').src = article.image;
+        document.getElementById('detail-image').alt = article.title;
+        document.getElementById('detail-caption').textContent = article.caption || article.title;
+      } else {
+        fig.classList.add('hidden');
+      }
+
+      document.getElementById('detail-content-body').innerHTML = article.content;
+
+      const tagsWrap = document.getElementById('detail-tags-wrapper');
+      if (article.tags.length > 0) {
+        tagsWrap.classList.remove('hidden');
+        document.getElementById('detail-tags').innerHTML = article.tags.map(t => `
+          <button onclick="handleSearch('${escapeHtml(t)}')" class="rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold hover:border-brand-600 hover:text-brand-600 transition-colors">#${escapeHtml(t)}</button>
+        `).join('');
+      } else {
+        tagsWrap.classList.add('hidden');
+      }
+
+      const related = ARTICLES.filter(a => a.id !== article.id && a.category.slug === article.category.slug).slice(0, 4);
+      const fallbackRelated = related.length > 0 ? related : ARTICLES.filter(a => a.id !== article.id).slice(0, 4);
+      document.getElementById('detail-related-list').innerHTML = fallbackRelated.length > 0
+        ? fallbackRelated.map(r => `
+            <div onclick="openArticle(${r.id})" class="cursor-pointer group py-3 first:pt-0 last:pb-0">
+              <span class="text-[10px] font-bold uppercase text-brand-600">${escapeHtml(r.category.name)}</span>
+              <h4 class="font-serif text-sm font-bold leading-snug text-zinc-900 dark:text-zinc-100 group-hover:text-brand-600 transition-colors">${escapeHtml(r.title)}</h4>
+              <span class="text-[11px] text-zinc-400">${escapeHtml(r.published_rel)} • ${r.views.toLocaleString('id-ID')} sing maca</span>
+            </div>
+          `).join('')
+        : `<p class="text-xs text-zinc-400">Durung ana kabar liyane sing nyambung.</p>`;
+
+      switchView('article');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function switchView(view) {
+      if (view === 'article') {
+        document.getElementById('view-home').classList.add('hidden');
+        document.getElementById('view-article').classList.remove('hidden');
+      } else {
+        document.title = 'JosjisNews — Portal Kabar Jawa Ngoko, Cetha, Blaka & Keneng Dipercaya';
+        document.getElementById('view-article').classList.add('hidden');
+        document.getElementById('view-home').classList.remove('hidden');
+      }
+    }
+
+    function changeFontSize(delta) {
+      if (delta === 0) currentFontStep = 0;
+      else currentFontStep = Math.max(-1, Math.min(2, currentFontStep + delta));
+
+      const bodyEl = document.getElementById('detail-content-body');
+      const labelEl = document.getElementById('font-scale-label');
+      const map = {
+        '-1': { cls: 'text-[15px] leading-[1.75]', label: 'Cilik (15px)' },
+        '0': { cls: 'text-[18px] leading-[1.85]', label: 'Biasa (18px)' },
+        '1': { cls: 'text-[20px] leading-[1.9]', label: 'Gedhe (20px)' },
+        '2': { cls: 'text-[22px] leading-[1.95]', label: 'Gedhe Banget (22px)' },
+      };
+      const cfg = map[String(currentFontStep)];
+      bodyEl.className = `${cfg.cls} text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500`;
+      labelEl.textContent = cfg.label;
+    }
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      const isDark = root.classList.toggle('dark');
+      document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+    }
+
+    function copyArticleLink() {
+      navigator.clipboard?.writeText(window.location.href);
+      const btn = document.getElementById('copy-link-btn');
+      btn.textContent = '✓';
+      setTimeout(() => { btn.textContent = '🔗'; }, 1800);
+    }
+
+    function shareTo(platform) {
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent(document.title);
+      if (platform === 'wa') window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+      else if (platform === 'tg') window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
+      else if (platform === 'x') window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+    }
+
+    loadRealDataFromDatabase();
+  </script>
+</body>
+</html>
