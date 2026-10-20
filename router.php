@@ -12,6 +12,13 @@ if (ob_get_level() > 0) {
     ob_clean();
 }
 
+if (!function_exists('str_starts_with')) {
+    function str_starts_with(string $haystack, string $needle): bool
+    {
+        return $needle === '' || strpos($haystack, $needle) === 0;
+    }
+}
+
 $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
@@ -133,12 +140,12 @@ if ($method === 'OPTIONS') {
     exit;
 }
 
-function relativeTime(?string $datetime): string
+function relativeTime($datetime = null): string
 {
     if (!$datetime) {
         return 'Mentas wae';
     }
-    $ts = strtotime($datetime);
+    $ts = strtotime((string) $datetime);
     if (!$ts) {
         return 'Mentas wae';
     }
@@ -191,7 +198,9 @@ function scanUploadedMedia(string $uploadBaseDir): array
             ];
         }
     }
-    usort($items, fn($a, $b) => $b['mtime'] <=> $a['mtime']);
+    usort($items, function ($a, $b) {
+        return $b['mtime'] <=> $a['mtime'];
+    });
     return $items;
 }
 
@@ -285,7 +294,7 @@ function getBearerOrCookieToken(): string
     return '';
 }
 
-function getAuthenticatedAdmin(PDO $pdo): ?array
+function getAuthenticatedAdmin(PDO $pdo)
 {
     $token = getBearerOrCookieToken();
     if ($token === '') {
@@ -318,6 +327,20 @@ function getAuthenticatedAdmin(PDO $pdo): ?array
         'role' => $admin['role'],
         'token' => $token,
     ];
+}
+
+function setAdminSessionCookie(string $token, int $expiresTimestamp)
+{
+    if (PHP_VERSION_ID >= 70300) {
+        setcookie('josjis_admin_session', $token, [
+            'expires' => $expiresTimestamp,
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
+    } else {
+        setcookie('josjis_admin_session', $token, $expiresTimestamp, '/; samesite=Lax', '', false, true);
+    }
 }
 
 function requireAdminAuth(PDO $pdo): array
@@ -379,12 +402,7 @@ try {
         ");
         $stmtSession->execute([$token, (int) $user['id'], $ip, $ua, $payload, time()]);
 
-        setcookie('josjis_admin_session', $token, [
-            'expires' => time() + 86400,
-            'path' => '/',
-            'httponly' => true,
-            'samesite' => 'Lax',
-        ]);
+        setAdminSessionCookie($token, time() + 86400);
 
         echo json_encode([
             'status' => 'success',
@@ -424,12 +442,7 @@ try {
         if ($token !== '') {
             $pdo->prepare("DELETE FROM sessions WHERE id = ?")->execute([$token]);
         }
-        setcookie('josjis_admin_session', '', [
-            'expires' => time() - 3600,
-            'path' => '/',
-            'httponly' => true,
-            'samesite' => 'Lax',
-        ]);
+        setAdminSessionCookie('', time() - 3600);
         echo json_encode([
             'status' => 'success',
             'message' => 'Berhasil keluar dan sesi login telah dihapus.',
@@ -462,16 +475,18 @@ try {
             ORDER BY c.id ASC
         ")->fetchAll();
 
-        $categories = array_map(fn($c) => [
-            'id' => (int) $c['id'],
-            'name' => $c['name'],
-            'slug' => $c['slug'],
-            'desc' => $c['description'] ?? '',
-            'description' => $c['description'] ?? '',
-            'active' => (bool) $c['is_active'],
-            'is_active' => (int) $c['is_active'],
-            'articles_count' => (int) $c['articles_count'],
-        ], $rawCategories);
+        $categories = array_map(function ($c) {
+            return [
+                'id' => (int) $c['id'],
+                'name' => $c['name'],
+                'slug' => $c['slug'],
+                'desc' => $c['description'] ?? '',
+                'description' => $c['description'] ?? '',
+                'active' => (bool) $c['is_active'],
+                'is_active' => (int) $c['is_active'],
+                'articles_count' => (int) $c['articles_count'],
+            ];
+        }, $rawCategories);
 
         $tags = $pdo->query("
             SELECT t.*,
@@ -487,14 +502,16 @@ try {
             ORDER BY u.id ASC
         ")->fetchAll();
 
-        $users = array_map(fn($u) => [
-            'id' => (int) $u['id'],
-            'name' => $u['name'],
-            'email' => $u['email'],
-            'role' => $u['role'],
-            'articles' => (int) $u['articles_count'],
-            'articles_count' => (int) $u['articles_count'],
-        ], $rawUsers);
+        $users = array_map(function ($u) {
+            return [
+                'id' => (int) $u['id'],
+                'name' => $u['name'],
+                'email' => $u['email'],
+                'role' => $u['role'],
+                'articles' => (int) $u['articles_count'],
+                'articles_count' => (int) $u['articles_count'],
+            ];
+        }, $rawUsers);
 
         $totalViews = (int) $pdo->query("SELECT COALESCE(SUM(views_count), 0) FROM articles")->fetchColumn();
 
@@ -503,22 +520,24 @@ try {
         }
         $adWhere = $isAdmin ? '' : 'WHERE is_active = 1';
         $rawAds = $pdo->query("SELECT * FROM advertisements $adWhere ORDER BY id ASC")->fetchAll();
-        $advertisements = array_map(fn($ad) => [
-            'id' => (int) $ad['id'],
-            'title' => $ad['title'],
-            'sponsor_name' => $ad['sponsor_name'] ?? '',
-            'position' => $ad['position'],
-            'ad_type' => $ad['ad_type'] ?? 'image',
-            'image_url' => $ad['image_url'] ?? '',
-            'target_url' => $ad['target_url'] ?? '',
-            'html_code' => $ad['html_code'] ?? '',
-            'active' => (bool) $ad['is_active'],
-            'is_active' => (int) $ad['is_active'],
-            'views_count' => (int) $ad['views_count'],
-            'clicks_count' => (int) $ad['clicks_count'],
-            'start_date' => $ad['start_date'],
-            'end_date' => $ad['end_date'],
-        ], $rawAds);
+        $advertisements = array_map(function ($ad) {
+            return [
+                'id' => (int) $ad['id'],
+                'title' => $ad['title'],
+                'sponsor_name' => $ad['sponsor_name'] ?? '',
+                'position' => $ad['position'],
+                'ad_type' => $ad['ad_type'] ?? 'image',
+                'image_url' => $ad['image_url'] ?? '',
+                'target_url' => $ad['target_url'] ?? '',
+                'html_code' => $ad['html_code'] ?? '',
+                'active' => (bool) $ad['is_active'],
+                'is_active' => (int) $ad['is_active'],
+                'views_count' => (int) $ad['views_count'],
+                'clicks_count' => (int) $ad['clicks_count'],
+                'start_date' => $ad['start_date'],
+                'end_date' => $ad['end_date'],
+            ];
+        }, $rawAds);
 
         // Statistik pembaca 7 hari terakhir secara real dari tabel article_views
         $dailyViews = [];
