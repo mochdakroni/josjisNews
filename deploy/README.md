@@ -68,6 +68,16 @@ ssh -o StrictHostKeyChecking=accept-new root@SERVER "DEPLOY_PUBKEY='$(cat ~/.ssh
 Opsi lewat variabel lingkungan: `CODE_REF` (cabang yang dipasang, bawaan cabang PR), `DOMAIN`, `SERVER_NAMES`, `APP_DIR`, `OLD_DIR`.
 Setelah itu push berikutnya ke `main` men-deploy lewat GitHub Actions seperti biasa.
 
+### Mengaktifkan HTTPS di server lama
+Server lama biasanya tidak punya certbot modern. `enable-https.sh` memakai acme.sh (Let's Encrypt, perpanjangan otomatis lewat cron):
+
+```bash
+ssh root@SERVER "EMAIL=redaksi@josjis.news bash -s" < deploy/enable-https.sh
+```
+
+Syarat: DNS A record domain sudah mengarah ke server dan port 80/443 terbuka. Konfigurasi Nginx dicadangkan dan
+dipulihkan otomatis bila penerbitan, `nginx -t`, atau health check HTTPS gagal. **Jangan login ke panel admin sebelum HTTPS aktif.**
+
 ## Rollback
 `git revert <commit>` lalu push ke `main`, atau jalankan ulang workflow dari commit lama.
 
