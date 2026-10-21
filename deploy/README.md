@@ -24,10 +24,11 @@ Cocokkan sidik jari host dengan yang tampil di konsol VPS sebelum mempercayainya
 
 ### 3. Pasang server (sebagai root, sekali saja)
 ```bash
-scp deploy/server-setup.sh root@103.247.11.59:/root/
+scp -r deploy root@103.247.11.59:/root/
 ssh root@103.247.11.59
 DOMAIN=josjis.news EMAIL=redaksi@josjis.news \
-DEPLOY_PUBKEY="ISI_DENGAN_ISI_BERKAS_josjis_deploy.pub" bash /root/server-setup.sh
+DEPLOY_PUBKEY="ISI_DENGAN_ISI_BERKAS_josjis_deploy.pub" \
+OPS_PUBKEY="ISI_DENGAN_ISI_BERKAS_josjis_ops.pub" bash /root/deploy/server-setup.sh
 ```
 Skrip memasang Nginx + PHP-FPM + SQLite, membuat pengguna `deploy` (hanya SSH key), folder `/var/www/josjisnews`,
 batas unggah 100 MB, firewall (SSH + web), dan HTTPS Let's Encrypt jika DNS `A record` sudah mengarah ke server.
@@ -67,3 +68,31 @@ install -o www-data -g www-data -m 600 /tmp/old.sqlite /var/www/josjisnews/stora
 cp -a /tmp/old-uploads/. /var/www/josjisnews/storage/uploads/ && chown -R www-data:www-data /var/www/josjisnews/storage
 ```
 Akun admin lama memakai password lemah (`password123`): ganti segera, atau mulai dari database baru.
+
+## Akses Claude ke server (baca-saja, opsional)
+
+Claude tidak butuh akses ke server untuk deploy (itu tugas GitHub Actions). Bila ingin Claude ikut mendiagnosis
+(cek status layanan, baca log, health check), pakai kunci terpisah yang di server **hanya bisa menjalankan
+`josjis-ops`**: tanpa shell, tanpa sudo, tidak ada perintah yang mengubah data
+(`status`, `health`, `version`, `files`, `logs-nginx [N]`, `logs-access [N]`, `logs-php [N]`).
+
+1. Buat kunci di laptop dan berikan `.pub`-nya ke `server-setup.sh` sebagai `OPS_PUBKEY` (lihat langkah 3):
+   ```bash
+   ssh-keygen -t ed25519 -f ~/.ssh/josjis_ops -N "" -C "claude-josjisnews-ops"
+   ```
+2. Tambahkan izin di `.claude/settings.local.json` (berkas lokal, tidak di-commit). **Anda sendiri yang menulisnya**:
+   ```json
+   {
+     "permissions": {
+       "allow": [
+         "Bash(ssh -i ~/.ssh/josjis_ops -o IdentitiesOnly=yes josjis-ops@103.247.11.59:*)"
+       ]
+     }
+   }
+   ```
+3. Uji dari terminal Anda:
+   ```bash
+   ssh -i ~/.ssh/josjis_ops -o IdentitiesOnly=yes josjis-ops@103.247.11.59 status
+   ```
+Karena dibatasi di sisi server, perintah lain (mis. `cat /etc/shadow`, `bash`) ditolak walaupun izin di sisi Claude longgar.
+Cabut akses kapan saja dengan menghapus `/home/josjis-ops/.ssh/authorized_keys` di server.

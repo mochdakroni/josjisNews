@@ -11,7 +11,10 @@ DOMAIN="${DOMAIN:?isi DOMAIN, mis. josjis.news}"
 EMAIL="${EMAIL:?isi EMAIL untuk sertifikat HTTPS}"
 APP_DIR="${APP_DIR:-/var/www/josjisnews}"
 DEPLOY_USER="${DEPLOY_USER:-deploy}"
-DEPLOY_PUBKEY="${DEPLOY_PUBKEY:-}"          # isi isi berkas .pub kunci deploy (opsional, bisa ditambah nanti)
+DEPLOY_PUBKEY="${DEPLOY_PUBKEY:-}"          # isi berkas .pub kunci deploy (opsional, bisa ditambah nanti)
+OPS_PUBKEY="${OPS_PUBKEY:-}"                # isi berkas .pub kunci diagnosis baca-saja untuk Claude (opsional)
+OPS_USER="${OPS_USER:-josjis-ops}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 [ "$(id -u)" -eq 0 ] || { echo "Jalankan sebagai root"; exit 1; }
 . /etc/os-release
@@ -34,6 +37,21 @@ install -d -m 700 -o "$DEPLOY_USER" -g "$DEPLOY_USER" "/home/$DEPLOY_USER/.ssh"
 if [ -n "$DEPLOY_PUBKEY" ]; then
   grep -qxF "$DEPLOY_PUBKEY" "/home/$DEPLOY_USER/.ssh/authorized_keys" 2>/dev/null || echo "$DEPLOY_PUBKEY" >> "/home/$DEPLOY_USER/.ssh/authorized_keys"
   chmod 600 "/home/$DEPLOY_USER/.ssh/authorized_keys"; chown "$DEPLOY_USER:$DEPLOY_USER" "/home/$DEPLOY_USER/.ssh/authorized_keys"
+fi
+
+# --- akses diagnosis baca-saja (forced command, tanpa shell, tanpa sudo)
+if [ -f "$SCRIPT_DIR/josjis-ops.sh" ]; then
+  install -m 755 -o root -g root "$SCRIPT_DIR/josjis-ops.sh" /usr/local/bin/josjis-ops
+  id "$OPS_USER" >/dev/null 2>&1 || adduser --disabled-password --gecos "" "$OPS_USER"
+  usermod -aG adm "$OPS_USER"                 # boleh membaca /var/log/nginx & php-fpm
+  install -d -m 700 -o "$OPS_USER" -g "$OPS_USER" "/home/$OPS_USER/.ssh"
+  if [ -n "$OPS_PUBKEY" ]; then
+    LINE="command=\"/usr/local/bin/josjis-ops\",restrict $OPS_PUBKEY"
+    echo "$LINE" > "/home/$OPS_USER/.ssh/authorized_keys"
+    chmod 600 "/home/$OPS_USER/.ssh/authorized_keys"; chown "$OPS_USER:$OPS_USER" "/home/$OPS_USER/.ssh/authorized_keys"
+  fi
+else
+  echo "(josjis-ops.sh tidak ditemukan di $SCRIPT_DIR, akses diagnosis dilewati; kirim seluruh folder deploy/)"
 fi
 
 # --- folder aplikasi: kode milik deploy, data tulis milik www-data
