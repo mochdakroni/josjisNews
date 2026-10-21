@@ -132,20 +132,42 @@ function secret_encrypt($plain)
     if (!function_exists('openssl_encrypt')) {
         throw new RuntimeException('Ekstensi openssl diperlukan untuk 2FA.');
     }
-    $iv = random_bytes(12);
-    $tag = '';
-    $ct = openssl_encrypt($plain, 'aes-256-gcm', app_key(), OPENSSL_RAW_DATA, $iv, $tag);
-    return base64_encode($iv . $tag . $ct);
+    if (PHP_VERSION_ID >= 70100) {
+        // Format: "g" . iv(12) . tag(16) . ciphertext   (AES-256-GCM)
+        $iv = random_bytes(12);
+        $tag = '';
+        $ct = openssl_encrypt($plain, 'aes-256-gcm', app_key(), OPENSSL_RAW_DATA, $iv, $tag);
+        return base64_encode('g' . $iv . $tag . $ct);
+    }
+    // PHP 7.0: tidak ada parameter tag GCM. Format: "c" . iv(16) . hmac(32) . ciphertext  (CBC + HMAC-SHA256)
+    $iv = random_bytes(16);
+    $ct = openssl_encrypt($plain, 'aes-256-cbc', app_key(), OPENSSL_RAW_DATA, $iv);
+    $mac = hash_hmac('sha256', 'c' . $iv . $ct, app_key(), true);
+    return base64_encode('c' . $iv . $mac . $ct);
 }
 
 function secret_decrypt($blob)
 {
     $raw = base64_decode((string) $blob, true);
-    if ($raw === false || strlen($raw) < 29) {
+    if ($raw === false || strlen($raw) < 30) {
         return '';
     }
-    $plain = openssl_decrypt(substr($raw, 28), 'aes-256-gcm', app_key(), OPENSSL_RAW_DATA, substr($raw, 0, 12), substr($raw, 12, 16));
-    return $plain === false ? '' : $plain;
+    $kind = $raw[0];
+    if ($kind === 'g' && PHP_VERSION_ID >= 70100) {
+        $plain = openssl_decrypt(substr($raw, 29), 'aes-256-gcm', app_key(), OPENSSL_RAW_DATA, substr($raw, 1, 12), substr($raw, 13, 16));
+        return $plain === false ? '' : $plain;
+    }
+    if ($kind === 'c') {
+        $iv = substr($raw, 1, 16);
+        $mac = substr($raw, 17, 32);
+        $ct = substr($raw, 49);
+        if (!hash_equals(hash_hmac('sha256', 'c' . $iv . $ct, app_key(), true), $mac)) {
+            return '';
+        }
+        $plain = openssl_decrypt($ct, 'aes-256-cbc', app_key(), OPENSSL_RAW_DATA, $iv);
+        return $plain === false ? '' : $plain;
+    }
+    return '';
 }
 
 /* ------------------------------ Kode pemulihan ------------------------------ */

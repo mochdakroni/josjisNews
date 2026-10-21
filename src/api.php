@@ -71,7 +71,7 @@ function handle_api($uri, $method)
             return api_bootstrap($pdo);
         }
         if ($uri === '/api/v1/articles') {
-            [$items, $meta] = query_published($pdo, [
+            list($items, $meta) = query_published($pdo, [
                 'page'     => $_GET['page'] ?? 1,
                 'per_page' => $_GET['per_page'] ?? 12,
                 'category' => $_GET['category'] ?? null,
@@ -262,7 +262,7 @@ function api_bootstrap(PDO $pdo)
     $isAdmin = isset($_GET['mode']) && $_GET['mode'] === 'admin';
 
     if (!$isAdmin) {
-        [$articles, $meta] = query_published($pdo, ['per_page' => 40, 'with_body' => false]);
+        list($articles, $meta) = query_published($pdo, ['per_page' => 40, 'with_body' => false]);
         // Hitung tayangan iklan maksimal sekali per 30 menit per pengunjung.
         $ads = public_ads($pdo);
         if ($ads && rate_limit($pdo, 'adview:' . client_ip(), 1, 1800)) {
@@ -354,7 +354,7 @@ function api_article_detail(PDO $pdo, $identifier)
         $recorded = true;
     }
     $article = hydrate_articles($pdo, [$row])[0];
-    [$related] = query_published($pdo, ['category' => $row['category_slug'], 'per_page' => 4, 'exclude_id' => $row['id']]);
+    list($related) = query_published($pdo, ['category' => $row['category_slug'], 'per_page' => 4, 'exclude_id' => $row['id']]);
     json_out(['status' => 'success', 'data' => $article, 'related' => $related, 'meta' => ['view_recorded' => $recorded]]);
 }
 

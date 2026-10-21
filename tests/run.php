@@ -20,8 +20,14 @@ putenv('DB_PATH=' . $tmp . '/db.sqlite');
 putenv('ADMIN_PASSWORD=' . $pass);
 putenv('APP_URL=http://127.0.0.1:' . $port);
 
+function server_cmd($port, $root)
+{
+    $args = [PHP_BINARY, '-S', "127.0.0.1:$port", $root . '/router.php'];
+    return PHP_VERSION_ID >= 70400 ? $args : implode(' ', array_map('escapeshellarg', $args));
+}
+
 $proc = proc_open(
-    [PHP_BINARY, '-S', "127.0.0.1:$port", $root . '/router.php'],
+    server_cmd($port, $root),
     [0 => ['pipe', 'r'], 1 => ['file', $tmp . '/server.log', 'a'], 2 => ['file', $tmp . '/server.log', 'a']],
     $pipes,
     $root,
@@ -101,7 +107,7 @@ function start_server($tag, array $extraEnv = [])
         'DB_PATH' => $dir . '/db.sqlite', 'ADMIN_PASSWORD' => $pass,
         'APP_URL' => 'http://127.0.0.1:' . $port2, 'PATH' => getenv('PATH'), 'APP_KEY' => getenv('APP_KEY'),
     ], $extraEnv);
-    $pr = proc_open([PHP_BINARY, '-S', "127.0.0.1:$port2", $root . '/router.php'],
+    $pr = proc_open(server_cmd($port2, $root),
         [0 => ['pipe', 'r'], 1 => ['file', $dir . '/server.log', 'a'], 2 => ['file', $dir . '/server.log', 'a']], $pipes, $root, $env);
     $b = "http://127.0.0.1:$port2";
     for ($i = 0; $i < 50; $i++) {

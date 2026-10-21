@@ -16,7 +16,8 @@ function json_out($payload, $code = 200)
         http_response_code($code);
         header('Content-Type: application/json; charset=utf-8');
     }
-    echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+    $flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | (defined('JSON_INVALID_UTF8_SUBSTITUTE') ? JSON_INVALID_UTF8_SUBSTITUTE : 0);
+    echo json_encode($payload, $flags);
     exit;
 }
 
