@@ -248,6 +248,11 @@ $r = http('GET', '/sitemap.xml');
 check('sitemap memuat artikel', strpos($r['body'], '/artikel/' . $slug) !== false && strpos($r['body'], $draftSlug) === false);
 $r = http('GET', '/robots.txt');
 check('robots.txt', strpos($r['body'], 'Sitemap:') !== false);
+check('robots.txt tidak membocorkan lokasi panel admin', stripos($r['body'], 'admin') === false);
+$home = http('GET', '/')['body'];
+check('beranda tidak menautkan/menyebut panel admin', stripos($home, 'admin.html') === false && stripos($home, 'Dapur Redaksi / CMS') === false && stripos($home, 'Dapur Admin') === false);
+$pgs = http('GET', '/halaman/tentang')['body'] . http('GET', '/rss.xml')['body'] . http('GET', '/sitemap.xml')['body'];
+check('halaman statis/RSS/sitemap tidak memuat tautan admin', stripos($pgs, 'admin.html') === false);
 $r = http('GET', '/halaman/tentang');
 check('halaman Tentang memuat nama PT', strpos($r['body'], 'PT Sendhiko Dawuh Multiguna') !== false);
 $r = http('GET', '/kanal/nasional');
@@ -460,6 +465,18 @@ $r = http('POST', '/api/v1/admin/2fa/disable', ['password' => $pass, 'code' => $
 check('(tf) nonaktifkan 2FA dengan password + kode pemulihan', $r['code'] === 200, $r['body']);
 $r = http('GET', '/api/v1/admin/2fa/status', null, auth($ad2));
 check('(tf) status kembali nonaktif', ($r['json']['data']['enabled'] ?? null) === false);
+
+echo "== Lokasi panel disembunyikan (ADMIN_PATH)\n";
+list($pr4, $b4) = start_server('hidden', ['ADMIN_PATH' => '/ruang-redaksi-x7k2']);
+register_shutdown_function(function () use ($pr4) {
+    proc_terminate($pr4);
+});
+$base = $b4;
+check('(hid) path rahasia menyajikan panel', http('GET', '/ruang-redaksi-x7k2')['code'] === 200);
+check('(hid) /admin.html menjadi 404', http('GET', '/admin.html')['code'] === 404);
+check('(hid) /admin menjadi 404', http('GET', '/admin')['code'] === 404);
+check('(hid) beranda tidak memuat path rahasia', strpos(http('GET', '/')['body'], 'ruang-redaksi') === false);
+$base = $origBase;
 
 echo "== 2FA TOTP: kebijakan REQUIRE_2FA=1 (server terpisah)\n";
 list($pr3, $b3) = start_server('tf-req', ['REQUIRE_2FA' => '1']);

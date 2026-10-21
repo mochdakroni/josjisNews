@@ -94,7 +94,11 @@ try {
     }
 
     // ---- Panel admin (statis, dilindungi lewat API)
-    if ($uri === '/admin' || $uri === '/admin.html') {
+    // Lokasi panel dapat disembunyikan lewat ADMIN_PATH (mis. /ruang-redaksi-x7k2). Bila diisi,
+    // /admin dan /admin.html menjadi 404. Tidak ada tautan ke panel di situs publik maupun robots.txt.
+    $adminPath = '/' . trim((string) env('ADMIN_PATH', ''), '/');
+    $adminPaths = $adminPath !== '/' ? [$adminPath, $adminPath . '.html'] : ['/admin', '/admin.html'];
+    if (in_array($uri, $adminPaths, true)) {
         header('Content-Type: text/html; charset=utf-8');
         header('Cache-Control: no-store');
         header('X-Frame-Options: DENY');

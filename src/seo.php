@@ -266,7 +266,7 @@ function page_not_found()
 function render_robots()
 {
     header('Content-Type: text/plain; charset=utf-8');
-    echo "User-agent: *\nAllow: /\nDisallow: /admin.html\nDisallow: /api/\nDisallow: /storage/data/\n\nSitemap: " . base_url() . "/sitemap.xml\n";
+    echo "User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: " . base_url() . "/sitemap.xml\n";
     exit;
 }
 
