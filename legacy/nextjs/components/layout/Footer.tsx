@@ -149,7 +149,7 @@ export default function Footer({ categories }: FooterProps) {
 
         {/* Bottom Copyright */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-zinc-800/80 pt-6 text-xs text-zinc-500 sm:flex-row">
-          <p>© {currentYear} PT Josjis Media Nusantara. Kabeh Hak Cipta Dilindhungi Undang-Undang.</p>
+          <p>© {currentYear} PT Sendhiko Dawuh Multiguna. Kabeh Hak Cipta Dilindhungi Undang-Undang.</p>
           <p>Disengkuyung karo Laravel 11 REST API & Next.js App Router</p>
         </div>
       </div>

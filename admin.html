@@ -89,26 +89,31 @@
       <form onsubmit="handleLogin(event)" class="mt-6 space-y-4" autocomplete="off">
         <div>
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Alamat Email</label>
-          <input id="login-email" type="email" required value="admin@josjisnews.com" placeholder="admin@josjisnews.com" class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
+          <input id="login-email" type="email" required autocomplete="username" placeholder="nama@perusahaan.com" class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
         </div>
         <div>
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Password</label>
-          <input id="login-password" type="password" required placeholder="Masukkan password..." class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
+          <input id="login-password" type="password" required autocomplete="current-password" placeholder="Masukkan password..." class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
         </div>
         <button id="login-submit-btn" type="submit" class="w-full rounded-xl bg-brand-600 py-2.5 text-sm font-bold text-white shadow-md shadow-brand-600/20 hover:bg-brand-700 transition-colors">
           Masuk ke Dashboard Admin →
         </button>
       </form>
 
-      <div class="mt-5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-[11px] text-slate-500 flex items-center justify-between">
-        <div>
-          <span class="font-bold text-slate-700">Akun Default:</span>
-          <code>admin@josjisnews.com</code> / <code>password123</code>
+      <form id="login-2fa-form" onsubmit="handleLogin2fa(event)" class="mt-6 hidden space-y-4" autocomplete="off">
+        <div class="rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-3 text-xs text-slate-600">
+          🛡️ <strong>Verifikasi 2 langkah.</strong> Buka aplikasi autentikator (Google Authenticator, Authy, 1Password, dsb.)
+          lalu masukkan kode 6 digit. Kehilangan ponsel? Pakai <em>kode pemulihan</em> (contoh: <code>a1b2c-d3e4f</code>).
         </div>
-        <button type="button" onclick="document.getElementById('login-email').value='admin@josjisnews.com'; document.getElementById('login-password').value='password123';" class="rounded-lg bg-white border border-slate-200 px-2 py-1 text-[10px] font-bold text-brand-600 hover:border-brand-500">
-          Isi Cepat
-        </button>
-      </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Kode 6 digit / kode pemulihan</label>
+          <input id="login-2fa-code" type="text" inputmode="text" required autocomplete="one-time-code" maxlength="16" placeholder="123456" class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-center text-lg font-mono tracking-[0.3em] text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
+        </div>
+        <button id="login-2fa-btn" type="submit" class="w-full rounded-xl bg-brand-600 py-2.5 text-sm font-bold text-white shadow-md shadow-brand-600/20 hover:bg-brand-700 transition-colors">Verifikasi &amp; Masuk →</button>
+        <button type="button" onclick="cancelLogin2fa()" class="w-full text-center text-xs font-medium text-slate-500 hover:text-brand-600">← Ulangi login</button>
+      </form>
+
+      <p class="mt-5 text-center text-[11px] text-slate-400">Akses khusus staf redaksi. Aktivitas login dicatat.</p>
     </div>
   </div>
 
@@ -122,7 +127,7 @@
           <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 font-serif text-lg font-black text-white shadow-sm">J</span>
           <div>
             <div class="font-extrabold text-sm text-slate-900 leading-none">JosjisNews <span class="text-brand-600">CMS</span></div>
-            <span class="text-[11px] font-medium text-slate-400">Panel Redaksi</span>
+            <span class="text-[11px] font-medium text-slate-400">Panel Redaksi · Bloko Sutho</span>
           </div>
         </div>
 
@@ -163,10 +168,9 @@
 
       <!-- Bottom Quick Links -->
       <div class="space-y-2 border-t border-slate-200 pt-4">
-        <a href="/db-viewer.html" target="_blank" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700 hover:bg-emerald-100 transition-colors">
-          🗄️ Cek Isi Database (SQLite) ↗
-        </a>
-        <a href="/preview.html" target="_blank" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 hover:border-brand-500 hover:text-brand-600 transition-colors">
+        <button onclick="openSecurityModal()" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700 hover:bg-emerald-100 transition-colors">🛡️ Keamanan Akun (2FA)</button>
+        <button onclick="openPasswordModal()" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 hover:border-brand-500 transition-colors">🔑 Ganti Password</button>
+        <a href="/" target="_blank" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 hover:border-brand-500 hover:text-brand-600 transition-colors">
           🌐 Buka Web Publik ↗
         </a>
         <button onclick="logout()" class="flex w-full items-center justify-center rounded-xl px-3 py-2 text-xs font-medium text-slate-500 hover:bg-rose-50 hover:text-brand-600 transition-colors">
@@ -482,6 +486,11 @@
                 <div>
                   <label class="block text-xs font-semibold text-slate-700">Ringkasan SEO (Excerpt)</label>
                   <textarea id="form-excerpt" rows="3" placeholder="Ringkasan singkat isi berita..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800"></textarea>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700">Tag / Topik <span class="font-normal text-slate-400">(pisahkan koma, maks 10)</span></label>
+                  <input id="form-tags" type="text" maxlength="300" placeholder="contoh: Jawa Tengah, UMKM, Pilkada" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800" />
                 </div>
 
                 <label class="flex items-center gap-2 text-xs font-medium text-slate-700 pt-1">
@@ -866,6 +875,16 @@
       const nextInit = { ...init, headers, credentials: 'same-origin' };
       const response = await nativeFetch(input, nextInit);
 
+      // Aksi tulis admin yang gagal (403/409/422/429/5xx): tampilkan pesan server & hentikan alur "sukses".
+      const verb = String(nextInit.method || 'GET').toUpperCase();
+      if (!response.ok && response.status !== 401 && verb !== 'GET' && url.includes('/api/v1/admin/') &&
+          !/\/admin\/(login|logout|media|password|2fa\/)/.test(url)) {
+        let msg = 'Aksi gagal (' + response.status + ').';
+        try { msg = (await response.clone().json()).message || msg; } catch (e) {}
+        showToast(msg, true);
+        throw new Error(msg);
+      }
+
       // Jika endpoint admin mengembalikan 401 (sesi berakhir / sudah logout), otomatis paksa ke layar login
       if (
         response.status === 401 &&
@@ -920,12 +939,26 @@
       }
     }
 
+    function applyRoleUi(role) {
+      const isEditorial = role === 'super_admin' || role === 'editor';
+      const hide = { categories: !isEditorial, ads: !isEditorial, users: role !== 'super_admin' };
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (hide[btn.dataset.tab] !== undefined) btn.classList.toggle('hidden', hide[btn.dataset.tab]);
+      });
+      const hl = document.getElementById('form-headline');
+      if (hl) { hl.closest('label').classList.toggle('hidden', !isEditorial); if (!isEditorial) hl.checked = false; }
+      const pub = document.querySelector('#form-status option[value="published"]');
+      if (pub) { pub.disabled = !isEditorial; pub.textContent = isEditorial ? 'Published (Tayang)' : 'Published (khusus Editor)'; }
+    }
+
     function showDashboardScreen(user) {
       currentUser = user;
       const loginEl = document.getElementById('login-screen');
       const dashEl = document.getElementById('dashboard-screen');
       document.getElementById('active-user-initial').textContent = (user.name || 'A').charAt(0).toUpperCase();
-      document.getElementById('active-role-badge').textContent = user.name || 'Administrator';
+      const roleLabel = { super_admin: 'Super Admin', editor: 'Editor', journalist: 'Jurnalis' }[user.role] || user.role;
+      document.getElementById('active-role-badge').textContent = (user.name || 'Administrator') + ' · ' + roleLabel;
+      applyRoleUi(user.role);
 
       loginEl.classList.add('hidden');
       loginEl.classList.remove('flex');
@@ -935,13 +968,7 @@
     }
 
     async function verifyAdminSessionOnBoot() {
-      const token = localStorage.getItem(AUTH_TOKEN_KEY);
-      if (!token) {
-        clearClientAuthState();
-        showLoginScreen();
-        return;
-      }
-
+      try { localStorage.removeItem(AUTH_TOKEN_KEY); localStorage.removeItem(AUTH_USER_KEY); } catch (e) {}
       try {
         const res = await fetch('/api/v1/admin/me', { headers: { 'Accept': 'application/json' } });
         if (!res.ok) {
@@ -1109,11 +1136,12 @@
       }
     });
 
-    function showToast(msg) {
+    function showToast(msg, isError) {
       const banner = document.getElementById('toast-banner');
-      document.getElementById('toast-message').textContent = msg;
-      banner.classList.remove('hidden');
-      document.getElementById('db-status-pill').textContent = 'Tersimpan @ ' + new Date().toLocaleTimeString('id-ID');
+      document.getElementById('toast-message').textContent = (isError ? '⚠️ ' : '') + msg;
+      banner.className = 'rounded-xl border px-4 py-3 text-xs font-semibold flex items-center justify-between shadow-sm ' +
+        (isError ? 'border-rose-200 bg-rose-50 text-rose-800' : 'border-emerald-200 bg-emerald-50 text-emerald-800');
+      if (!isError) document.getElementById('db-status-pill').textContent = 'Tersimpan @ ' + new Date().toLocaleTimeString('id-ID');
     }
 
     function switchTab(tab) {
@@ -1295,11 +1323,13 @@
           <td class="px-6 py-3.5">
             <div class="font-bold text-slate-900">${escapeHtml(u.name)}</div>
             <div class="text-[11px] text-slate-400">${escapeHtml(u.email)}</div>
+            <div class="mt-0.5 text-[10px] font-bold ${u.two_factor ? 'text-emerald-600' : 'text-slate-400'}">${u.two_factor ? '🛡️ 2FA aktif' : '2FA belum aktif'}</div>
           </td>
           <td class="px-4 py-3.5">${roleBadge(u.role)}</td>
           <td class="px-4 py-3.5 text-slate-600">${u.role === 'journalist' ? 'Draft & Review' : '✓ Publish & Headline'}</td>
           <td class="px-4 py-3.5 font-mono text-slate-700">${Number(u.articles || 0)} artikel</td>
           <td class="px-6 py-3.5 text-right space-x-1.5">
+            ${u.two_factor && currentUser && u.id !== currentUser.id ? `<button onclick="resetUser2fa(${idx})" title="Setel ulang 2FA (perangkat hilang)" class="rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700 hover:bg-amber-100">🔓 Reset 2FA</button>` : ''}
             <button onclick="editUser(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 hover:border-brand-500">✏️ Edit</button>
             <button onclick="deleteUser(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>
           </td>
@@ -1373,6 +1403,7 @@
         document.getElementById('form-category').value = a.category;
         document.getElementById('form-status').value = a.status;
         document.getElementById('form-headline').checked = Boolean(a.headline);
+        document.getElementById('form-tags').value = (a.tags || []).map(t => t.name || t).join(', ');
         setFeaturedImage(a.image || '', a.caption_image || '');
         if (ckEditorInstance) ckEditorInstance.setData(a.body || '');
       } else {
@@ -1380,6 +1411,7 @@
         document.getElementById('form-title').value = '';
         document.getElementById('form-slug').value = '';
         document.getElementById('form-excerpt').value = '';
+        document.getElementById('form-tags').value = '';
         setFeaturedImage('', '');
         if (ckEditorInstance) {
           ckEditorInstance.setData('');
@@ -1401,20 +1433,22 @@
         author: existing && existing.author ? existing.author : currentUser.name,
         status: document.getElementById('form-status').value,
         headline: document.getElementById('form-headline').checked,
+        tags: document.getElementById('form-tags').value,
         image: document.getElementById('form-featured-image').value,
         image_caption: document.getElementById('form-caption').value,
         body: ckEditorInstance ? sanitizeRichHtml(ckEditorInstance.getData()) : ''
       };
 
-      await fetch('/api/v1/admin/articles', {
+      const saveRes = await fetch('/api/v1/admin/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
       });
+      const saveJson = await saveRes.json().catch(() => ({}));
       await syncAdminFromDatabase();
 
       switchTab('articles');
-      showToast('Artikel "' + payload.title + '" berhasil disimpan ke database!');
+      showToast(saveJson.message ? ('"' + payload.title + '": ' + saveJson.message) : ('Artikel "' + payload.title + '" berhasil disimpan!'));
     }
 
     async function deleteArticle(idx) {
@@ -1958,6 +1992,14 @@
           body: JSON.stringify({ email, password })
         });
         const json = await res.json();
+        if (res.ok && json.status === '2fa_required' && json.challenge) {
+          pendingChallenge = json.challenge;
+          document.querySelector('#login-screen form[onsubmit="handleLogin(event)"]').classList.add('hidden');
+          document.getElementById('login-2fa-form').classList.remove('hidden');
+          document.getElementById('login-password').value = '';
+          const c = document.getElementById('login-2fa-code'); c.value = ''; c.focus();
+          return;
+        }
         if (!res.ok || json.status !== 'success' || !json.token) {
           errBox.textContent = json.message || 'Login gagal. Periksa email dan password Anda.';
           errBox.classList.remove('hidden');
@@ -1965,8 +2007,11 @@
         }
 
         // Simpan token sesi & user ke localStorage
-        localStorage.setItem(AUTH_TOKEN_KEY, json.token);
-        localStorage.setItem(AUTH_USER_KEY, JSON.stringify(json.user));
+        // Sesi dipegang cookie httpOnly; token TIDAK disimpan di JS agar tahan XSS.
+        onLoginSuccess(json);
+        if (json.must_change_password) {
+          setTimeout(() => openPasswordModal('Password Anda belum memenuhi standar keamanan. Silakan ganti sekarang.'), 400);
+        }
 
         // Kosongkan field password demi keamanan
         document.getElementById('login-password').value = '';
@@ -1999,6 +2044,251 @@
       if (pwdInput) pwdInput.value = '';
 
       showLoginScreen('Anda telah berhasil keluar (logout). Silakan login kembali untuk mengakses dashboard.');
+    }
+  </script>
+
+  <!-- MODAL GANTI PASSWORD -->
+  <div id="pw-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/50 p-4">
+    <form onsubmit="submitPassword(event)" class="w-full max-w-sm space-y-3 rounded-2xl bg-white p-6 shadow-2xl">
+      <h3 class="text-base font-extrabold text-slate-900">Ganti Password</h3>
+      <p id="pw-note" class="text-xs text-slate-500">Minimal 10 karakter, kombinasi huruf dan angka.</p>
+      <div id="pw-error" class="hidden rounded-lg bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700"></div>
+      <input id="pw-current" type="password" required autocomplete="current-password" placeholder="Password saat ini" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+      <input id="pw-new" type="password" required minlength="10" autocomplete="new-password" placeholder="Password baru" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+      <div class="flex gap-2 pt-1">
+        <button type="submit" class="flex-1 rounded-xl bg-brand-600 py-2 text-xs font-bold text-white hover:bg-brand-700">Simpan</button>
+        <button type="button" onclick="closePasswordModal()" class="flex-1 rounded-xl border border-slate-300 py-2 text-xs font-semibold text-slate-600">Batal</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    function openPasswordModal(note) {
+      document.getElementById('pw-note').textContent = note || 'Minimal 10 karakter, kombinasi huruf dan angka.';
+      document.getElementById('pw-error').classList.add('hidden');
+      const m = document.getElementById('pw-modal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+    }
+    function closePasswordModal() {
+      const m = document.getElementById('pw-modal');
+      m.classList.add('hidden'); m.classList.remove('flex');
+      document.getElementById('pw-current').value = ''; document.getElementById('pw-new').value = '';
+    }
+    async function submitPassword(e) {
+      e.preventDefault();
+      const err = document.getElementById('pw-error');
+      err.classList.add('hidden');
+      const res = await fetch('/api/v1/admin/password', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ current_password: document.getElementById('pw-current').value, new_password: document.getElementById('pw-new').value })
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) { err.textContent = json.message || 'Gagal mengganti password.'; err.classList.remove('hidden'); return; }
+      closePasswordModal();
+      showToast(json.message || 'Password berhasil diganti.');
+    }
+  </script>
+
+  <!-- MODAL KEAMANAN AKUN / 2FA -->
+  <div id="sec-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/50 p-4">
+    <div class="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
+      <div class="flex items-start justify-between">
+        <h3 class="text-base font-extrabold text-slate-900">🛡️ Keamanan Akun — Verifikasi 2 Langkah</h3>
+        <button onclick="closeSecurityModal()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+      </div>
+      <p id="sec-note" class="mt-1 text-xs text-slate-500"></p>
+      <div id="sec-error" class="mt-3 hidden rounded-lg bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700"></div>
+
+      <!-- Status: nonaktif -->
+      <div id="sec-off" class="mt-4 hidden space-y-3">
+        <p class="text-xs text-slate-600">2FA menambah lapisan kedua: selain password, login butuh kode 6 digit dari ponsel Anda. Sangat disarankan untuk Super Admin &amp; Editor.</p>
+        <button onclick="startTwoFactorSetup()" class="w-full rounded-xl bg-emerald-600 py-2 text-xs font-bold text-white hover:bg-emerald-700">Aktifkan 2FA</button>
+      </div>
+
+      <!-- Setup -->
+      <div id="sec-setup" class="mt-4 hidden space-y-3">
+        <ol class="list-decimal space-y-1 pl-5 text-xs text-slate-600">
+          <li>Buka aplikasi autentikator → <em>Tambah akun</em> → <em>Masukkan kunci setup</em> (atau buka tautan di bawah dari ponsel).</li>
+          <li>Isi kunci di bawah, jenis <strong>berbasis waktu (TOTP)</strong>.</li>
+          <li>Masukkan kode 6 digit yang muncul untuk mengonfirmasi.</li>
+        </ol>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-3 text-center">
+          <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Kunci setup</div>
+          <div id="sec-secret" class="mt-1 select-all break-all font-mono text-sm font-bold tracking-wider text-slate-900"></div>
+          <a id="sec-uri" href="#" class="mt-2 inline-block text-[11px] font-semibold text-brand-600 underline">Buka di aplikasi autentikator ↗</a>
+        </div>
+        <input id="sec-enable-code" type="text" inputmode="numeric" maxlength="7" autocomplete="one-time-code" placeholder="Kode 6 digit" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-center font-mono text-lg tracking-[0.3em]" />
+        <button onclick="confirmTwoFactorEnable()" class="w-full rounded-xl bg-emerald-600 py-2 text-xs font-bold text-white hover:bg-emerald-700">Konfirmasi &amp; Aktifkan</button>
+      </div>
+
+      <!-- Kode pemulihan (tampil sekali) -->
+      <div id="sec-codes" class="mt-4 hidden space-y-3">
+        <div class="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800"><strong>Simpan kode pemulihan ini sekarang.</strong> Tiap kode hanya bisa dipakai sekali bila ponsel hilang. Kode ini <u>tidak akan ditampilkan lagi</u>.</div>
+        <pre id="sec-codes-list" class="select-all rounded-xl bg-slate-900 p-3 text-center font-mono text-sm leading-7 text-emerald-300"></pre>
+        <div class="flex gap-2">
+          <button onclick="copyRecoveryCodes()" class="flex-1 rounded-xl border border-slate-300 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50">Salin</button>
+          <button onclick="downloadRecoveryCodes()" class="flex-1 rounded-xl border border-slate-300 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50">Unduh .txt</button>
+        </div>
+        <button onclick="refreshSecurityModal()" class="w-full rounded-xl bg-slate-900 py-2 text-xs font-bold text-white">Sudah saya simpan</button>
+      </div>
+
+      <!-- Status: aktif -->
+      <div id="sec-on" class="mt-4 hidden space-y-3">
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">✓ 2FA aktif · Sisa kode pemulihan: <span id="sec-remaining">0</span></div>
+        <p class="text-xs text-slate-500">Untuk mengubah pengaturan, konfirmasi dengan password dan kode 2FA (atau kode pemulihan).</p>
+        <input id="sec-pw" type="password" autocomplete="current-password" placeholder="Password saat ini" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+        <input id="sec-code" type="text" autocomplete="one-time-code" maxlength="16" placeholder="Kode 6 digit / kode pemulihan" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-mono" />
+        <div class="flex gap-2">
+          <button onclick="regenRecoveryCodes()" class="flex-1 rounded-xl border border-slate-300 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50">Buat kode pemulihan baru</button>
+          <button id="sec-disable-btn" onclick="disableTwoFactor()" class="flex-1 rounded-xl border border-rose-200 bg-rose-50 py-2 text-xs font-bold text-rose-700 hover:bg-rose-100">Nonaktifkan 2FA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    let pendingChallenge = null;
+    let lastRecoveryCodes = [];
+
+    function onLoginSuccess(json) {
+      pendingChallenge = null;
+      document.getElementById('login-2fa-form').classList.add('hidden');
+      const lf = document.querySelector('#login-screen form[onsubmit="handleLogin(event)"]');
+      if (lf) lf.classList.remove('hidden');
+      if (json.used_recovery_code) {
+        setTimeout(() => showToast('Anda masuk dengan kode pemulihan. Sisa: ' + json.recovery_remaining + '. Buat kode baru di Keamanan Akun.', true), 600);
+      }
+      if (json.must_enable_2fa) {
+        setTimeout(() => openSecurityModal('Peran Anda wajib memakai 2FA. Aktifkan sekarang untuk melanjutkan.'), 500);
+      }
+    }
+
+    function cancelLogin2fa() {
+      pendingChallenge = null;
+      document.getElementById('login-2fa-form').classList.add('hidden');
+      document.querySelector('#login-screen form[onsubmit="handleLogin(event)"]').classList.remove('hidden');
+    }
+
+    async function handleLogin2fa(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('login-error');
+      const btn = document.getElementById('login-2fa-btn');
+      errBox.classList.add('hidden');
+      btn.disabled = true; btn.textContent = 'Memverifikasi...';
+      try {
+        const res = await fetch('/api/v1/admin/login/2fa', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ challenge: pendingChallenge, code: document.getElementById('login-2fa-code').value })
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || json.status !== 'success') {
+          errBox.textContent = json.message || 'Verifikasi gagal.';
+          errBox.classList.remove('hidden');
+          if (res.status === 401 && /kedaluwarsa/i.test(json.message || '') || res.status === 429) cancelLogin2fa();
+          return;
+        }
+        document.getElementById('login-2fa-code').value = '';
+        showDashboardScreen(json.user);
+        onLoginSuccess(json);
+        await syncAdminFromDatabase();
+      } catch (err) {
+        errBox.textContent = 'Gagal menghubungi server.'; errBox.classList.remove('hidden');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Verifikasi & Masuk →';
+      }
+    }
+
+    /* ---------- Modal Keamanan Akun ---------- */
+    function secShow(id) {
+      ['sec-off', 'sec-setup', 'sec-codes', 'sec-on'].forEach(x => document.getElementById(x).classList.toggle('hidden', x !== id));
+    }
+    function secError(msg) {
+      const el = document.getElementById('sec-error');
+      el.textContent = msg || ''; el.classList.toggle('hidden', !msg);
+    }
+    async function secApi(path, body) {
+      const res = await fetch('/api/v1/admin/2fa/' + path, {
+        method: body === undefined ? 'GET' : 'POST', headers: { 'Content-Type': 'application/json' },
+        body: body === undefined ? undefined : JSON.stringify(body)
+      });
+      const json = await res.json().catch(() => ({}));
+      return { ok: res.ok, json };
+    }
+    async function openSecurityModal(note) {
+      const m = document.getElementById('sec-modal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+      document.getElementById('sec-note').textContent = note || '';
+      await refreshSecurityModal();
+    }
+    function closeSecurityModal() {
+      const m = document.getElementById('sec-modal');
+      m.classList.add('hidden'); m.classList.remove('flex');
+      lastRecoveryCodes = [];
+      document.getElementById('sec-codes-list').textContent = '';
+    }
+    async function refreshSecurityModal() {
+      secError('');
+      ['sec-pw', 'sec-code', 'sec-enable-code'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('sec-codes-list').textContent = ''; lastRecoveryCodes = [];
+      const { ok, json } = await secApi('status');
+      if (!ok) { secError(json.message || 'Gagal memuat status.'); return; }
+      if (json.data.enabled) {
+        document.getElementById('sec-remaining').textContent = json.data.recovery_remaining;
+        document.getElementById('sec-disable-btn').disabled = !!json.data.required;
+        document.getElementById('sec-disable-btn').title = json.data.required ? 'Peran Anda wajib memakai 2FA' : '';
+        secShow('sec-on');
+      } else { secShow('sec-off'); }
+    }
+    async function startTwoFactorSetup() {
+      secError('');
+      const { ok, json } = await secApi('setup', {});
+      if (!ok) { secError(json.message || 'Gagal memulai.'); return; }
+      document.getElementById('sec-secret').textContent = json.data.secret_text;
+      document.getElementById('sec-uri').href = json.data.uri;
+      secShow('sec-setup');
+      document.getElementById('sec-enable-code').focus();
+    }
+    function showRecoveryCodes(codes) {
+      lastRecoveryCodes = codes || [];
+      document.getElementById('sec-codes-list').textContent = lastRecoveryCodes.join('\n');
+      secShow('sec-codes');
+    }
+    async function confirmTwoFactorEnable() {
+      secError('');
+      const { ok, json } = await secApi('enable', { code: document.getElementById('sec-enable-code').value });
+      if (!ok) { secError(json.message || 'Kode salah.'); return; }
+      showRecoveryCodes(json.data.recovery_codes);
+      if (currentUser) { currentUser.two_factor = true; }
+      syncAdminFromDatabase();
+    }
+    async function regenRecoveryCodes() {
+      secError('');
+      const { ok, json } = await secApi('recovery-codes', { password: document.getElementById('sec-pw').value, code: document.getElementById('sec-code').value });
+      if (!ok) { secError(json.message || 'Gagal.'); return; }
+      showRecoveryCodes(json.data.recovery_codes);
+    }
+    async function disableTwoFactor() {
+      secError('');
+      if (!confirm('Nonaktifkan 2FA? Akun Anda jadi lebih rentan bila password bocor.')) return;
+      const { ok, json } = await secApi('disable', { password: document.getElementById('sec-pw').value, code: document.getElementById('sec-code').value });
+      if (!ok) { secError(json.message || 'Gagal.'); return; }
+      showToast(json.message || '2FA dinonaktifkan.');
+      await refreshSecurityModal();
+      syncAdminFromDatabase();
+    }
+    function copyRecoveryCodes() {
+      navigator.clipboard && navigator.clipboard.writeText(lastRecoveryCodes.join('\n'));
+      showToast('Kode pemulihan disalin ke clipboard.');
+    }
+    function downloadRecoveryCodes() {
+      const blob = new Blob(['Kode pemulihan JosjisNews (sekali pakai)\n\n' + lastRecoveryCodes.join('\n') + '\n'], { type: 'text/plain' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'josjisnews-kode-pemulihan.txt';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
+    }
+    async function resetUser2fa(idx) {
+      const u = CMS_USERS[idx];
+      if (!u || !confirm('Setel ulang 2FA untuk ' + u.email + '? Sesi pengguna itu akan diakhiri.')) return;
+      await fetch('/api/v1/admin/users/' + encodeURIComponent(u.id) + '/2fa-reset', { method: 'POST' });
+      await syncAdminFromDatabase();
+      showToast('2FA ' + u.email + ' disetel ulang.');
     }
   </script>
 </body>
