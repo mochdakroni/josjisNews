@@ -183,12 +183,10 @@ $stmtUser->execute([
 ]);
 
 $categories = [
-    [1, 'Nasional', 'nasional', 'Kabar kedadeyan nasional, aturan pemerintah, lan pembangunan daerah.', 1],
-    [2, 'Politik & Hukum', 'politik', 'Kabar parlemen, pemerintahan, aturan hukum, lan politik.', 1],
-    [3, 'Ekonomi & Bisnis', 'bisnis', 'Kabar ekonomi, dagang, perbankan, investasi, lan usaha rakyat.', 1],
-    [4, 'Teknologi & Sains', 'teknologi', 'Info teknologi anyar, internet, gadget, lan inovasi digital.', 1],
-    [5, 'Otomotif & EV', 'otomotif', 'Info dunia otomotif, motor, mobil listrik, lan tunggangan anyar.', 1],
-    [6, 'Olahraga', 'olahraga', 'Kabar bal-balan lan pertandingan olahraga nasional utawa internasional.', 1],
+    [1, 'Event & Komunitas', 'event-komunitas', 'Kabar acara seru, kopdar, kolaborasi, lan kegiatan komunitas kreatif.', 1],
+    [2, 'Personal Branding', 'personal-branding', 'Tips mbangun citra dhiri, karir, portofolio, lan cara tampil beda nang era digital.', 1],
+    [3, 'Lifestyle', 'lifestyle', 'Gaya urip kekinian, nongkrong, kuliner, fashion, lan tren saben dina.', 1],
+    [4, 'Seputar Gen Z', 'seputar-gen-z', 'Rembugan bloko sutho babagan bocah Gen Z, tren medsos, kesehatan mental, lan pop culture.', 1],
 ];
 
 $stmtCat = $pdo->prepare("

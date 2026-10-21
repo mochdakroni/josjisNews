@@ -156,8 +156,8 @@ export default function Navbar({ categories }: NavbarProps) {
               <span className="font-serif text-2xl font-black tracking-tight text-zinc-900 dark:text-white leading-none">
                 JOSJIS<span className="text-brand-600">NEWS</span>
               </span>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
-                Cetha • Mandhiri • Kenek Dipercaya
+              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-600 dark:text-brand-500">
+                Bloko Sutho
               </span>
             </div>
           </Link>

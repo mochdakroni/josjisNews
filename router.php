@@ -28,9 +28,15 @@ if ($uri !== '/' && $uri !== '/router.php' && !str_starts_with($uri, '/api/') &&
     return false;
 }
 
-// Redirect root '/' ke '/preview.html'
+// Tampilkan halaman utama langsung di root '/' dan '/admin'
 if ($uri === '/') {
-    header('Location: /preview.html');
+    header('Content-Type: text/html; charset=utf-8');
+    readfile(__DIR__ . '/preview.html');
+    exit;
+}
+if ($uri === '/admin' || $uri === '/admin/') {
+    header('Content-Type: text/html; charset=utf-8');
+    readfile(__DIR__ . '/admin.html');
     exit;
 }
 
@@ -79,7 +85,7 @@ if ((int) $pdo->query("SELECT COUNT(*) FROM advertisements")->fetchColumn() === 
             'leaderboard_top',
             'html',
             '',
-            'https://josjisnews.com/pasang-iklan',
+            'https://josjis.news/pasang-iklan',
             '<div class="flex flex-col items-center justify-center py-2 text-center"><span class="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-600">SPONSOR • LEADERBOARD UTAMA (970×90)</span><p class="mt-1 text-xs font-semibold text-zinc-700 dark:text-zinc-200">Pasang Spanduk Usahamu utawa Instansimu ning Panggonan Paling Strategis Ngarep Dewe JosjisNews</p></div>',
             1,
         ],
@@ -89,7 +95,7 @@ if ((int) $pdo->query("SELECT COUNT(*) FROM advertisements")->fetchColumn() === 
             'infeed_home',
             'html',
             '',
-            'https://josjisnews.com/pasang-iklan',
+            'https://josjis.news/pasang-iklan',
             '<div class="flex flex-col items-center justify-center py-3 text-center"><span class="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-600">IKLAN • IN-FEED NATIVE BANNER</span><p class="mt-1 text-xs font-semibold text-zinc-700 dark:text-zinc-200">Lapak Iklan Nyawiji langsung ning Tengah Daftaran Kabar Utama</p></div>',
             1,
         ],
@@ -99,7 +105,7 @@ if ((int) $pdo->query("SELECT COUNT(*) FROM advertisements")->fetchColumn() === 
             'sidebar_home',
             'html',
             '',
-            'https://josjisnews.com/pasang-iklan',
+            'https://josjis.news/pasang-iklan',
             '<div class="flex flex-col items-center justify-center py-6 text-center"><span class="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-600">IKLAN • 300×250</span><p class="mt-2 text-xs font-semibold text-zinc-700 dark:text-zinc-200">Banner Pinggir Tengen (Nempel terus ning Ngisore Paling Rame Diwaca)</p></div>',
             1,
         ],
@@ -109,7 +115,7 @@ if ((int) $pdo->query("SELECT COUNT(*) FROM advertisements")->fetchColumn() === 
             'sidebar_article',
             'html',
             '',
-            'https://josjisnews.com/pasang-iklan',
+            'https://josjis.news/pasang-iklan',
             '<div class="flex flex-col items-center justify-center py-6 text-center"><span class="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-600">IKLAN • PINGGIR ARTIKEL (300×250)</span><p class="mt-2 text-xs font-semibold text-zinc-700 dark:text-zinc-200">Ketok Pas ning Sebelahe Kabar Pas Wong Lagi Asyik Maca</p></div>',
             1,
         ],
