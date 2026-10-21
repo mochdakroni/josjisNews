@@ -1,0 +1,76 @@
+name: Test & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_sqlite, sqlite3, mbstring, dom, fileinfo, openssl
+      - name: Lint
+        run: |
+          for f in router.php src/*.php database/*.php tests/*.php; do php -l "$f"; done
+      - name: End-to-end tests
+        run: php tests/run.php
+
+  deploy:
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production        # aktifkan "Required reviewers" di GitHub bila ingin persetujuan manual
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Siapkan SSH (host key dipin, tanpa StrictHostKeyChecking=no)
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Sinkronkan kode (tidak menyentuh .env, storage/, dan data server)
+        env:
+          HOST: ${{ secrets.DEPLOY_HOST }}
+          USER_: ${{ secrets.DEPLOY_USER }}
+          DEST: ${{ secrets.DEPLOY_PATH }}
+          PORT: ${{ secrets.DEPLOY_PORT }}
+        run: |
+          rsync -rlptz --delete --itemize-changes \
+            -e "ssh -i ~/.ssh/deploy_key -p ${PORT:-22} -o IdentitiesOnly=yes" \
+            --exclude '.git/' --exclude '.github/' --exclude '.env' --exclude 'storage/' \
+            --exclude 'tests/' --exclude 'legacy/' --exclude 'deploy/' --exclude '*.md' \
+            --exclude 'database/*.sqlite' --exclude 'database/seed_demo.php' \
+            ./ "${USER_}@${HOST}:${DEST}/"
+
+      - name: Cek kesehatan situs
+        env:
+          URL: ${{ secrets.DEPLOY_HEALTH_URL }}
+        run: |
+          for i in 1 2 3 4 5; do
+            if curl -fsS --max-time 15 "$URL" | grep -q '"status":"success"'; then echo "OK"; exit 0; fi
+            sleep 5
+          done
+          echo "Health check gagal: $URL"; exit 1

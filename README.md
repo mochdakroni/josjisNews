@@ -16,7 +16,7 @@ php -S 0.0.0.0:8080 router.php
 - Jika database belum ada, otomatis dibuat saat request pertama; sandi awal ada di
   `storage/data/INITIAL_ADMIN_PASSWORD.txt` (**hapus setelah login & ganti password**).
 
-Produksi: lihat [deploy/nginx.conf.example](deploy/nginx.conf.example) (Nginx + PHP-FPM), pasang HTTPS,
+Produksi & deploy otomatis (GitHub Actions → VPS): lihat [deploy/README.md](deploy/README.md); contoh konfigurasi: [deploy/nginx.conf.example](deploy/nginx.conf.example) (Nginx + PHP-FPM), pasang HTTPS,
 dan jadwalkan salinan berkala `storage/data/` dan `storage/uploads/`.
 
 ## Struktur
