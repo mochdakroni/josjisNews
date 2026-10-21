@@ -72,12 +72,12 @@
       <!-- Logo -->
       <div class="flex items-center gap-3">
         <a href="/" data-spa class="flex items-center gap-2.5 text-left group" aria-label="JosjisNews — Laman Ngarep">
-          <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 font-serif text-xl font-black text-white shadow-sm group-hover:bg-brand-700 transition-colors">J</span>
+          <span class="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-brand-600 font-serif text-lg sm:text-xl font-black text-white shadow-sm group-hover:bg-brand-700 transition-colors">J</span>
           <div class="flex flex-col">
-            <span class="font-serif text-2xl font-black tracking-tight text-zinc-900 dark:text-white leading-none">
+            <span class="font-serif text-xl sm:text-2xl font-black tracking-tight text-zinc-900 dark:text-white leading-none">
               JOSJIS<span class="text-brand-600">NEWS</span>
             </span>
-            <span class="mt-0.5 text-[11px] font-bold uppercase tracking-[0.22em] text-brand-600 dark:text-brand-500">
+            <span class="mt-0.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.22em] text-brand-600 dark:text-brand-500">
               Bloko Sutho
             </span>
           </div>
@@ -110,12 +110,37 @@
         >
           <span id="theme-icon">🌙</span>
         </button>
+
+        <!-- Menu hamburger (di bawah 1280px) -->
+        <button id="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Buka menu" aria-expanded="false" aria-controls="mobile-menu"
+          class="xl:hidden flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 hover:border-brand-600 transition-colors">
+          <svg id="menu-icon-open" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="menu-icon-close" class="hidden h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
       </div>
     </div>
-    <!-- Mobile: golek + kanal -->
-    <div class="xl:hidden border-t border-zinc-100 dark:border-zinc-900 px-4 py-2">
-      <input id="search-input-m" type="search" oninput="handleSearch(this.value)" aria-label="Golek kabar" placeholder="Golek kabar utawa topik..." class="sm:hidden mb-2 w-full rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/90 dark:bg-zinc-900 py-2 px-4 text-xs text-zinc-800 dark:text-zinc-200 focus:border-brand-600 focus:outline-none" />
-      <nav id="mobile-category-nav" aria-label="Kategori" class="flex gap-2 overflow-x-auto whitespace-nowrap pb-1"></nav>
+    <!-- Panel menu (hamburger) -->
+    <div id="mobile-menu" class="hidden xl:hidden border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 max-h-[calc(100vh-4.5rem)] overflow-y-auto overscroll-contain">
+      <div class="mx-auto max-w-7xl space-y-5 px-4 py-4 sm:px-6">
+        <div class="sm:hidden">
+          <input id="search-input-m" type="search" oninput="handleSearch(this.value)" onkeydown="if (event.key === 'Enter') setMenu(false)" aria-label="Golek kabar" placeholder="Golek kabar utawa topik..."
+            class="w-full rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/90 dark:bg-zinc-900 py-2.5 px-4 text-sm text-zinc-800 dark:text-zinc-200 placeholder-zinc-400 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20" />
+        </div>
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-400">Kanal</p>
+          <nav id="mobile-category-nav" aria-label="Kategori" class="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-2"></nav>
+        </div>
+        <div class="border-t border-zinc-100 dark:border-zinc-900 pt-4">
+          <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-400">Liyane</p>
+          <ul class="mt-2 grid grid-cols-1 gap-1 text-sm font-medium text-zinc-700 dark:text-zinc-200 sm:grid-cols-2">
+            <li><a href="/halaman/tentang" data-spa class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">Tentang Kami</a></li>
+            <li><a href="/halaman/redaksi" data-spa class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">Susunan Redaksi</a></li>
+            <li><a href="/halaman/pedoman-media-siber" data-spa class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">Patokan Media Siber</a></li>
+            <li><a href="/halaman/pasang-iklan" data-spa class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">Pasang Iklan</a></li>
+            <li><a href="/rss.xml" class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">RSS Feed</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -291,7 +316,7 @@
             </div>
 
             <!-- Article HTML Content -->
-            <div id="detail-content-body" class="text-[18px] leading-[1.85] text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500"></div>
+            <div id="detail-content-body" class="text-[18px] leading-[1.85] text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500 [&_img]:max-w-full [&_img]:h-auto [&_iframe]:max-w-full [&_video]:max-w-full [&_video]:h-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto break-words"></div>
 
             <!-- Related Tags -->
             <div id="detail-tags-wrapper" class="hidden mt-10 border-t border-zinc-200 dark:border-zinc-800 pt-6">
@@ -562,7 +587,12 @@
       `;
       nav.innerHTML = navHtml;
       const mnav = document.getElementById('mobile-category-nav');
-      if (mnav) mnav.innerHTML = navHtml;
+      if (mnav) {
+        const mItem = 'm-cat-btn flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900';
+        mnav.innerHTML = `<a href="/" data-spa data-cat="all" class="${mItem}">Kabeh</a>` + CATEGORIES.map(c =>
+          `<a href="/kanal/${escapeHtml(c.slug)}" data-spa data-cat="${escapeHtml(c.slug)}" class="${mItem}">${escapeHtml(c.name)}</a>`).join('');
+        setActiveCategoryButtons(typeof FEED !== 'undefined' && FEED.mode === 'category' ? FEED.value : 'all');
+      }
 
       if (footerList) {
         footerList.innerHTML = CATEGORIES.map(c => `
@@ -740,6 +770,11 @@
     }
 
     function setActiveCategoryButtons(slug) {
+      document.querySelectorAll('.m-cat-btn').forEach(btn => {
+        btn.className = btn.dataset.cat === slug
+          ? 'm-cat-btn flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50'
+          : 'm-cat-btn flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900';
+      });
       document.querySelectorAll('.cat-btn').forEach(btn => {
         btn.className = btn.dataset.cat === slug
           ? 'cat-btn whitespace-nowrap rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors'
@@ -981,9 +1016,31 @@
         '2': { cls: 'text-[22px] leading-[1.95]', label: 'Gedhe Banget (22px)' },
       };
       const cfg = map[String(currentFontStep)];
-      bodyEl.className = `${cfg.cls} text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500`;
+      bodyEl.className = `${cfg.cls} text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500 [&_img]:max-w-full [&_img]:h-auto [&_iframe]:max-w-full [&_video]:max-w-full [&_video]:h-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto break-words`;
       labelEl.textContent = cfg.label;
     }
+
+    // ---- Menu hamburger
+    function setMenu(open) {
+      const menu = document.getElementById('mobile-menu');
+      const btn = document.getElementById('menu-toggle');
+      if (!menu || !btn) return;
+      menu.classList.toggle('hidden', !open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+      document.getElementById('menu-icon-open').classList.toggle('hidden', open);
+      document.getElementById('menu-icon-close').classList.toggle('hidden', !open);
+      document.body.classList.toggle('overflow-hidden', open);
+    }
+    function toggleMenu() {
+      setMenu(document.getElementById('mobile-menu').classList.contains('hidden'));
+    }
+    document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') setMenu(false); });
+    window.addEventListener('resize', () => { if (window.innerWidth >= 1280) setMenu(false); });
+    document.addEventListener('click', (ev) => {
+      // Tutup menu setelah memilih tautan di dalamnya, atau klik di luar header
+      if (ev.target.closest('#mobile-menu a')) setMenu(false);
+    });
 
     function toggleTheme() {
       const root = document.documentElement;
