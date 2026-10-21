@@ -55,6 +55,19 @@ Gabungkan PR ke `main` (atau *Actions → Test & Deploy → Run workflow* dari `
 2. Ganti password, aktifkan **2FA**, hapus berkas sandi awal.
 3. Setelah semua staf mendaftarkan 2FA, setel `REQUIRE_2FA=1` di `.env` server.
 
+## Server yang sudah ada (tanpa instal ulang)
+Untuk server yang sudah menjalankan Nginx + PHP-FPM (mis. Ubuntu 16.04 + PHP 7.0), pakai `adopt-server.sh`
+sebagai ganti `server-setup.sh`. Skrip ini **tidak menulis ulang** konfigurasi secara membabi buta: ia mencadangkan
+Nginx lama, memakai sertifikat HTTPS yang sudah ada, menguji `nginx -t` + health check, dan memulihkan konfigurasi
+lama otomatis bila gagal. Folder situs lama tidak disentuh.
+
+```bash
+ssh -o StrictHostKeyChecking=accept-new root@SERVER "DEPLOY_PUBKEY='$(cat ~/.ssh/josjis_deploy.pub)' bash -s" < deploy/adopt-server.sh
+```
+
+Opsi lewat variabel lingkungan: `CODE_REF` (cabang yang dipasang, bawaan cabang PR), `DOMAIN`, `SERVER_NAMES`, `APP_DIR`, `OLD_DIR`.
+Setelah itu push berikutnya ke `main` men-deploy lewat GitHub Actions seperti biasa.
+
 ## Rollback
 `git revert <commit>` lalu push ke `main`, atau jalankan ulang workflow dari commit lama.
 
