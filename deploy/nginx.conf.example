@@ -2,7 +2,7 @@
 # berkas di disk TIDAK pernah disajikan langsung oleh Nginx.
 server {
     listen 80;
-    server_name josjisnews.com www.josjisnews.com;
+    server_name josjis.news www.josjis.news;
     root /var/www/josjisnews;
     client_max_body_size 110m;          # selaras dengan batas unggah video (100 MB)
 
@@ -19,4 +19,4 @@ server {
         fastcgi_param REQUEST_URI $request_uri;
     }
 }
-# Aktifkan HTTPS (certbot) lalu set di .env:  APP_URL=https://josjisnews.com  TRUSTED_PROXY=0
+# Aktifkan HTTPS (certbot) lalu set di .env:  APP_URL=https://josjis.news  TRUSTED_PROXY=0

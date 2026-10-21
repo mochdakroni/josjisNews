@@ -134,23 +134,23 @@ check('nama PT Sendhiko Dawuh Multiguna ada', strpos($r['body'], 'PT Sendhiko Da
 check('nama PT lama sudah hilang', stripos($r['body'], 'Josjis Media Nusantara') === false);
 
 echo "== Auth & rate limit\n";
-$r = http('POST', '/api/v1/admin/login', ['email' => 'admin@josjisnews.com', 'password' => 'password123']);
+$r = http('POST', '/api/v1/admin/login', ['email' => 'admin@josjis.news', 'password' => 'password123']);
 check('password lawas password123 ditolak', $r['code'] === 401);
 $r = http('GET', '/api/v1/admin/me');
 check('/admin/me tanpa login = 401', $r['code'] === 401);
 $r = http('GET', '/api/v1/admin/db-inspect');
 check('db-inspect tidak ada lagi', in_array($r['code'], [401, 404], true));
-$r = http('POST', '/api/v1/admin/login', ['email' => 'admin@josjisnews.com', 'password' => $pass]);
+$r = http('POST', '/api/v1/admin/login', ['email' => 'admin@josjis.news', 'password' => $pass]);
 check('login admin sukses', $r['code'] === 200 && !empty($r['json']['token']), $r['body']);
 $admin = $r['json']['token'] ?? '';
-$r = http('POST', '/api/v1/admin/articles', ['title' => 'x', 'category' => 'nasional'], ['Origin: http://evil.example'] + auth($admin));
+$r = http('POST', '/api/v1/admin/articles', ['title' => 'x', 'category' => 'event-komunitas'], ['Origin: http://evil.example'] + auth($admin));
 check('POST lintas-origin ditolak (CSRF)', $r['code'] === 403, (string) $r['code']);
 
 echo "== CMS & sanitasi XSS\n";
 $evil = '<p>Isi <strong>aman</strong></p><script>alert(1)</script><img src="x" onerror="alert(1)"><a href="javascript:alert(1)">klik</a>'
     . '<iframe src="https://evil.example/x"></iframe><iframe src="https://drive.google.com/file/d/1/preview"></iframe>';
 $r = http('POST', '/api/v1/admin/articles', [
-    'title' => 'Kabar Uji Coba Pertama', 'category' => 'nasional', 'status' => 'published',
+    'title' => 'Kabar Uji Coba Pertama', 'category' => 'event-komunitas', 'status' => 'published',
     'headline' => true, 'excerpt' => 'Ringkasan uji', 'body' => $evil, 'tags' => 'Jawa, Uji Coba',
 ], auth($admin));
 check('artikel tersimpan', $r['code'] === 200 && !empty($r['json']['id']), $r['body']);
@@ -167,7 +167,7 @@ check('iframe asing dibuang', strpos($body, 'evil.example') === false);
 check('iframe Google Drive dipertahankan', strpos($body, 'drive.google.com') !== false);
 check('teks aman dipertahankan', strpos($body, '<strong>aman</strong>') !== false);
 
-$r = http('POST', '/api/v1/admin/articles', ['title' => 'Draft Rahasia', 'category' => 'nasional', 'status' => 'draft', 'body' => '<p>rahasia</p>'], auth($admin));
+$r = http('POST', '/api/v1/admin/articles', ['title' => 'Draft Rahasia', 'category' => 'event-komunitas', 'status' => 'draft', 'body' => '<p>rahasia</p>'], auth($admin));
 $draftSlug = $r['json']['slug'] ?? '';
 $r = http('GET', '/api/v1/articles/' . $draftSlug);
 check('draft tidak bisa dibaca publik', $r['code'] === 404);
@@ -177,7 +177,7 @@ $r = http('GET', '/api/v1/articles?search=' . rawurlencode('%'));
 check('wildcard LIKE di-escape', ($r['json']['meta']['total'] ?? -1) === 0);
 
 $r = http('GET', '/api/v1/bootstrap');
-check('bootstrap publik tanpa data pengguna', !isset($r['json']['data']['users']) && strpos($r['body'], 'admin@josjisnews.com') === false);
+check('bootstrap publik tanpa data pengguna', !isset($r['json']['data']['users']) && strpos($r['body'], 'admin@josjis.news') === false);
 $r = http('GET', '/api/v1/bootstrap?mode=admin');
 check('bootstrap admin tanpa login = 401', $r['code'] === 401);
 
@@ -191,14 +191,14 @@ $jr = $r['json']['token'] ?? '';
 check('jurnalis bisa login', $jr !== '');
 $r = http('POST', '/api/v1/admin/users', ['name' => 'X', 'email' => 'x@uji.test', 'role' => 'super_admin', 'password' => 'Wartawan-2026x'], auth($jr));
 check('jurnalis tidak bisa buat user (403)', $r['code'] === 403);
-$r = http('POST', '/api/v1/admin/articles', ['title' => 'Tulisan Jurnalis', 'category' => 'nasional', 'status' => 'published', 'headline' => true, 'body' => '<p>isi</p>'], auth($jr));
+$r = http('POST', '/api/v1/admin/articles', ['title' => 'Tulisan Jurnalis', 'category' => 'event-komunitas', 'status' => 'published', 'headline' => true, 'body' => '<p>isi</p>'], auth($jr));
 check('jurnalis "publish" -> masuk review', ($r['json']['saved_status'] ?? '') === 'review', $r['body']);
 $jrSlug = $r['json']['slug'] ?? '';
 $r = http('GET', '/api/v1/articles/' . $jrSlug);
 check('artikel review belum tayang publik', $r['code'] === 404);
 $r = http('DELETE', '/api/v1/admin/articles/' . $artId, null, auth($jr));
 check('jurnalis tidak bisa hapus artikel orang lain', $r['code'] === 403);
-$r = http('POST', '/api/v1/admin/articles', ['id' => $artId, 'title' => 'Dibajak', 'category' => 'nasional', 'body' => '<p>x</p>'], auth($jr));
+$r = http('POST', '/api/v1/admin/articles', ['id' => $artId, 'title' => 'Dibajak', 'category' => 'event-komunitas', 'body' => '<p>x</p>'], auth($jr));
 check('jurnalis tidak bisa sunting artikel orang lain', $r['code'] === 403);
 $r = http('GET', '/api/v1/admin/audit-logs', null, auth($jr));
 check('audit log hanya super_admin', $r['code'] === 403);
@@ -255,7 +255,7 @@ $pgs = http('GET', '/halaman/tentang')['body'] . http('GET', '/rss.xml')['body']
 check('halaman statis/RSS/sitemap tidak memuat tautan admin', stripos($pgs, 'admin.html') === false);
 $r = http('GET', '/halaman/tentang');
 check('halaman Tentang memuat nama PT', strpos($r['body'], 'PT Sendhiko Dawuh Multiguna') !== false);
-$r = http('GET', '/kanal/nasional');
+$r = http('GET', '/kanal/event-komunitas');
 check('halaman kanal 200', $r['code'] === 200);
 
 echo "== Paginasi & trending\n";
@@ -291,7 +291,7 @@ $st->execute([$admin]);
 check('token sesi tidak disimpan mentah di DB (hanya hash)', (int) $st->fetchColumn() === 0);
 $st->execute([hash('sha256', $admin)]);
 check('hash token ada di DB', (int) $st->fetchColumn() === 1);
-$r = http('POST', '/api/v1/admin/articles', ['title' => 'Besar', 'category' => 'nasional', 'status' => 'draft', 'body' => str_repeat('a', 700000)], auth($admin));
+$r = http('POST', '/api/v1/admin/articles', ['title' => 'Besar', 'category' => 'event-komunitas', 'status' => 'draft', 'body' => str_repeat('a', 700000)], auth($admin));
 check('isi artikel kegedhen ditolak (413)', $r['code'] === 413, (string) $r['code']);
 $r = http('GET', '/');
 check('HSTS tidak dikirim via HTTP biasa', !isset($r['headers']['strict-transport-security']));
@@ -343,7 +343,7 @@ $base = $b2;
 register_shutdown_function(function () use ($pr2) {
     proc_terminate($pr2);
 });
-$r = http('POST', '/api/v1/admin/login', ['email' => 'admin@josjisnews.com', 'password' => $pass]);
+$r = http('POST', '/api/v1/admin/login', ['email' => 'admin@josjis.news', 'password' => $pass]);
 $adm = $r['json']['token'] ?? '';
 check('(tf) login admin tanpa 2FA', $adm !== '' && ($r['json']['must_enable_2fa'] ?? null) === false);
 $r = http('POST', '/api/v1/admin/users', ['name' => 'Editor Dua', 'email' => 'dua@uji.test', 'role' => 'editor', 'password' => 'Editor-Dua-2026x'], auth($adm));
@@ -484,12 +484,12 @@ register_shutdown_function(function () use ($pr3) {
     proc_terminate($pr3);
 });
 $base = $b3;
-$r = http('POST', '/api/v1/admin/login', ['email' => 'admin@josjisnews.com', 'password' => $pass]);
+$r = http('POST', '/api/v1/admin/login', ['email' => 'admin@josjis.news', 'password' => $pass]);
 $rq = $r['json']['token'] ?? '';
 check('(req) login sukses tapi must_enable_2fa=true', $rq !== '' && ($r['json']['must_enable_2fa'] ?? false) === true);
 $r = http('GET', '/api/v1/bootstrap?mode=admin', null, auth($rq));
 check('(req) data admin diblokir sampai 2FA aktif (403 2fa_setup_required)', $r['code'] === 403 && ($r['json']['code'] ?? '') === '2fa_setup_required', $r['body']);
-$r = http('POST', '/api/v1/admin/articles', ['title' => 'x', 'category' => 'nasional', 'body' => '<p>x</p>'], auth($rq));
+$r = http('POST', '/api/v1/admin/articles', ['title' => 'x', 'category' => 'event-komunitas', 'body' => '<p>x</p>'], auth($rq));
 check('(req) menulis artikel diblokir', $r['code'] === 403);
 $r = http('GET', '/api/v1/admin/me', null, auth($rq));
 check('(req) /me tetap bisa (UI perlu tahu status)', $r['code'] === 200 && ($r['json']['user']['two_factor_required'] ?? false) === true);

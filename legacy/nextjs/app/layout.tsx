@@ -21,11 +21,11 @@ const merriweather = Merriweather({
 
 export const metadata: Metadata = {
   title: {
-    default: 'JosjisNews — Portal Kabar Wong Jawa, Cetha, Mandhiri & Kenek Dipercaya',
-    template: '%s | JosjisNews',
+    default: 'JosjisNews — Bloko Sutho | Event Komunitas, Personal Branding, Lifestyle & Seputar Gen Z',
+    template: '%s | JosjisNews — Bloko Sutho',
   },
   description:
-    'Portal kabar digital mandhiri sing nyuguhke berita nganggo data cetha, kupasan jero, karo info paling anyar sing bener, blaka, lan ora berat sebelah.',
+    'JosjisNews (Bloko Sutho) — Portal kabar digital sing ngrembug event-event komunitas, personal branding, lifestyle, lan seputar Gen Z nganggo basa Jawa ngoko.',
 };
 
 export default async function RootLayout({

@@ -21,7 +21,7 @@ function static_pages()
 
     return [
         'tentang' => ['Tentang Kami', "
-<p><strong>{$n}</strong> iku portal kabar digital sing nyuguhake berita nganggo basa Jawa ngoko. Pedoman kita cekak: <em>" . e($s['tagline']) . "</em> — blaka, cetha, lan ora ngapusi pamaca.</p>
+<p><strong>{$n}</strong> iku portal kabar digital sing ngrembug <strong>event komunitas, personal branding, lifestyle, lan seputar Gen Z</strong> nganggo basa Jawa ngoko. Pedoman kita cekak: <em>" . e($s['tagline']) . "</em> — blaka, cetha, lan ora ngapusi pamaca.</p>
 <p>{$n} diterbitake lan dikelola dening <strong>{$co}</strong>.</p>
 <h2>Visi</h2>
 <p>Dadi sumber kabar basa Jawa sing bisa dipercaya, gampang diwaca, lan cedhak karo uripe wong akeh.</p>
@@ -178,7 +178,7 @@ function public_site_for_js()
 function page_home()
 {
     render_shell([
-        'title' => site()['name'] . ' — ' . site()['tagline'] . ': Portal Kabar Jawa Ngoko',
+        'title' => site()['name'] . ' — ' . site()['tagline'] . ' | Event Komunitas, Personal Branding, Lifestyle & Seputar Gen Z',
         'path'  => '/',
     ], ['type' => 'home']);
 }

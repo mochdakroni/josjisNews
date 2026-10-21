@@ -27,9 +27,10 @@ export default function Footer({ categories }: FooterProps) {
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-zinc-400">
-              Portal kabar digital mandhiri sing nyuguhke berita nganggo data
-              cetha, kupasan jero, karo info paling anyar sing bener, blaka, lan
-              ora berat sebelah.
+              <strong className="text-white">Bloko Sutho</strong> — Portal kabar
+              digital mandhiri sing ngrembug event-event komunitas, personal
+              branding, lifestyle (gaya urip), lan seputar bocah Gen Z nganggo
+              basa Jawa ngoko sing blaka, asik, lan ora ditutup-tutupi.
             </p>
             <div className="flex items-center gap-3 pt-1">
               <a
@@ -150,7 +151,7 @@ export default function Footer({ categories }: FooterProps) {
         {/* Bottom Copyright */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-zinc-800/80 pt-6 text-xs text-zinc-500 sm:flex-row">
           <p>© {currentYear} PT Sendhiko Dawuh Multiguna. Kabeh Hak Cipta Dilindhungi Undang-Undang.</p>
-          <p>Disengkuyung karo Laravel 11 REST API & Next.js App Router</p>
+          <p>JosjisNews — Bloko Sutho</p>
         </div>
       </div>
     </footer>

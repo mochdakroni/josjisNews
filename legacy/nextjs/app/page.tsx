@@ -34,9 +34,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     trendingArticles,
     popularTags,
     latestArticlesResponse,
-    politikResponse,
-    teknologiResponse,
-    bisnisResponse,
+    komunitasResponse,
+    brandingResponse,
+    lifestyleResponse,
+    genzResponse,
   ] = await Promise.all([
     getHeadlineArticles(),
     getTrendingArticles(48, 5),
@@ -48,26 +49,27 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       tag: activeTag,
       search: searchQuery,
     }),
-    getArticles({ category: 'politik', per_page: 4 }),
-    getArticles({ category: 'teknologi', per_page: 4 }),
-    getArticles({ category: 'bisnis', per_page: 4 }),
+    getArticles({ category: 'event-komunitas', per_page: 4 }),
+    getArticles({ category: 'personal-branding', per_page: 4 }),
+    getArticles({ category: 'lifestyle', per_page: 4 }),
+    getArticles({ category: 'seputar-gen-z', per_page: 4 }),
   ]);
 
   const categorySpotlights: CategorySpotItem[] = [
     {
-      title: 'Politik & Hukum',
-      slug: 'politik',
-      articles: politikResponse.data,
+      title: 'Event & Komunitas',
+      slug: 'event-komunitas',
+      articles: komunitasResponse.data,
     },
     {
-      title: 'Teknologi & Sains',
-      slug: 'teknologi',
-      articles: teknologiResponse.data,
+      title: 'Personal Branding',
+      slug: 'personal-branding',
+      articles: brandingResponse.data,
     },
     {
-      title: 'Ekonomi & Bisnis',
-      slug: 'bisnis',
-      articles: bisnisResponse.data,
+      title: 'Lifestyle & Seputar Gen Z',
+      slug: 'seputar-gen-z',
+      articles: genzResponse.data.length > 0 ? genzResponse.data : lifestyleResponse.data,
     },
   ];
 

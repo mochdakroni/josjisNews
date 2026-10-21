@@ -108,8 +108,8 @@ function hydrate_articles(PDO $pdo, array $rows, $admin = false, $withBody = tru
             ];
             $item['category'] = [
                 'id'   => (int) $row['category_id'],
-                'name' => $row['category_name'] ?? 'Nasional',
-                'slug' => $row['category_slug'] ?? 'nasional',
+                'name' => $row['category_name'] ?? 'Event & Komunitas',
+                'slug' => $row['category_slug'] ?? 'event-komunitas',
             ];
         }
         $out[] = $item;

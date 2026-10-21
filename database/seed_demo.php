@@ -21,43 +21,43 @@ $note = '<p><em>Catetan: artikel iki conto fiktif kanggo uji coba tampilan, dudu
 
 // [judul, kategori(slug), tags, headline, status, jam kepungkur, views, excerpt, isi]
 $articles = [
-    ['Pasar Tradisional Solo Saiki Wiwit Nganggo QRIS', 'bisnis', 'UMKM, Solo, QRIS', 1, 'published', 2, 1840,
-        'Pedagang pasar mulai ninggalake dhuwit tunai lan nampa pembayaran digital saka pamaca.',
-        '<p>Ing pirang-pirang pasar tradisional Solo, pedagang saiki padha nempelake kode QRIS ing lapak. Pembeli mung kudu mindai kode, lan dhuwit langsung mlebu rekening.</p><h2>Kenapa pedagang gelem pindhah?</h2><p>Jare para pedagang, pembayaran digital nyuda risiko kembalian sing kleru lan ngirit wektu nalika pasar lagi rame. Sawetara malah wiwit nampa pesenan liwat WhatsApp.</p><blockquote>Biyen kudu nyepak recehan, saiki cukup ndeleng layar ponsel.</blockquote><h2>Tantangan sing isih ana</h2><ul><li>Sinyal internet ing sawetara blok pasar isih kurang stabil.</li><li>Pedagang sepuh butuh pendhampingan nggunakake aplikasi.</li><li>Biaya transaksi isih dadi pitakonan para pedagang cilik.</li></ul>'],
+    ['Kopdar Komunitas Fotografi Solo Ngumpulake Atusan Pamotret Enom', 'event-komunitas', 'Komunitas, Fotografi, Solo', 1, 'published', 2, 1840,
+        'Pamotret enom saka sawetara kutha nglumpuk kanggo hunting bareng lan tuku-tukar ilmu.',
+        '<p>Atusan pamotret enom nglumpuk ing alun-alun kutha dina Minggu esuk kanggo kopdar komunitas fotografi. Acara iki diwiwiti hunting bareng, banjur dilanjutake sesi tukar ilmu.</p><h2>Isi acara</h2><ul><li>Hunting foto jalanan bareng mentor.</li><li>Sesi kurasi karya lan masukan.</li><li>Pameran cilik karya peserta.</li></ul><blockquote>Kene kita ora saingan, kita sinau bareng.</blockquote><p>Panitia nyebut acara bakal diadakake saben telung sasi.</p>'],
 
-    ['Persis Solo Menang Tipis Ing Kandhang Dhewe', 'olahraga', 'Bal-balan, Persis', 1, 'published', 5, 1420,
-        'Gol ing menit pungkasan nggawa telung poin wigati kanggo tim tuan rumah.',
-        '<p>Stadion kebak ing dina Setu bengi nalika tim tuan rumah mungkasi pertandhingan kanthi skor 1-0. Gol tunggal lahir ing menit 89 saka sundulan gelandang tengah.</p><h2>Jalane pertandhingan</h2><p>Paruh pisanan dikuwasani tim tamu, nanging kiper tuan rumah bisa njaga gawang. Sawise rehat, tempo mundhak lan peluang saya akeh.</p><p>Pelatih ngakoni tim isih kudu nandhingi penyelesaian akhir, nanging bungah merga poin kebak bisa dijaga.</p>'],
+    ['Festival Zine Lokal: Karya Bocah Enom Dipamerke Ing Kafe Kampus', 'event-komunitas', 'Zine, Seni, Kampus', 1, 'published', 6, 1320,
+        'Puluhan zine buatan tangan dipamerke lan didol kanthi rega ramah kanggo mahasiswa.',
+        '<p>Festival zine lokal ngumpulake kreator saka macem-macem kampus. Zine sing dipamerke ngrembug saka kuliner, musik, nganti curhatan urip kampus.</p><h2>Kenapa zine isih rame?</h2><p>Para kreator rumangsa zine menehi ruang bebas tanpa algoritma. Saben lembar dibuat dhewe, dadi duwe rasa pribadi.</p>'],
 
-    ['Aplikasi Seluler Mbantu Petani Ngramal Wektu Panen', 'teknologi', 'Pertanian, Aplikasi', 0, 'published', 9, 960,
-        'Data cuaca lan kahanan lemah dipadhukake supaya petani bisa milih wektu panen sing paling pas.',
-        '<p>Sekelompok pangembang lokal nggawe aplikasi sing nggunakake data cuaca lan sensor lemah kanggo ngramal wektu panen. Petani mung kudu ngisi jinis tanduran lan tanggal tandur.</p><h2>Cara kerjane</h2><ol><li>Petani ndhaftar lan milih lahan.</li><li>Aplikasi njupuk ramalan cuaca lan data lemah.</li><li>Notifikasi dikirim nalika wektu panen wis cedhak.</li></ol><p>Uji coba ing patang desa nuduhake panen luwih sithik sing rusak merga udan.</p>'],
+    ['Cara Mbangun Portofolio Online Sing Gampang Dicolong Mripate Recruiter', 'personal-branding', 'Portofolio, Karir, Tips', 1, 'published', 9, 2210,
+        'Telung kesalahan umum ing portofolio lan carane ndandani supaya luwih menonjol.',
+        '<p>Portofolio sing apik ora kudu ruwet. Sing penting yaiku nuduhake proses lan asil kanthi cetha.</p><h2>Telung kesalahan umum</h2><ol><li>Kakehan karya tanpa cerita.</li><li>Ora ana kontak sing gampang ditemokake.</li><li>Ora diperbarui nganti pirang-pirang taun.</li></ol><p>Pilih lima karya paling apik, jlentrehake masalahe, solusi sampeyan, lan hasile.</p>'],
 
-    ['Prototipe Mobil Listrik Lokal Wiwit Dites Ing Dalan Raya', 'otomotif', 'EV, Mobil Listrik', 1, 'published', 14, 2210,
-        'Telung kutha dadi lokasi uji dalan prototipe kendaraan listrik buatan dalam negeri.',
-        '<p>Prototipe mobil listrik sing digarap tim insinyur lokal wiwit dites ing dalan umum. Tes dilakoni ing telung kutha kanggo ngukur daya tahan baterai lan kenyamanan.</p><h2>Spesifikasi cekak</h2><ul><li>Jarak tempuh tes: kira-kira 300 km sapisan ngecas.</li><li>Ngecas cepet: 30 menit nganti 80 persen.</li><li>Kapasitas penumpang: lima wong.</li></ul><p>Tim isih nglumpukake masukan sadurunge nemtokake jadwal produksi.</p>'],
+    ['Personal Branding Ora Padha Karo Pamer: Cara Tampil Jujur Ing Medsos', 'personal-branding', 'Medsos, Branding', 0, 'published', 14, 960,
+        'Mbangun citra dhiri bisa tetep blaka tanpa kudu pura-pura sempurna.',
+        '<p>Akeh wong ngira personal branding tegese pamer. Nyatane, branding sing kuwat biasane lair saka konsistensi lan kejujuran.</p><h2>Prinsip prasaja</h2><ul><li>Cerita proses, ora mung asil.</li><li>Konsisten ing nada lan topik.</li><li>Akoni yen lagi sinau.</li></ul>'],
 
-    ['Anggaran Desa Dibukak Online, Warga Bisa Melu Ngawasi', 'nasional', 'Desa, Transparansi', 0, 'published', 20, 530,
-        'Pemerintah desa nayangake rincian anggaran ing situs supaya warga gampang nyemak.',
-        '<p>Sawetara pemerintah desa ing Jawa Tengah wiwit nayangake rincian anggaran lan realisasi ing situs resmi. Warga bisa ndeleng dhuwit digunakake kanggo apa wae saben sasi.</p><h2>Kenapa penting</h2><p>Keterbukaan informasi dianggep bisa nyuda salah paham lan nambah kapercayan warga marang perangkat desa.</p>'],
+    ['Warung Kopi Susu Kekinian Ing Gang Cilik Dadi Rebutan Bocah Nongkrong', 'lifestyle', 'Kuliner, Nongkrong, Kopi', 0, 'published', 20, 1530,
+        'Warung cilik karo menu kopi susu aren iki ora tau sepi, utamane nalika wayah sore.',
+        '<p>Ing sawijining gang cilik, warung kopi susu iki saben sore kebak bocah enom. Menu andalane kopi susu aren karo rega sing ora nggawe kantong jebol.</p><h2>Apa sing digoleki wong?</h2><p>Akeh sing ngaku teka ora mung kanggo ngopi, nanging kanggo golek panggonan sing nyaman kanggo ngobrol lan nggarap tugas.</p>'],
 
-    ['Rapat Dewan Mbahas Aturan Anyar Babagan Parkir Kutha', 'politik', 'Dewan, Parkir', 0, 'published', 30, 410,
-        'Rancangan aturan parkir kutha dibahas, kalebu tarif lan pengelolaan lahan parkir.',
-        '<p>Dewan perwakilan daerah miwiti pembahasan rancangan aturan parkir kutha. Sing dibahas yaiku tarif, pengelolaan lahan, lan pengawasan juru parkir.</p><p>Sawetara fraksi njaluk supaya masyarakat dilibatake sadurunge aturan disahake.</p>'],
+    ['Thrifting Ora Mung Murah: Cara Milih Klambi Bekas Sing Isih Apik', 'lifestyle', 'Fashion, Thrifting', 0, 'published', 30, 780,
+        'Tips prasaja kanggo thrifting: priksa jahitan, bahan, lan ukuran sadurunge nawar.',
+        '<p>Thrifting dadi tren amarga rega lan model sing ora padha karo liyane. Nanging ora kabeh klambi bekas pantes dituku.</p><h2>Telung cek cepet</h2><ol><li>Priksa jahitan lan kancing.</li><li>Ambu bahane, mesthekake ora apek.</li><li>Cobak nganggo sadurunge nawar.</li></ol>'],
 
-    ['Cara Gampang Ngatur Dhuwit Saben Sasi Kanggo Keluarga Enom', 'bisnis', 'Keuangan, Tips', 0, 'published', 52, 780,
-        'Telung langkah prasaja kanggo ngatur pemasukan, tabungan, lan pengeluaran rutin.',
-        '<p>Ngatur dhuwit ora kudu ruwet. Mulai saka nyathet pemasukan lan pengeluaran, banjur pisahake dhuwit kanggo kebutuhan, tabungan, lan keinginan.</p><h2>Telung langkah</h2><ol><li>Nyathet kabeh pengeluaran sak sasi.</li><li>Nyisihake tabungan sanalika gajian.</li><li>Nyetel bates belanja kanggo kebutuhan sing ora wajib.</li></ol>'],
+    ['Gen Z Ngomongake Kesehatan Mental: Saka Tabu Dadi Obrolan Biasa', 'seputar-gen-z', 'Gen Z, Kesehatan Mental', 0, 'published', 52, 1105,
+        'Bocah enom saya kendel rembugan babagan stres lan kesehatan mental karo kanca-kancane.',
+        '<p>Yen sadurunge kesehatan mental dianggep tabu, saiki akeh Gen Z sing kendel nyritakake pengalamane ing medsos lan komunitas.</p><h2>Apa sing owah?</h2><p>Akses informasi lan komunitas dukungan online mbantu bocah enom ngerti yen ora sepi dhewe. Nanging para ahli ngelingake supaya tetep golek bantuan profesional yen perlu.</p>'],
 
-    ['Atlet Pelajar Jawa Tengah Nyabet Medali Emas Ing Kejuaraan Atletik', 'olahraga', 'Atletik, Pelajar', 0, 'published', 70, 365,
-        'Pelari 400 meter nyetel rekor pribadi anyar ing kejuaraan tingkat nasional.',
-        '<p>Atlet pelajar saka Jawa Tengah nyabet medali emas nomer lari 400 meter. Waktune luwih cepet rong detik tinimbang rekor pribadine sadurunge.</p><p>Pelatih ngandharake latihan rutin esuk lan sore dadi kunci keberhasilan.</p>'],
+    ['Konten Kreator Enom Wiwit Nyambut Gawe Bareng Lewat Kolaborasi Lintas Kutha', 'event-komunitas', 'Kolaborasi, Kreator', 0, 'published', 70, 365,
+        'Kolaborasi online lan offline mbantu kreator cilik nggedhekake audiens bareng-bareng.',
+        '<p>Sawetara kreator konten enom nggawe proyek kolaborasi lintas kutha. Dheweke gantian dadi tuan rumah lan nggawe konten bareng.</p><p>Manut para kreator, kolaborasi luwih migunani tinimbang saingan, amarga audiens bisa kenal karo kreator liyane.</p>'],
 
-    ['Draf: Liputan Khusus Festival Gamelan Taunan', 'nasional', 'Budaya, Gamelan', 0, 'draft', 1, 0,
-        'Catetan awal liputan festival gamelan (durung rampung, isih draf).',
+    ['Draf: Liputan Khusus Festival Musik Indie Taunan', 'event-komunitas', 'Musik, Festival', 0, 'draft', 1, 0,
+        'Catetan awal liputan festival musik indie (durung rampung, isih draf).',
         '<p>Draf liputan, isih dikumpulake wawancarane.</p>'],
 
-    ['Review: Konten Menunggu Persetujuan Editor', 'teknologi', 'Review', 0, 'review', 1, 0,
+    ['Review: Konten Menunggu Persetujuan Editor', 'lifestyle', 'Review', 0, 'review', 1, 0,
         'Contoh artikel sing lagi nunggu review editor.',
         '<p>Artikel iki dikirim jurnalis lan lagi nunggu persetujuan editor.</p>'],
 ];

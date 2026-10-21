@@ -79,12 +79,12 @@ function site()
             'tagline'     => env('SITE_TAGLINE', 'Bloko Sutho'),
             'company'     => env('COMPANY_NAME', 'PT Sendhiko Dawuh Multiguna'),
             'url'         => rtrim((string) env('APP_URL', ''), '/'),
-            'email'       => env('CONTACT_EMAIL', 'redaksi@josjisnews.com'),
-            'ads_email'   => env('ADS_EMAIL', 'iklan@josjisnews.com'),
+            'email'       => env('CONTACT_EMAIL', 'redaksi@josjis.news'),
+            'ads_email'   => env('ADS_EMAIL', 'iklan@josjis.news'),
             'phone'       => env('CONTACT_PHONE', ''),
             'address'     => env('CONTACT_ADDRESS', ''),
             'editor_in_chief' => env('EDITOR_IN_CHIEF', ''),
-            'description' => 'Portal kabar digital nganggo basa Jawa ngoko: cetha, blaka, lan keneng dipercaya.',
+            'description' => 'JosjisNews (Bloko Sutho): portal kabar digital sing ngrembug event komunitas, personal branding, lifestyle, lan seputar Gen Z nganggo basa Jawa ngoko sing blaka lan gampang dimangerteni.',
             'year'        => (int) date('Y'),
         ];
     }

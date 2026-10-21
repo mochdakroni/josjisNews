@@ -204,18 +204,16 @@ function josjis_build_database($path, $adminPassword = null)
     if (!$adminPassword) {
         $adminPassword = bin2hex(random_bytes(9));
     }
-    $adminEmail = strtolower((string) env('ADMIN_EMAIL', 'admin@josjisnews.com'));
+    $adminEmail = strtolower((string) env('ADMIN_EMAIL', 'admin@josjis.news'));
 
     $pdo->prepare("INSERT INTO users (id, name, email, email_verified_at, password, role, bio) VALUES (1, ?, ?, datetime('now'), ?, 'super_admin', ?)")
         ->execute(['Administrator Redaksi', $adminEmail, hash_password($adminPassword), 'Akun administrator utama ' . site()['name'] . '.']);
 
     $categories = [
-        [1, 'Nasional', 'nasional', 'Kabar kedadeyan nasional, aturan pemerintah, lan pembangunan daerah.'],
-        [2, 'Politik & Hukum', 'politik', 'Kabar parlemen, pemerintahan, aturan hukum, lan politik.'],
-        [3, 'Ekonomi & Bisnis', 'bisnis', 'Kabar ekonomi, dagang, perbankan, investasi, lan usaha rakyat.'],
-        [4, 'Teknologi & Sains', 'teknologi', 'Info teknologi anyar, internet, gadget, lan inovasi digital.'],
-        [5, 'Otomotif & EV', 'otomotif', 'Info dunia otomotif, motor, mobil listrik, lan tunggangan anyar.'],
-        [6, 'Olahraga', 'olahraga', 'Kabar bal-balan lan pertandingan olahraga nasional utawa internasional.'],
+        [1, 'Event & Komunitas', 'event-komunitas', 'Kabar acara seru, kopdar, kolaborasi, lan kegiatan komunitas kreatif.'],
+        [2, 'Personal Branding', 'personal-branding', 'Tips mbangun citra dhiri, karir, portofolio, lan cara tampil beda nang era digital.'],
+        [3, 'Lifestyle', 'lifestyle', 'Gaya urip kekinian, nongkrong, kuliner, fashion, lan tren saben dina.'],
+        [4, 'Seputar Gen Z', 'seputar-gen-z', 'Rembugan bloko sutho babagan bocah Gen Z, tren medsos, kesehatan mental, lan pop culture.'],
     ];
     $st = $pdo->prepare('INSERT INTO categories (id, name, slug, description, is_active) VALUES (?,?,?,?,1)');
     foreach ($categories as $c) {
