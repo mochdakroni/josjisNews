@@ -1,0 +1,22 @@
+# Nginx + PHP-FPM untuk JosjisNews. Semua request masuk ke router.php;
+# berkas di disk TIDAK pernah disajikan langsung oleh Nginx.
+server {
+    listen 80;
+    server_name josjis.news www.josjis.news;
+    root /var/www/josjisnews;
+    client_max_body_size 110m;          # selaras dengan batas unggah video (100 MB)
+
+    # Blokir akses langsung ke berkas sensitif (pertahanan berlapis)
+    location ~ /\.(?!well-known) { deny all; }
+    location ~ ^/(src|database|storage/data|legacy|tests|deploy)/ { deny all; }
+    location ~ \.(sqlite|sql|env)$ { deny all; }
+
+    location / {
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/router.php;
+        fastcgi_param SCRIPT_NAME /router.php;
+        fastcgi_param REQUEST_URI $request_uri;
+    }
+}
+# Aktifkan HTTPS (certbot) lalu set di .env:  APP_URL=https://josjis.news  TRUSTED_PROXY=0

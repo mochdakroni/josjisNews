@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JosjisNews — Bloko Sutho | Event Komunitas, Personal Branding, Lifestyle & Seputar Gen Z</title>
-  <meta name="description" content="JosjisNews (Bloko Sutho) — Portal kabar digital sing ngrembug event komunitas, personal branding, lifestyle, lan seputar Gen Z nganggo basa Jawa ngoko sing blaka lan gampang ditempa." />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="JosjisNews — Bloko Sutho" />
-  <meta property="og:site_name" content="JosjisNews" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <link rel="canonical" href="https://josjis.news/" />
+  <!--SEO:START--><title>JosjisNews — Bloko Sutho</title><!--SEO:END-->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#e11d48" />
 
   <!-- Google Fonts: Inter & Merriweather -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,17 +47,9 @@
     };
   </script>
 
-  <!-- JSON-LD Structured Data -->
-  <script id="json-ld-seo" type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "NewsMediaOrganization",
-    "name": "JosjisNews",
-    "url": "https://josjisnews.com/"
-  }
-  </script>
 </head>
 <body class="min-h-screen flex flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased selection:bg-brand-600 selection:text-white transition-colors duration-200">
+  <noscript><div class="mx-auto max-w-3xl p-6"><!--NOSCRIPT--></div></noscript>
 
   <!-- TOP STICKY NAVBAR -->
   <header class="sticky top-0 z-50 border-b border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md">
@@ -70,11 +58,11 @@
       <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <span id="current-date-label"></span>
         <div class="flex items-center gap-4">
-          <button onclick="switchView('home')" class="hover:text-brand-600 font-medium transition-colors">Laman Ngarep</button>
+          <a href="/" data-spa class="hover:text-brand-600 font-medium transition-colors">Laman Ngarep</a>
           <span>•</span>
-          <a href="#pedoman-media-siber" class="hover:text-brand-600 transition-colors">Patokan Media Siber</a>
+          <a href="/halaman/pedoman-media-siber" data-spa class="hover:text-brand-600 transition-colors">Patokan Media Siber</a>
           <span>•</span>
-          <a href="/admin.html" class="hover:text-brand-600 font-semibold transition-colors">Dapur Redaksi / CMS</a>
+          <a href="/rss.xml" class="hover:text-brand-600 transition-colors">RSS</a>
         </div>
       </div>
     </div>
@@ -83,22 +71,22 @@
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
       <!-- Logo -->
       <div class="flex items-center gap-3">
-        <button onclick="switchView('home')" class="flex items-center gap-2.5 text-left group">
-          <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 font-serif text-xl font-black text-white shadow-sm group-hover:bg-brand-700 transition-colors">J</span>
+        <a href="/" data-spa class="flex items-center gap-2.5 text-left group" aria-label="JosjisNews — Laman Ngarep">
+          <span class="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-brand-600 font-serif text-lg sm:text-xl font-black text-white shadow-sm group-hover:bg-brand-700 transition-colors">J</span>
           <div class="flex flex-col">
-            <span class="font-serif text-2xl font-black tracking-tight text-zinc-900 dark:text-white leading-none">
+            <span class="font-serif text-xl sm:text-2xl font-black tracking-tight text-zinc-900 dark:text-white leading-none">
               JOSJIS<span class="text-brand-600">NEWS</span>
             </span>
-            <span class="mt-0.5 text-[10px] font-bold uppercase tracking-[0.22em] text-brand-600 dark:text-brand-500">
+            <span class="mt-0.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.22em] text-brand-600 dark:text-brand-500">
               Bloko Sutho
             </span>
           </div>
-        </button>
+        </a>
       </div>
 
       <!-- Category Navigation -->
-      <nav aria-label="Kategori Utama" class="hidden lg:flex items-center gap-1" id="desktop-category-nav">
-        <button onclick="filterByCategory('all')" data-cat="all" class="cat-btn rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors">Kabeh</button>
+      <nav aria-label="Kategori Utama" class="hidden xl:flex items-center gap-1" id="desktop-category-nav">
+        <button onclick="filterByCategory('all')" data-cat="all" class="cat-btn whitespace-nowrap rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors">Kabeh</button>
       </nav>
 
       <!-- Search + Dark/Light Mode -->
@@ -107,7 +95,7 @@
           <input
             id="search-input"
             type="search"
-            oninput="handleSearch(this.value)"
+            oninput="handleSearch(this.value)" aria-label="Golek kabar"
             placeholder="Golek kabar utawa topik..."
             class="w-48 lg:w-60 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/90 dark:bg-zinc-900 py-1.5 pl-9 pr-4 text-xs text-zinc-800 dark:text-zinc-200 placeholder-zinc-400 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20 transition-all"
           />
@@ -122,6 +110,36 @@
         >
           <span id="theme-icon">🌙</span>
         </button>
+
+        <!-- Menu hamburger (di bawah 1280px) -->
+        <button id="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Buka menu" aria-expanded="false" aria-controls="mobile-menu"
+          class="xl:hidden flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 hover:border-brand-600 transition-colors">
+          <svg id="menu-icon-open" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="menu-icon-close" class="hidden h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- Panel menu (hamburger) -->
+    <div id="mobile-menu" class="hidden xl:hidden border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 max-h-[calc(100vh-4.5rem)] overflow-y-auto overscroll-contain">
+      <div class="mx-auto max-w-7xl space-y-5 px-4 py-4 sm:px-6">
+        <div class="sm:hidden">
+          <input id="search-input-m" type="search" oninput="handleSearch(this.value)" onkeydown="if (event.key === 'Enter') setMenu(false)" aria-label="Golek kabar" placeholder="Golek kabar utawa topik..."
+            class="w-full rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/90 dark:bg-zinc-900 py-2.5 px-4 text-sm text-zinc-800 dark:text-zinc-200 placeholder-zinc-400 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20" />
+        </div>
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-400">Kanal</p>
+          <nav id="mobile-category-nav" aria-label="Kategori" class="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-2"></nav>
+        </div>
+        <div class="border-t border-zinc-100 dark:border-zinc-900 pt-4">
+          <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-400">Liyane</p>
+          <ul class="mt-2 grid grid-cols-1 gap-1 text-sm font-medium text-zinc-700 dark:text-zinc-200 sm:grid-cols-2">
+            <li><a href="/halaman/tentang" data-spa class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">Tentang Kami</a></li>
+            <li><a href="/halaman/redaksi" data-spa class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">Susunan Redaksi</a></li>
+            <li><a href="/halaman/pedoman-media-siber" data-spa class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">Patokan Media Siber</a></li>
+            <li><a href="/halaman/pasang-iklan" data-spa class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">Pasang Iklan</a></li>
+            <li><a href="/rss.xml" class="block rounded-xl px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-900">RSS Feed</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>
@@ -150,13 +168,8 @@
       <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 dark:bg-brand-950/60 text-brand-600 text-2xl font-serif font-black">J</div>
       <h1 class="mt-4 font-serif text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">Durung Ana Kabar Sing Ditayangke</h1>
       <p class="mx-auto mt-2 max-w-md text-sm text-zinc-500 dark:text-zinc-400">
-        Database saiki wis resik tenan. Ayo ndang nulis lan tayangke kabar pertamamu lewat Dapur Admin CMS.
+        Kabar anyar bakal ditayangke sedhela maneh. Mangga bali mengko.
       </p>
-      <div class="mt-6 flex justify-center gap-3">
-        <a href="/admin.html" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700 transition-colors">
-          ✍️ Nulis Kabar Nang Dapur Admin →
-        </a>
-      </div>
     </section>
 
     <!-- CONTENT WRAPPER (Ketok yen wis ana berita nang database) -->
@@ -188,6 +201,9 @@
           </div>
 
           <div id="latest-feed-list" class="divide-y divide-zinc-200/70 dark:divide-zinc-800/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 p-4 sm:p-5 shadow-sm"></div>
+          <div class="mt-4 text-center">
+            <button id="load-more-btn" onclick="loadFeed(false)" class="hidden rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-6 py-2 text-xs font-bold hover:border-brand-600 hover:text-brand-600 disabled:opacity-50 transition-colors">Muat Kabar Liyane ↓</button>
+          </div>
         </section>
 
         <!-- SLOT IKLAN 2: IN-FEED BERANDA (infeed_home) -->
@@ -230,14 +246,14 @@
     <!-- Top Back Button & Breadcrumb -->
     <div class="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-4">
       <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-        <button onclick="switchView('home')" class="hover:text-brand-600 transition-colors">Laman Ngarep</button>
+        <a href="/" data-spa class="hover:text-brand-600 transition-colors">Laman Ngarep</a>
         <span>›</span>
         <span id="detail-breadcrumb-cat" class="font-semibold text-brand-600"></span>
         <span>›</span>
         <span id="detail-breadcrumb-title" class="line-clamp-1 max-w-xs sm:max-w-md text-zinc-700 dark:text-zinc-300"></span>
       </nav>
 
-      <button onclick="switchView('home')" class="inline-flex items-center gap-1.5 rounded-full bg-zinc-900 dark:bg-zinc-100 px-3.5 py-1.5 text-xs font-bold text-white dark:text-zinc-900 hover:bg-brand-600 dark:hover:bg-brand-500 dark:hover:text-white transition-colors">
+      <button onclick="history.length > 1 ? history.back() : navigate('/')" class="inline-flex items-center gap-1.5 rounded-full bg-zinc-900 dark:bg-zinc-100 px-3.5 py-1.5 text-xs font-bold text-white dark:text-zinc-900 hover:bg-brand-600 dark:hover:bg-brand-500 dark:hover:text-white transition-colors">
         ← Balik Nang Ngarep
       </button>
     </div>
@@ -300,7 +316,7 @@
             </div>
 
             <!-- Article HTML Content -->
-            <div id="detail-content-body" class="text-[18px] leading-[1.85] text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500"></div>
+            <div id="detail-content-body" class="text-[18px] leading-[1.85] text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500 [&_img]:max-w-full [&_img]:h-auto [&_iframe]:max-w-full [&_video]:max-w-full [&_video]:h-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto break-words"></div>
 
             <!-- Related Tags -->
             <div id="detail-tags-wrapper" class="hidden mt-10 border-t border-zinc-200 dark:border-zinc-800 pt-6">
@@ -328,7 +344,21 @@
     </div>
   </main>
 
-  <!-- FOOTER (BASA JAWA NGOKO / PASARAN) -->
+  <!-- VIEW 3: HALAMAN STATIS -->
+  <main id="view-page" class="hidden mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6">
+    <h1 id="page-title" class="font-serif text-3xl font-black text-zinc-950 dark:text-white"></h1>
+    <div id="page-body" class="mt-6 text-[17px] leading-[1.85] text-zinc-800 dark:text-zinc-200 space-y-4 [&_h2]:font-serif [&_h2]:text-xl [&_h2]:font-bold [&_h2]:pt-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mb-1.5 [&_a]:text-brand-600 [&_a]:underline"></div>
+  </main>
+
+  <!-- VIEW 4: 404 -->
+  <main id="view-notfound" class="hidden mx-auto w-full max-w-3xl flex-1 px-4 py-20 text-center">
+    <div class="font-serif text-6xl font-black text-brand-600">404</div>
+    <h1 class="mt-4 font-serif text-2xl font-bold">Kaca utawa kabar ora ditemokake</h1>
+    <p class="mt-2 text-sm text-zinc-500">Kemungkinan tautane salah, utawa kabare wis dicopot.</p>
+    <a href="/" data-spa class="mt-6 inline-block rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-brand-700">← Balik nang Ngarep</a>
+  </main>
+
+  <!-- FOOTER -->
   <footer id="pedoman-media-siber" class="mt-16 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-950 text-zinc-300">
     <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
@@ -337,8 +367,9 @@
             <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 font-serif text-lg font-black text-white">J</span>
             <span class="font-serif text-2xl font-black tracking-tight text-white">JOSJIS<span class="text-brand-500">NEWS</span></span>
           </div>
+          <p class="text-sm font-bold uppercase tracking-[0.2em] text-brand-500">Bloko Sutho</p>
           <p class="text-sm leading-relaxed text-zinc-400">
-            <strong class="text-white">Bloko Sutho</strong> — Portal kabar digital mandhiri sing ngrembug event-event komunitas, personal branding, lifestyle (gaya urip), lan seputar bocah Gen Z nganggo basa Jawa ngoko sing blaka, asik, lan ora ditutup-tutupi.
+            <strong class="text-white">Bloko Sutho</strong> — Portal kabar digital mandhiri sing ngrembug event komunitas, personal branding, lifestyle (gaya urip), lan seputar bocah Gen Z nganggo basa Jawa ngoko sing blaka lan gampang dimangerteni.
           </p>
         </div>
 
@@ -348,17 +379,21 @@
         </div>
 
         <div>
-          <h3 class="text-xs font-bold uppercase tracking-wider text-white">Dapur Redaksi & Patokan</h3>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-white">Redaksi & Patokan</h3>
           <ul class="mt-4 space-y-2 text-sm text-zinc-400">
-            <li>Konco-Konco Redaksi</li>
-            <li>Patokan Kabar Media Siber</li>
-            <li>Aturan Main Jurnalistik</li>
-            <li>Hak Jawab & Benerke Kabar</li>
+            <li><a data-spa class="hover:text-brand-500" href="/halaman/tentang">Tentang Kami</a></li>
+            <li><a data-spa class="hover:text-brand-500" href="/halaman/redaksi">Susunan Redaksi</a></li>
+            <li><a data-spa class="hover:text-brand-500" href="/halaman/pedoman-media-siber">Pedoman Media Siber</a></li>
+            <li><a data-spa class="hover:text-brand-500" href="/halaman/hak-jawab">Hak Jawab & Koreksi</a></li>
+            <li><a data-spa class="hover:text-brand-500" href="/halaman/pasang-iklan">Pasang Iklan</a></li>
+            <li><a data-spa class="hover:text-brand-500" href="/halaman/kebijakan-privasi">Kebijakan Privasi</a></li>
+            <li><a data-spa class="hover:text-brand-500" href="/halaman/syarat-ketentuan">Syarat & Ketentuan</a></li>
+            <li><a class="hover:text-brand-500" href="/rss.xml">RSS Feed</a></li>
           </ul>
         </div>
 
         <div class="rounded-xl border border-zinc-800 bg-zinc-900/70 p-4">
-          <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">✓ Bloko Sutho & Mandhiri</div>
+          <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">✓ Bloko Sutho &amp; Mandhiri</div>
           <p class="mt-2 text-xs leading-relaxed text-zinc-400">
             Wadhah crita, inspirasi komunitas, gaya urip, lan jagade Gen Z sing ditulis kanthi jujur, blaka sutha, lan migunani.
           </p>
@@ -366,18 +401,38 @@
       </div>
 
       <div class="mt-10 flex flex-col items-center justify-between gap-4 border-t border-zinc-800/80 pt-6 text-xs text-zinc-500 sm:flex-row">
-        <p>© 2026 PT Sendhiko Dawuh Multiguna. Kabeh Hak Cipta Dijaga Undang-Undang.</p>
+        <p>© <span id="footer-year">2026</span> <span id="footer-company">PT Sendhiko Dawuh Multiguna</span>. Kabeh Hak Cipta Dijaga Undang-Undang.</p>
+        <p class="font-semibold tracking-wider text-zinc-400">Bloko Sutho</p>
       </div>
     </div>
   </footer>
 
   <!-- INTERACTIVE SCRIPT -->
+  <!--BOOT-->
   <script>
     let ARTICLES = [];
     let CATEGORIES = [];
     let POPULAR_TAGS = [];
     let ADVERTISEMENTS = [];
+    let TRENDING = [];
+    let FEED_META = {};
     let currentFontStep = 0;
+    const SITE = Object.assign({ name: 'JosjisNews', tagline: 'Bloko Sutho', company: 'PT Sendhiko Dawuh Multiguna', year: new Date().getFullYear() }, window.__SITE__ || {});
+    const FEED = { mode: 'all', value: '', page: 1, lastPage: 1, perPage: 40, seq: 0, items: [] };
+    let searchTimer = null;
+
+    // Mode peteng: ikuti pilihan pamaca / sistem
+    (function initTheme() {
+      let saved = null;
+      try { saved = localStorage.getItem('josjis_theme'); } catch (e) {}
+      const dark = saved ? saved === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.toggle('dark', dark);
+      document.addEventListener('DOMContentLoaded', () => { document.getElementById('theme-icon').textContent = dark ? '☀️' : '🌙'; });
+    })();
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('footer-year').textContent = SITE.year;
+      document.getElementById('footer-company').textContent = SITE.company;
+    });
 
     // Set dina & tanggal nganggo Basa Jawa Ngoko
     (function setJavaneseDate() {
@@ -406,13 +461,14 @@
         title: raw.title,
         slug: raw.slug,
         excerpt: raw.excerpt || '',
-        category: raw.category || { name: 'Nasional', slug: 'nasional' },
+        category: raw.category || { name: 'Event & Komunitas', slug: 'event-komunitas' },
         author: {
           name: raw.author?.name || 'Redaksi JosjisNews',
           role: raw.author?.role === 'editor' ? 'Editor Redaksi' : 'Jurnalis JosjisNews'
         },
         published_rel: raw.published_rel || 'Mentas wae',
-        published_full: raw.published_at || '',
+        published_full: raw.published_label || '',
+        url: raw.url || ('/artikel/' + raw.slug),
         reading_time: (raw.reading_time_minutes || 1) + ' menit maca',
         views: Number(raw.views_count ?? raw.views ?? 0),
         is_headline: Boolean(raw.is_headline),
@@ -433,6 +489,10 @@
         ARTICLES = (dbData.articles || []).map(normalizeArticle);
         CATEGORIES = (dbData.categories || []).filter(c => Number(c.is_active) === 1);
         POPULAR_TAGS = (dbData.tags || []).map(t => t.name);
+        TRENDING = (dbData.trending || []).map(normalizeArticle);
+        FEED_META = dbData.articles_meta || {};
+        FEED.items = ARTICLES;
+        FEED.lastPage = FEED_META.last_page || 1;
         ADVERTISEMENTS = (dbData.advertisements || []).filter(a => Number(a.is_active) === 1 || a.active === true);
 
         renderDynamicCategoryNav();
@@ -458,8 +518,11 @@
         renderLatestFeed(ARTICLES);
         renderTrendingAndTags();
         renderCategorySpotlights();
+        updateLoadMore();
       } catch (err) {
         console.error('Gagal njupuk data saka database:', err);
+      } finally {
+        initialRoute();
       }
     }
 
@@ -514,18 +577,26 @@
       const footerList = document.getElementById('footer-category-list');
       if (!nav) return;
 
-      nav.innerHTML = `
-        <button onclick="filterByCategory('all')" data-cat="all" class="cat-btn rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors">Kabeh</button>
+      const navHtml = `
+        <a href="/" data-spa data-cat="all" class="cat-btn whitespace-nowrap rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors">Kabeh</a>
         ${CATEGORIES.map(c => `
-          <button onclick="filterByCategory('${escapeHtml(c.slug)}')" data-cat="${escapeHtml(c.slug)}" class="cat-btn rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+          <a href="/kanal/${escapeHtml(c.slug)}" data-spa data-cat="${escapeHtml(c.slug)}" class="cat-btn whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
             ${escapeHtml(c.name)}
-          </button>
+          </a>
         `).join('')}
       `;
+      nav.innerHTML = navHtml;
+      const mnav = document.getElementById('mobile-category-nav');
+      if (mnav) {
+        const mItem = 'm-cat-btn flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900';
+        mnav.innerHTML = `<a href="/" data-spa data-cat="all" class="${mItem}">Kabeh</a>` + CATEGORIES.map(c =>
+          `<a href="/kanal/${escapeHtml(c.slug)}" data-spa data-cat="${escapeHtml(c.slug)}" class="${mItem}">${escapeHtml(c.name)}</a>`).join('');
+        setActiveCategoryButtons(typeof FEED !== 'undefined' && FEED.mode === 'category' ? FEED.value : 'all');
+      }
 
       if (footerList) {
         footerList.innerHTML = CATEGORIES.map(c => `
-          <li><button onclick="filterByCategory('${escapeHtml(c.slug)}')" class="hover:text-brand-500">${escapeHtml(c.name)}</button></li>
+          <li><a href="/kanal/${escapeHtml(c.slug)}" data-spa class="hover:text-brand-500">${escapeHtml(c.name)}</a></li>
         `).join('');
       }
     }
@@ -548,11 +619,12 @@
       `).join('');
     }
 
-    function renderThumbHtml(imageUrl, titleText) {
+    function renderThumbHtml(imageUrl, titleText, large) {
       if (imageUrl) {
         return `<img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(titleText)}" loading="lazy" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />`;
       }
-      return `<div class="flex h-full w-full items-center justify-center bg-zinc-200 dark:bg-zinc-800 font-serif text-lg font-black text-zinc-400">JOSJISNEWS</div>`;
+      const size = large ? 'text-lg' : 'text-[8px] sm:text-[10px] tracking-wider';
+      return `<div class="flex h-full w-full items-center justify-center overflow-hidden bg-zinc-200 dark:bg-zinc-800 font-serif ${size} font-black text-zinc-400">JOSJISNEWS</div>`;
     }
 
     function renderHeadlines() {
@@ -564,7 +636,7 @@
       document.getElementById('hero-main').innerHTML = `
         <article onclick="openArticle(${main.id})" class="cursor-pointer group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm w-full">
           <div class="relative aspect-video w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
-            ${renderThumbHtml(main.image, main.title)}
+            ${renderThumbHtml(main.image, main.title, true)}
             <span class="absolute left-4 top-4 rounded-md bg-brand-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow">${escapeHtml(main.category.name)}</span>
           </div>
           <div class="flex flex-1 flex-col justify-between p-5 sm:p-6">
@@ -627,7 +699,7 @@
     }
 
     function renderTrendingAndTags() {
-      const top5 = [...ARTICLES].sort((a, b) => b.views - a.views).slice(0, 5);
+      const top5 = TRENDING.length ? TRENDING : [...ARTICLES].sort((a, b) => b.views - a.views).slice(0, 5);
       document.getElementById('trending-list').innerHTML = top5.map((item, idx) => `
         <li onclick="openArticle(${item.id})" class="cursor-pointer group flex items-start gap-4 py-3.5 first:pt-1 last:pb-1">
           <span class="font-serif text-3xl font-black leading-none text-zinc-200 dark:text-zinc-800 group-hover:text-brand-600 transition-colors select-none">0${idx + 1}</span>
@@ -643,7 +715,7 @@
       if (POPULAR_TAGS.length > 0) {
         tagSec.classList.remove('hidden');
         document.getElementById('popular-tags-list').innerHTML = POPULAR_TAGS.map(t => `
-          <button onclick="handleSearch('${escapeHtml(t)}')" class="rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-3 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:border-brand-600 hover:text-brand-600 transition-colors">#${escapeHtml(t)}</button>
+          <button data-tag="${escapeHtml(t)}" class="tag-btn rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-3 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:border-brand-600 hover:text-brand-600 transition-colors">#${escapeHtml(t)}</button>
         `).join('');
       } else {
         tagSec.classList.add('hidden');
@@ -667,11 +739,11 @@
           <div class="flex flex-col rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 p-4 sm:p-5 shadow-sm">
             <div class="mb-4 flex items-center justify-between border-b-2 border-zinc-900 dark:border-zinc-100 pb-2">
               <h3 class="text-xs font-black uppercase tracking-wider text-zinc-900 dark:text-white">${escapeHtml(g.name)}</h3>
-              <button onclick="filterByCategory('${escapeHtml(g.slug)}')" class="text-xs font-semibold text-brand-600 hover:underline">Deloken →</button>
+              <a href="/kanal/${escapeHtml(g.slug)}" data-spa class="text-xs font-semibold text-brand-600 hover:underline">Deloken →</a>
             </div>
             <div onclick="openArticle(${feat.id})" class="cursor-pointer group">
               <div class="relative aspect-video w-full overflow-hidden rounded-xl bg-zinc-200 dark:bg-zinc-800">
-                ${renderThumbHtml(feat.image, feat.title)}
+                ${renderThumbHtml(feat.image, feat.title, true)}
               </div>
               <h4 class="mt-3 font-serif text-base font-bold leading-snug text-zinc-900 dark:text-zinc-100 group-hover:text-brand-600 transition-colors">${escapeHtml(feat.title)}</h4>
               <div class="mt-1.5 text-[11px] text-zinc-400">${escapeHtml(feat.author.name)} • ${escapeHtml(feat.published_rel)}</div>
@@ -689,80 +761,146 @@
       }).join('');
     }
 
-    async function filterByCategory(slug) {
-      switchView('home');
-      document.querySelectorAll('.cat-btn').forEach(btn => {
-        if (btn.dataset.cat === slug) {
-          btn.className = 'cat-btn rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors';
-        } else {
-          btn.className = 'cat-btn rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors';
-        }
+    function pushPath(path) {
+      if (location.pathname !== path) history.pushState({}, '', path);
+    }
+
+    function setDocTitle(t) {
+      document.title = t ? `${t} — ${SITE.name}` : `${SITE.name} — ${SITE.tagline}: Portal Kabar Jawa Ngoko`;
+    }
+
+    function setActiveCategoryButtons(slug) {
+      document.querySelectorAll('.m-cat-btn').forEach(btn => {
+        btn.className = btn.dataset.cat === slug
+          ? 'm-cat-btn flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50'
+          : 'm-cat-btn flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900';
       });
-
-      const badge = document.getElementById('active-filter-badge');
-      if (slug === 'all') {
-        badge.classList.add('hidden');
-        renderLatestFeed(ARTICLES);
-      } else {
-        badge.textContent = `Kanal: ${slug.toUpperCase()}`;
-        badge.classList.remove('hidden');
-        try {
-          const res = await fetch(`/api/v1/articles?category=${encodeURIComponent(slug)}`);
-          const json = await res.json();
-          renderLatestFeed((json.data || []).map(normalizeArticle));
-        } catch {
-          renderLatestFeed(ARTICLES.filter(a => a.category.slug === slug));
-        }
-      }
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.className = btn.dataset.cat === slug
+          ? 'cat-btn whitespace-nowrap rounded-lg px-3 py-2 text-sm font-bold text-brand-600 bg-brand-50 dark:bg-brand-950/50 transition-colors'
+          : 'cat-btn whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors';
+      });
     }
 
-    async function handleSearch(query) {
-      switchView('home');
-      document.getElementById('search-input').value = query;
-      const q = query.trim();
-      const badge = document.getElementById('active-filter-badge');
-      if (!q) {
-        badge.classList.add('hidden');
-        renderLatestFeed(ARTICLES);
-        return;
-      }
-      badge.textContent = `Golekan: "${q}"`;
-      badge.classList.remove('hidden');
+    function feedUrl(page) {
+      const p = new URLSearchParams({ page: String(page), per_page: String(FEED.perPage) });
+      if (FEED.mode === 'category') p.set('category', FEED.value);
+      if (FEED.mode === 'search') p.set('search', FEED.value);
+      if (FEED.mode === 'tag') p.set('tag', FEED.value);
+      return '/api/v1/articles?' + p.toString();
+    }
+
+    function updateLoadMore() {
+      document.getElementById('load-more-btn').classList.toggle('hidden', FEED.page >= FEED.lastPage);
+    }
+
+    async function loadFeed(reset) {
+      const seq = ++FEED.seq;
+      const next = reset ? 1 : FEED.page + 1;
+      const btn = document.getElementById('load-more-btn');
+      btn.disabled = true;
       try {
-        const res = await fetch(`/api/v1/articles?search=${encodeURIComponent(q)}`);
+        const res = await fetch(feedUrl(next));
         const json = await res.json();
-        renderLatestFeed((json.data || []).map(normalizeArticle));
-      } catch {
-        const lower = q.toLowerCase();
-        renderLatestFeed(ARTICLES.filter(a => a.title.toLowerCase().includes(lower) || a.excerpt.toLowerCase().includes(lower)));
+        if (seq !== FEED.seq) return;
+        const items = (json.data || []).map(normalizeArticle);
+        FEED.page = next;
+        FEED.lastPage = (json.meta && json.meta.last_page) || 1;
+        FEED.items = reset ? items : FEED.items.concat(items);
+        renderLatestFeed(FEED.items);
+      } catch (e) {
+        if (seq === FEED.seq && reset) renderLatestFeed([]);
+      } finally {
+        btn.disabled = false;
+        updateLoadMore();
       }
     }
 
-    async function openArticle(id) {
-      let article = ARTICLES.find(a => a.id === id);
+    function showFilterBadge(text) {
+      const badge = document.getElementById('active-filter-badge');
+      if (!text) { badge.classList.add('hidden'); return; }
+      badge.textContent = text;
+      badge.classList.remove('hidden');
+    }
+
+    function filterByCategory(slug, skipPush) {
+      switchView('home');
+      setActiveCategoryButtons(slug);
+      if (slug === 'all') {
+        showFilterBadge('');
+        FEED.seq++;
+        FEED.mode = 'all'; FEED.value = ''; FEED.items = ARTICLES; FEED.page = 1; FEED.lastPage = FEED_META.last_page || 1;
+        renderLatestFeed(ARTICLES);
+        updateLoadMore();
+        setDocTitle(null);
+        if (!skipPush) pushPath('/');
+      } else {
+        const cat = CATEGORIES.find(c => c.slug === slug);
+        showFilterBadge('Kanal: ' + (cat ? cat.name : slug));
+        FEED.mode = 'category'; FEED.value = slug;
+        loadFeed(true);
+        setDocTitle('Kanal ' + (cat ? cat.name : slug));
+        if (!skipPush) pushPath('/kanal/' + slug);
+      }
+      if (!skipPush) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function filterByTag(name) {
+      switchView('home');
+      setActiveCategoryButtons('none');
+      showFilterBadge('Topik: #' + name);
+      FEED.mode = 'tag'; FEED.value = name;
+      loadFeed(true);
+      pushPath('/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleSearch(query) {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => runSearch(query), 280);
+    }
+
+    function runSearch(query) {
+      const q = String(query || '').trim();
+      ['search-input', 'search-input-m'].forEach(id => { const el = document.getElementById(id); if (el && el.value !== query) el.value = query; });
+      switchView('home');
+      if (!q) { filterByCategory('all', true); return; }
+      setActiveCategoryButtons('none');
+      showFilterBadge('Golekan: "' + q + '"');
+      FEED.mode = 'search'; FEED.value = q;
+      loadFeed(true);
+    }
+
+    async function openArticle(ref, skipPush) {
+      let article = typeof ref === 'number' ? ARTICLES.find(a => a.id === ref) : ARTICLES.find(a => a.slug === ref);
+      const key = article ? article.slug : ref;
+      let related = [];
 
       try {
-        const res = await fetch(`/api/v1/articles/${id}`);
+        const res = await fetch(`/api/v1/articles/${encodeURIComponent(key)}`);
+        if (res.status === 404) { switchView('notfound'); document.title = `Kabar ora ditemokake — ${SITE.name}`; return; }
         if (res.ok) {
           const json = await res.json();
           if (json.data) {
             article = normalizeArticle(json.data);
-            const idx = ARTICLES.findIndex(a => a.id === id);
+            related = (json.related || []).map(normalizeArticle);
+            const idx = ARTICLES.findIndex(a => a.id === article.id);
             if (idx >= 0) ARTICLES[idx] = article;
             renderTrendingAndTags();
           }
         }
       } catch {}
 
-      if (!article) return;
+      if (!article) { switchView('notfound'); return; }
+      if (!skipPush) pushPath('/artikel/' + article.slug);
 
-      document.title = `${article.title} — JosjisNews`;
+      setDocTitle(article.title);
       document.getElementById('detail-breadcrumb-cat').textContent = article.category.name;
       document.getElementById('detail-breadcrumb-title').textContent = article.title;
       document.getElementById('detail-category-badge').textContent = article.category.name;
       document.getElementById('detail-title').textContent = article.title;
       document.getElementById('detail-excerpt').textContent = article.excerpt;
-      document.getElementById('detail-author-avatar').textContent = article.author.name.charAt(0);
+      document.getElementById('detail-author-avatar').textContent = (article.author.name || 'R').charAt(0);
       document.getElementById('detail-author-name').textContent = article.author.name;
       document.getElementById('detail-author-role').textContent = article.author.role;
       document.getElementById('detail-published-at').textContent = article.published_full ? 'Tayang: ' + article.published_full : article.published_rel;
@@ -778,44 +916,92 @@
         fig.classList.add('hidden');
       }
 
+      // Isi sudah disanitasi server (allowlist tag & atribut).
       document.getElementById('detail-content-body').innerHTML = article.content;
 
       const tagsWrap = document.getElementById('detail-tags-wrapper');
       if (article.tags.length > 0) {
         tagsWrap.classList.remove('hidden');
         document.getElementById('detail-tags').innerHTML = article.tags.map(t => `
-          <button onclick="handleSearch('${escapeHtml(t)}')" class="rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold hover:border-brand-600 hover:text-brand-600 transition-colors">#${escapeHtml(t)}</button>
+          <button data-tag="${escapeHtml(t)}" class="tag-btn rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold hover:border-brand-600 hover:text-brand-600 transition-colors">#${escapeHtml(t)}</button>
         `).join('');
       } else {
         tagsWrap.classList.add('hidden');
       }
 
-      const related = ARTICLES.filter(a => a.id !== article.id && a.category.slug === article.category.slug).slice(0, 4);
-      const fallbackRelated = related.length > 0 ? related : ARTICLES.filter(a => a.id !== article.id).slice(0, 4);
-      document.getElementById('detail-related-list').innerHTML = fallbackRelated.length > 0
-        ? fallbackRelated.map(r => `
-            <div onclick="openArticle(${r.id})" class="cursor-pointer group py-3 first:pt-0 last:pb-0">
+      if (!related.length) related = ARTICLES.filter(a => a.id !== article.id && a.category.slug === article.category.slug).slice(0, 4);
+      if (!related.length) related = ARTICLES.filter(a => a.id !== article.id).slice(0, 4);
+      document.getElementById('detail-related-list').innerHTML = related.length > 0
+        ? related.map(r => `
+            <a href="${escapeHtml(r.url)}" data-spa class="block cursor-pointer group py-3 first:pt-0 last:pb-0">
               <span class="text-[10px] font-bold uppercase text-brand-600">${escapeHtml(r.category.name)}</span>
               <h4 class="font-serif text-sm font-bold leading-snug text-zinc-900 dark:text-zinc-100 group-hover:text-brand-600 transition-colors">${escapeHtml(r.title)}</h4>
               <span class="text-[11px] text-zinc-400">${escapeHtml(r.published_rel)} • ${r.views.toLocaleString('id-ID')} sing maca</span>
-            </div>
+            </a>
           `).join('')
         : `<p class="text-xs text-zinc-400">Durung ana kabar liyane sing nyambung.</p>`;
 
       switchView('article');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (!skipPush) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showStaticPage(title, html) {
+      document.getElementById('page-title').textContent = title;
+      document.getElementById('page-body').innerHTML = html; // HTML tepercaya saka server
+      setDocTitle(title);
+      switchView('page');
+    }
+
+    async function openStaticPage(slug, skipPush) {
+      try {
+        const res = await fetch(`/api/v1/pages/${encodeURIComponent(slug)}`);
+        if (!res.ok) { switchView('notfound'); return; }
+        const json = await res.json();
+        showStaticPage(json.data.title, json.data.html);
+        if (!skipPush) { pushPath('/halaman/' + slug); window.scrollTo({ top: 0 }); }
+      } catch { switchView('notfound'); }
     }
 
     function switchView(view) {
-      if (view === 'article') {
-        document.getElementById('view-home').classList.add('hidden');
-        document.getElementById('view-article').classList.remove('hidden');
-      } else {
-        document.title = 'JosjisNews — Portal Kabar Jawa Ngoko, Cetha, Blaka & Keneng Dipercaya';
-        document.getElementById('view-article').classList.add('hidden');
-        document.getElementById('view-home').classList.remove('hidden');
-      }
+      const views = { home: 'view-home', article: 'view-article', page: 'view-page', notfound: 'view-notfound' };
+      Object.keys(views).forEach(k => document.getElementById(views[k]).classList.toggle('hidden', k !== view));
+      if (view === 'home') setActiveCategoryButtons(FEED.mode === 'category' ? FEED.value : (FEED.mode === 'all' ? 'all' : 'none'));
     }
+
+    function navigate(path) {
+      history.pushState({}, '', path);
+      route(path);
+      window.scrollTo({ top: 0 });
+    }
+
+    function route(path) {
+      let m;
+      if ((m = path.match(/^\/artikel\/([a-z0-9-]+)\/?$/))) return openArticle(m[1], true);
+      if ((m = path.match(/^\/kanal\/([a-z0-9-]+)\/?$/))) return filterByCategory(m[1], true);
+      if ((m = path.match(/^\/halaman\/([a-z0-9-]+)\/?$/))) return openStaticPage(m[1], true);
+      return filterByCategory('all', true);
+    }
+
+    function initialRoute() {
+      const boot = window.__BOOT__ || {};
+      if (boot.type === 'article') openArticle(boot.slug, true);
+      else if (boot.type === 'category') filterByCategory(boot.slug, true);
+      else if (boot.type === 'page') showStaticPage(boot.title, boot.html);
+      else if (boot.type === 'notfound') switchView('notfound');
+    }
+
+    // Navigasi SPA untuk tautan internal + filter topik
+    document.addEventListener('click', (ev) => {
+      const tagBtn = ev.target.closest('.tag-btn');
+      if (tagBtn) { filterByTag(tagBtn.dataset.tag); return; }
+      const a = ev.target.closest('a[data-spa]');
+      if (!a || ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey) return;
+      const url = new URL(a.href, location.origin);
+      if (url.origin !== location.origin) return;
+      ev.preventDefault();
+      navigate(url.pathname);
+    });
+    window.addEventListener('popstate', () => route(location.pathname));
 
     function changeFontSize(delta) {
       if (delta === 0) currentFontStep = 0;
@@ -830,14 +1016,37 @@
         '2': { cls: 'text-[22px] leading-[1.95]', label: 'Gedhe Banget (22px)' },
       };
       const cfg = map[String(currentFontStep)];
-      bodyEl.className = `${cfg.cls} text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500`;
+      bodyEl.className = `${cfg.cls} text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500 [&_img]:max-w-full [&_img]:h-auto [&_iframe]:max-w-full [&_video]:max-w-full [&_video]:h-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto break-words`;
       labelEl.textContent = cfg.label;
     }
+
+    // ---- Menu hamburger
+    function setMenu(open) {
+      const menu = document.getElementById('mobile-menu');
+      const btn = document.getElementById('menu-toggle');
+      if (!menu || !btn) return;
+      menu.classList.toggle('hidden', !open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+      document.getElementById('menu-icon-open').classList.toggle('hidden', open);
+      document.getElementById('menu-icon-close').classList.toggle('hidden', !open);
+      document.body.classList.toggle('overflow-hidden', open);
+    }
+    function toggleMenu() {
+      setMenu(document.getElementById('mobile-menu').classList.contains('hidden'));
+    }
+    document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') setMenu(false); });
+    window.addEventListener('resize', () => { if (window.innerWidth >= 1280) setMenu(false); });
+    document.addEventListener('click', (ev) => {
+      // Tutup menu setelah memilih tautan di dalamnya, atau klik di luar header
+      if (ev.target.closest('#mobile-menu a')) setMenu(false);
+    });
 
     function toggleTheme() {
       const root = document.documentElement;
       const isDark = root.classList.toggle('dark');
       document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+      try { localStorage.setItem('josjis_theme', isDark ? 'dark' : 'light'); } catch (e) {}
     }
 
     function copyArticleLink() {

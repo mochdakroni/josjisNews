@@ -1,0 +1,9 @@
+# Apache: semua request lewat router.php; berkas sensitif tidak pernah disajikan langsung.
+Options -Indexes
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(src|database|storage/data|legacy|tests|deploy)(/|$) - [F,L]
+  RewriteRule ^\.(?!well-known) - [F,L]
+  RewriteRule \.(sqlite|sql|env|md)$ - [F,L]
+  RewriteRule ^ router.php [L]
+</IfModule>

@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Admin CMS — JosjisNews</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- CKEditor 5 SUPER-BUILD (Full MS Word Suite) -->
   <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js"></script>
@@ -40,17 +37,14 @@
       background: #ffffff !important;
       color: #0f172a !important;
     }
-
     .ck.ck-toolbar {
       background: #f8fafc !important;
       border-color: #e2e8f0 !important;
       padding: 6px 8px !important;
     }
-
-    .ck.ck-editor__main>.ck-editor__editable {
+    .ck.ck-editor__main > .ck-editor__editable {
       border-color: #e2e8f0 !important;
     }
-
     .ck-content .lead-paragraph {
       font-size: 1.12em;
       font-weight: 500;
@@ -58,21 +52,18 @@
       border-left: 3px solid #e11d48;
       padding-left: 12px;
     }
-
     .ck-content .fact-box {
       background: #fff1f2;
       border: 1px solid #fecdd3;
       border-radius: 10px;
       padding: 12px 16px;
     }
-
     .ck-content .baca-juga-box {
       background: #f8fafc;
       border-left: 4px solid #e11d48;
       padding: 10px 14px;
       font-weight: 600;
     }
-
     .ck-content blockquote {
       border-left: 4px solid #e11d48;
       padding-left: 1rem;
@@ -81,124 +72,115 @@
     }
   </style>
 </head>
-
 <body class="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased">
 
   <!-- SCREEN 1: LOGIN PAGE (Default Tampil Sampai Sesi Terverifikasi) -->
-  <div id="login-screen"
-    class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-white to-rose-50/50 px-4 py-12">
-    <div class="w-full max-w-md rounded-2xl border border-slate-200/90 bg-white p-8 shadow-xl shadow-slate-200/60">
+  <div id="login-screen" class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-white to-rose-50/50 px-4 py-12">
+    <div class="w-full max-w-md rounded-2xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-xl shadow-slate-200/60">
       <div class="flex flex-col items-center text-center">
-        <span
-          class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-600 font-serif text-2xl font-black text-white shadow-md shadow-brand-600/20">J</span>
+        <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-600 font-serif text-2xl font-black text-white shadow-md shadow-brand-600/20">J</span>
         <h1 class="mt-4 text-xl font-extrabold tracking-tight text-slate-900">JosjisNews CMS</h1>
         <p class="mt-1 text-xs text-slate-500">Masuk ke Panel Manajemen Redaksi</p>
       </div>
 
-      <div id="login-info"
-        class="hidden mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs font-semibold text-emerald-700">
-      </div>
-      <div id="login-error"
-        class="hidden mt-4 rounded-xl border border-rose-200 bg-rose-50 px-3.5 py-2.5 text-xs font-semibold text-rose-700">
-      </div>
+      <div id="login-info" class="hidden mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs font-semibold text-emerald-700"></div>
+      <div id="login-error" class="hidden mt-4 rounded-xl border border-rose-200 bg-rose-50 px-3.5 py-2.5 text-xs font-semibold text-rose-700"></div>
 
       <form onsubmit="handleLogin(event)" class="mt-6 space-y-4" autocomplete="off">
         <div>
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Alamat Email</label>
-          <input id="login-email" type="email" required value="admin@josjisnews.com" placeholder="admin@josjisnews.com"
-            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
+          <input id="login-email" type="email" required autocomplete="username" placeholder="nama@perusahaan.com" class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
         </div>
         <div>
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Password</label>
-          <input id="login-password" type="password" required placeholder="Masukkan password..."
-            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
+          <input id="login-password" type="password" required autocomplete="current-password" placeholder="Masukkan password..." class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
         </div>
-        <button id="login-submit-btn" type="submit"
-          class="w-full rounded-xl bg-brand-600 py-2.5 text-sm font-bold text-white shadow-md shadow-brand-600/20 hover:bg-brand-700 transition-colors">
+        <button id="login-submit-btn" type="submit" class="w-full rounded-xl bg-brand-600 py-2.5 text-sm font-bold text-white shadow-md shadow-brand-600/20 hover:bg-brand-700 transition-colors">
           Masuk ke Dashboard Admin →
         </button>
       </form>
 
+      <form id="login-2fa-form" onsubmit="handleLogin2fa(event)" class="mt-6 hidden space-y-4" autocomplete="off">
+        <div class="rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-3 text-xs text-slate-600">
+          🛡️ <strong>Verifikasi 2 langkah.</strong> Buka aplikasi autentikator (Google Authenticator, Authy, 1Password, dsb.)
+          lalu masukkan kode 6 digit. Kehilangan ponsel? Pakai <em>kode pemulihan</em> (contoh: <code>a1b2c-d3e4f</code>).
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Kode 6 digit / kode pemulihan</label>
+          <input id="login-2fa-code" type="text" inputmode="text" required autocomplete="one-time-code" maxlength="16" placeholder="123456" class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-center text-lg font-mono tracking-[0.3em] text-slate-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/15" />
+        </div>
+        <button id="login-2fa-btn" type="submit" class="w-full rounded-xl bg-brand-600 py-2.5 text-sm font-bold text-white shadow-md shadow-brand-600/20 hover:bg-brand-700 transition-colors">Verifikasi &amp; Masuk →</button>
+        <button type="button" onclick="cancelLogin2fa()" class="w-full text-center text-xs font-medium text-slate-500 hover:text-brand-600">← Ulangi login</button>
+      </form>
 
+      <p class="mt-5 text-center text-[11px] text-slate-400">Akses khusus staf redaksi. Aktivitas login dicatat.</p>
     </div>
-  </div>
   </div>
 
   <!-- SCREEN 2: ADMIN SHELL (Default Disembunyikan Sampai Login Berhasil) -->
   <div id="dashboard-screen" class="hidden min-h-screen">
-    <!-- Left Sidebar -->
-    <aside class="w-64 shrink-0 border-r border-slate-200 bg-white flex flex-col justify-between p-4 shadow-sm">
+    <!-- Overlay laci (mobile/tablet) -->
+    <div id="sidebar-overlay" class="hidden fixed inset-0 z-40 bg-slate-900/50 lg:hidden" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <!-- Left Sidebar (laci di bawah lg, kolom tetap di lg ke atas) -->
+    <aside id="admin-sidebar" aria-label="Menu admin"
+      class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] -translate-x-full overflow-y-auto transition-transform duration-200 ease-out lg:static lg:z-auto lg:w-64 lg:max-w-none lg:translate-x-0 lg:overflow-visible shrink-0 border-r border-slate-200 bg-white flex flex-col justify-between p-4 shadow-xl lg:shadow-sm">
       <div>
         <!-- Brand Header -->
         <div class="flex items-center gap-3 px-2 py-2 border-b border-slate-100 pb-4">
-          <span
-            class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 font-serif text-lg font-black text-white shadow-sm">J</span>
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 font-serif text-lg font-black text-white shadow-sm">J</span>
           <div>
-            <div class="font-extrabold text-sm text-slate-900 leading-none">JosjisNews <span
-                class="text-brand-600">CMS</span></div>
-            <span class="text-[11px] font-medium text-slate-400">Panel Redaksi</span>
+            <div class="font-extrabold text-sm text-slate-900 leading-none">JosjisNews <span class="text-brand-600">CMS</span></div>
+            <span class="text-[11px] font-medium text-slate-400">Panel Redaksi · Bloko Sutho</span>
           </div>
+          <button type="button" onclick="closeSidebar()" aria-label="Tutup menu" class="ml-auto lg:hidden flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
         </div>
 
         <!-- Navigation Menu -->
         <nav class="mt-5 space-y-1">
           <div class="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Utama & Analitik</div>
-          <button onclick="switchTab('dashboard')" data-tab="dashboard"
-            class="nav-btn flex w-full items-center justify-between rounded-xl bg-brand-50 px-3 py-2.5 text-xs font-bold text-brand-600 transition-colors">
+          <button onclick="switchTab('dashboard')" data-tab="dashboard" class="nav-btn flex w-full items-center justify-between rounded-xl bg-brand-50 px-3 py-2.5 text-xs font-bold text-brand-600 transition-colors">
             <span class="flex items-center gap-2.5">📊 Dashboard</span>
           </button>
 
-          <div class="pt-4 px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Redaksi & Konten
-          </div>
-          <button onclick="switchTab('articles')" data-tab="articles"
-            class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+          <div class="pt-4 px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Redaksi & Konten</div>
+          <button onclick="switchTab('articles')" data-tab="articles" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
             <span class="flex items-center gap-2.5">📰 Artikel Berita</span>
-            <span id="badge-count-articles"
-              class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
+            <span id="badge-count-articles" class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
           </button>
 
-          <button onclick="openArticleEditor(-1)" data-tab="editor"
-            class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+          <button onclick="openArticleEditor(-1)" data-tab="editor" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
             <span class="flex items-center gap-2.5">✍️ Tulis Berita</span>
           </button>
 
-          <button onclick="switchTab('categories')" data-tab="categories"
-            class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+          <button onclick="switchTab('categories')" data-tab="categories" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
             <span class="flex items-center gap-2.5">📁 Kategori Kanal</span>
-            <span id="badge-count-categories"
-              class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
+            <span id="badge-count-categories" class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
           </button>
 
-          <button onclick="switchTab('ads')" data-tab="ads"
-            class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+          <button onclick="switchTab('ads')" data-tab="ads" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
             <span class="flex items-center gap-2.5">📢 Kelola Advertise</span>
-            <span id="badge-count-ads"
-              class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
+            <span id="badge-count-ads" class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
           </button>
 
-          <div class="pt-4 px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Manajemen Akses
-          </div>
-          <button onclick="switchTab('users')" data-tab="users"
-            class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+          <div class="pt-4 px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Manajemen Akses</div>
+          <button onclick="switchTab('users')" data-tab="users" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
             <span class="flex items-center gap-2.5">👥 Tim Redaksi & User</span>
-            <span id="badge-count-users"
-              class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
+            <span id="badge-count-users" class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
           </button>
         </nav>
       </div>
 
       <!-- Bottom Quick Links -->
       <div class="space-y-2 border-t border-slate-200 pt-4">
-        <a href="/db-viewer.html" target="_blank"
-          class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700 hover:bg-emerald-100 transition-colors">
-          🗄️ Cek Isi Database (SQLite) ↗
-        </a>
-        <a href="/preview.html" target="_blank"
-          class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 hover:border-brand-500 hover:text-brand-600 transition-colors">
+        <button onclick="openSecurityModal()" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700 hover:bg-emerald-100 transition-colors">🛡️ Keamanan Akun (2FA)</button>
+        <button onclick="openPasswordModal()" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 hover:border-brand-500 transition-colors">🔑 Ganti Password</button>
+        <a href="/" target="_blank" class="flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 hover:border-brand-500 hover:text-brand-600 transition-colors">
           🌐 Buka Web Publik ↗
         </a>
-        <button onclick="logout()"
-          class="flex w-full items-center justify-center rounded-xl px-3 py-2 text-xs font-medium text-slate-500 hover:bg-rose-50 hover:text-brand-600 transition-colors">
+        <button onclick="logout()" class="flex w-full items-center justify-center rounded-xl px-3 py-2 text-xs font-medium text-slate-500 hover:bg-rose-50 hover:text-brand-600 transition-colors">
           Keluar / Logout
         </button>
       </div>
@@ -207,37 +189,37 @@
     <!-- Main Content Area -->
     <div class="flex-1 flex flex-col min-w-0">
       <!-- Top Header Bar -->
-      <header
-        class="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white/90 backdrop-blur-md px-6 py-3.5">
-        <div>
-          <h2 id="page-title" class="text-base font-extrabold text-slate-900">Dashboard Analitik Redaksi</h2>
-          <p id="page-subtitle" class="text-xs text-slate-500">Pantau performa artikel, antrean review, kategori, dan
-            tim redaksi secara real-time.</p>
+      <header class="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-slate-200 bg-white/90 backdrop-blur-md px-4 py-3 sm:px-6 sm:py-3.5">
+        <div class="flex min-w-0 flex-1 items-center gap-3">
+          <button type="button" onclick="openSidebar()" aria-label="Buka menu" aria-controls="admin-sidebar" aria-expanded="false" id="sidebar-toggle"
+            class="lg:hidden flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 hover:border-brand-500">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div class="min-w-0">
+            <h2 id="page-title" class="truncate text-sm font-extrabold text-slate-900 sm:text-base">Dashboard Analitik Redaksi</h2>
+            <p id="page-subtitle" class="hidden text-xs text-slate-500 sm:block">Pantau performa artikel, antrean review, kategori, dan tim redaksi secara real-time.</p>
+          </div>
         </div>
 
-        <div class="flex items-center gap-3">
-          <div
-            class="hidden sm:flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+        <div class="flex shrink-0 items-center gap-3">
+          <div class="hidden md:flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
             <span id="db-status-pill">Database Terhubung</span>
           </div>
 
-          <div class="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1">
-            <span id="active-user-initial"
-              class="flex h-6 w-6 items-center justify-center rounded-full bg-brand-600 text-[11px] font-bold text-white">A</span>
-            <span id="active-role-badge" class="text-xs font-bold text-slate-700">Administrator Redaksi</span>
+          <div class="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 p-1 sm:px-3 sm:py-1">
+            <span id="active-user-initial" class="flex h-7 w-7 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-brand-600 text-[11px] font-bold text-white">A</span>
+            <span id="active-role-badge" class="hidden max-w-[16rem] truncate text-xs font-bold text-slate-700 sm:inline">Administrator Redaksi</span>
           </div>
         </div>
       </header>
 
       <!-- Content Wrapper -->
-      <main class="p-6 space-y-6 flex-1 overflow-y-auto">
+      <main class="p-4 sm:p-6 space-y-4 sm:space-y-6 flex-1 overflow-y-auto">
         <!-- Global Notification Toast -->
-        <div id="toast-banner"
-          class="hidden rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs font-semibold text-emerald-800 flex items-center justify-between shadow-sm">
+        <div id="toast-banner" class="hidden rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs font-semibold text-emerald-800 flex items-center justify-between shadow-sm">
           <span id="toast-message">Data berhasil disimpan.</span>
-          <button onclick="document.getElementById('toast-banner').classList.add('hidden')"
-            class="text-emerald-600 hover:text-emerald-900 font-bold">✕</button>
+          <button onclick="document.getElementById('toast-banner').classList.add('hidden')" class="text-emerald-600 hover:text-emerald-900 font-bold">✕</button>
         </div>
 
         <!-- ========================================================== -->
@@ -249,21 +231,18 @@
             <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Artikel</span>
-                <span
-                  class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 text-brand-600 text-base">📰</span>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 text-brand-600 text-base">📰</span>
               </div>
               <div class="mt-3 flex items-baseline gap-2">
                 <span id="kpi-articles" class="text-3xl font-extrabold text-slate-900">0</span>
               </div>
-              <p class="mt-1 text-xs text-slate-500"><span id="kpi-published-sub">0</span> tayang • <span
-                  id="kpi-review-sub">0</span> review • <span id="kpi-draft-sub">0</span> draft</p>
+              <p class="mt-1 text-xs text-slate-500"><span id="kpi-published-sub">0</span> tayang • <span id="kpi-review-sub">0</span> review • <span id="kpi-draft-sub">0</span> draft</p>
             </div>
 
             <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Pembaca</span>
-                <span
-                  class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600 text-base">👁️</span>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600 text-base">👁️</span>
               </div>
               <div class="mt-3 flex items-baseline gap-2">
                 <span id="kpi-views" class="text-3xl font-extrabold text-slate-900">0</span>
@@ -274,8 +253,7 @@
             <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Kategori Kanal</span>
-                <span
-                  class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-600 text-base">📁</span>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-600 text-base">📁</span>
               </div>
               <div class="mt-3 flex items-baseline gap-2">
                 <span id="kpi-categories" class="text-3xl font-extrabold text-slate-900">0</span>
@@ -286,8 +264,7 @@
             <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tim Redaksi & User</span>
-                <span
-                  class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 text-base">👥</span>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 text-base">👥</span>
               </div>
               <div class="mt-3 flex items-baseline gap-2">
                 <span id="kpi-users" class="text-3xl font-extrabold text-slate-900">0</span>
@@ -303,12 +280,10 @@
               <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
                 <div>
                   <h3 class="text-sm font-bold text-slate-900">Statistik Kunjungan Pembaca (7 Hari Terakhir)</h3>
-                  <p class="text-xs text-slate-500">Data tercatat langsung dari tabel <code
-                      class="text-brand-600">article_views</code></p>
+                  <p class="text-xs text-slate-500">Data tercatat langsung dari tabel <code class="text-brand-600">article_views</code></p>
                 </div>
                 <div class="flex items-center gap-2">
-                  <button onclick="openArticleEditor(-1)"
-                    class="rounded-xl bg-brand-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                  <button onclick="openArticleEditor(-1)" class="rounded-xl bg-brand-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
                     + Tulis Berita Baru
                   </button>
                 </div>
@@ -319,28 +294,23 @@
             </div>
 
             <!-- Pintasan Manajemen Cepat -->
-            <div
-              class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between">
+            <div class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between">
               <div>
                 <h3 class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Aksi Cepat Redaksi</h3>
                 <div class="mt-4 space-y-2.5">
-                  <button onclick="openArticleEditor(-1)"
-                    class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                  <button onclick="openArticleEditor(-1)" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
                     <span>✍️ Tulis Artikel Baru</span>
                     <span class="text-brand-600">→</span>
                   </button>
-                  <button onclick="switchTab('categories'); resetCategoryForm();"
-                    class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                  <button onclick="switchTab('categories'); resetCategoryForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
                     <span>📁 Kelola Kategori Kanal</span>
                     <span class="text-brand-600">→</span>
                   </button>
-                  <button onclick="switchTab('ads'); resetAdForm();"
-                    class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                  <button onclick="switchTab('ads'); resetAdForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
                     <span>📢 Kelola Slot Advertise (Iklan)</span>
                     <span class="text-brand-600">→</span>
                   </button>
-                  <button onclick="switchTab('users'); resetUserForm();"
-                    class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                  <button onclick="switchTab('users'); resetUserForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
                     <span>👥 Kelola Akun Redaksi</span>
                     <span class="text-brand-600">→</span>
                   </button>
@@ -349,8 +319,7 @@
 
               <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs text-slate-600">
                 <div class="font-bold text-slate-800">Direktori Penyimpanan Media</div>
-                <p class="mt-1 text-[11px] text-slate-500">File yang diunggah disimpan di <code
-                    class="text-brand-600">storage/uploads/</code> dan dapat dipilih kembali kapan saja.</p>
+                <p class="mt-1 text-[11px] text-slate-500">File yang diunggah disimpan di <code class="text-brand-600">storage/uploads/</code> dan dapat dipilih kembali kapan saja.</p>
               </div>
             </div>
           </div>
@@ -362,11 +331,10 @@
                 <h3 class="text-sm font-bold text-slate-900">Artikel Terbaru</h3>
                 <p class="text-xs text-slate-500">Daftar artikel terakhir yang tersimpan di database</p>
               </div>
-              <button onclick="switchTab('articles')" class="text-xs font-bold text-brand-600 hover:underline">Kelola
-                Semua Artikel →</button>
+              <button onclick="switchTab('articles')" class="text-xs font-bold text-brand-600 hover:underline">Kelola Semua Artikel →</button>
             </div>
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs">
+              <table class="w-full min-w-[640px] text-left text-xs">
                 <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
                   <tr>
                     <th class="px-6 py-3.5">Judul Berita</th>
@@ -391,16 +359,14 @@
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-6 py-4">
               <div>
                 <h3 class="text-sm font-bold text-slate-900">Manajemen Artikel Berita</h3>
-                <p class="text-xs text-slate-500">Tambah, edit dengan CKEditor 5, ubah status publikasi, atau hapus
-                  artikel</p>
+                <p class="text-xs text-slate-500">Tambah, edit dengan CKEditor 5, ubah status publikasi, atau hapus artikel</p>
               </div>
-              <button onclick="openArticleEditor(-1)"
-                class="rounded-xl bg-brand-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+              <button onclick="openArticleEditor(-1)" class="rounded-xl bg-brand-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
                 + Tulis Berita Baru
               </button>
             </div>
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs">
+              <table class="w-full min-w-[640px] text-left text-xs">
                 <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
                   <tr>
                     <th class="px-6 py-3.5">Judul Artikel</th>
@@ -429,40 +395,31 @@
             <div class="xl:col-span-9 space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 id="editor-heading-label" class="text-sm font-bold text-slate-900">Tulis Berita Baru</h3>
-                <span
-                  class="rounded-full bg-emerald-50 border border-emerald-200 px-3 py-0.5 text-[11px] font-semibold text-emerald-700">CKEditor
-                  5 Aktif</span>
+                <span class="rounded-full bg-emerald-50 border border-emerald-200 px-3 py-0.5 text-[11px] font-semibold text-emerald-700">CKEditor 5 Aktif</span>
               </div>
 
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-12">
                 <div class="sm:col-span-8">
                   <label class="block text-xs font-semibold text-slate-700">Judul Artikel Berita (H1) *</label>
-                  <input id="form-title" type="text" required oninput="autoSlug(this.value, 'form-slug')"
-                    placeholder="Masukkan judul berita..."
-                    class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-900 focus:border-brand-600 focus:outline-none" />
+                  <input id="form-title" type="text" required oninput="autoSlug(this.value, 'form-slug')" placeholder="Masukkan judul berita..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-900 focus:border-brand-600 focus:outline-none" />
                 </div>
                 <div class="sm:col-span-4">
                   <label class="block text-xs font-semibold text-slate-700">Slug URL SEO</label>
-                  <input id="form-slug" type="text" required
-                    class="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600" />
+                  <input id="form-slug" type="text" required class="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600" />
                 </div>
               </div>
 
               <!-- Multimedia & Library Manager Bar -->
-              <div
-                class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5">
                 <span class="text-[11px] font-bold text-slate-600">Sisipkan Media ke Konten:</span>
                 <div class="flex flex-wrap items-center gap-2">
-                  <button type="button" onclick="openMediaModal('body', 'library')"
-                    class="rounded-lg border border-brand-200 bg-brand-50 px-3 py-1.5 text-[11px] font-bold text-brand-700 hover:bg-brand-100 shadow-sm">
+                  <button type="button" onclick="openMediaModal('body', 'library')" class="rounded-lg border border-brand-200 bg-brand-50 px-3 py-1.5 text-[11px] font-bold text-brand-700 hover:bg-brand-100 shadow-sm">
                     🗂️ Pilih dari Direktori Media
                   </button>
-                  <button type="button" onclick="openMediaModal('body', 'upload')"
-                    class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-[11px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600 shadow-sm">
+                  <button type="button" onclick="openMediaModal('body', 'upload')" class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-[11px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600 shadow-sm">
                     📤 Unggah Baru (Gambar / Video MP4 / PDF)
                   </button>
-                  <button type="button" onclick="openMediaModal('body', 'link')"
-                    class="rounded-lg border border-sky-200 bg-sky-50 px-3 py-1.5 text-[11px] font-bold text-sky-700 hover:bg-sky-100 shadow-sm">
+                  <button type="button" onclick="openMediaModal('body', 'link')" class="rounded-lg border border-sky-200 bg-sky-50 px-3 py-1.5 text-[11px] font-bold text-sky-700 hover:bg-sky-100 shadow-sm">
                     ☁️🔗 Tempel Link Gambar / Video / PDF / Google Drive
                   </button>
                 </div>
@@ -474,15 +431,13 @@
               </div>
 
               <!-- Word Count Status Bar -->
-              <div
-                class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
+              <div class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
                 <div class="flex items-center gap-4">
                   <span>📝 Kata: <strong id="stat-words" class="text-slate-900">0</strong></span>
                   <span>🔤 Karakter: <strong id="stat-chars" class="text-slate-900">0</strong></span>
                   <span>⏱️ Estimasi Baca: <strong id="stat-readtime" class="text-brand-600">1 menit</strong></span>
                 </div>
-                <span class="text-[11px] text-slate-400">Mendukung Gambar, Video MP4/WebM, Dokumen PDF, & Preview Google
-                  Drive</span>
+                <span class="text-[11px] text-slate-400">Mendukung Gambar, Video MP4/WebM, Dokumen PDF, & Preview Google Drive</span>
               </div>
             </div>
 
@@ -495,41 +450,32 @@
                 </div>
 
                 <!-- Preview Thumbnail -->
-                <div
-                  class="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-100 flex items-center justify-center">
-                  <img id="featured-image-preview" src="" alt="Preview Thumbnail"
-                    class="hidden h-full w-full object-cover" />
-                  <span id="featured-image-empty" class="text-[11px] font-medium text-slate-400 px-4 text-center">Belum
-                    ada gambar utama dipilih</span>
+                <div class="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-100 flex items-center justify-center">
+                  <img id="featured-image-preview" src="" alt="Preview Thumbnail" class="hidden h-full w-full object-cover" />
+                  <span id="featured-image-empty" class="text-[11px] font-medium text-slate-400 px-4 text-center">Belum ada gambar utama dipilih</span>
                 </div>
 
                 <!-- 3 Tombol Mode Pilih Gambar Utama -->
                 <div class="grid grid-cols-3 gap-1.5 pt-1">
-                  <button type="button" onclick="openMediaModal('featured', 'upload')"
-                    class="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600">
+                  <button type="button" onclick="openMediaModal('featured', 'upload')" class="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600">
                     📤 Unggah Baru
                   </button>
-                  <button type="button" onclick="openMediaModal('featured', 'library')"
-                    class="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600">
+                  <button type="button" onclick="openMediaModal('featured', 'library')" class="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600">
                     🗂️ Direktori
                   </button>
-                  <button type="button" onclick="openMediaModal('featured', 'link')"
-                    class="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600">
+                  <button type="button" onclick="openMediaModal('featured', 'link')" class="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600">
                     🔗 Link / Drive
                   </button>
                 </div>
 
                 <div>
                   <label class="block text-[11px] font-semibold text-slate-600">URL / Path Gambar Utama</label>
-                  <input id="form-featured-image" type="text" oninput="updateFeaturedPreview(this.value)" value=""
-                    placeholder="Unggah atau tempel URL gambar..."
-                    class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+                  <input id="form-featured-image" type="text" oninput="updateFeaturedPreview(this.value)" value="" placeholder="Unggah atau tempel URL gambar..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
                 </div>
 
                 <div>
                   <label class="block text-[11px] font-semibold text-slate-600">Caption / Kredit Foto</label>
-                  <input id="form-caption" type="text" value="" placeholder="Keterangan foto..."
-                    class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+                  <input id="form-caption" type="text" value="" placeholder="Keterangan foto..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
                 </div>
               </div>
 
@@ -538,8 +484,7 @@
                 <h3 class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Publikasi & Klasifikasi</h3>
                 <div>
                   <label class="block text-xs font-semibold text-slate-700">Status Publikasi</label>
-                  <select id="form-status"
-                    class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900">
+                  <select id="form-status" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900">
                     <option value="published">Published (Tayang)</option>
                     <option value="review">Menunggu Review</option>
                     <option value="draft">Draft</option>
@@ -548,14 +493,17 @@
 
                 <div>
                   <label class="block text-xs font-semibold text-slate-700">Kategori Kanal</label>
-                  <select id="form-category"
-                    class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"></select>
+                  <select id="form-category" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"></select>
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold text-slate-700">Ringkasan SEO (Excerpt)</label>
-                  <textarea id="form-excerpt" rows="3" placeholder="Ringkasan singkat isi berita..."
-                    class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800"></textarea>
+                  <textarea id="form-excerpt" rows="3" placeholder="Ringkasan singkat isi berita..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800"></textarea>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700">Tag / Topik <span class="font-normal text-slate-400">(pisahkan koma, maks 10)</span></label>
+                  <input id="form-tags" type="text" maxlength="300" placeholder="contoh: Jawa Tengah, UMKM, Pilkada" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800" />
                 </div>
 
                 <label class="flex items-center gap-2 text-xs font-medium text-slate-700 pt-1">
@@ -564,12 +512,10 @@
                 </label>
 
                 <div class="pt-3 flex flex-col gap-2">
-                  <button type="submit"
-                    class="w-full rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                  <button type="submit" class="w-full rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
                     💾 Simpan Artikel
                   </button>
-                  <button type="button" onclick="switchTab('articles')"
-                    class="w-full rounded-xl border border-slate-300 bg-white py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                  <button type="button" onclick="switchTab('articles')" class="w-full rounded-xl border border-slate-300 bg-white py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
                     Batal
                   </button>
                 </div>
@@ -583,37 +529,30 @@
         <!-- ========================================================== -->
         <section id="section-categories" class="hidden grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm h-fit">
-            <h3 id="cat-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah
-              Kategori Baru</h3>
+            <h3 id="cat-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah Kategori Baru</h3>
             <form onsubmit="saveCategory(event)" class="mt-4 space-y-4">
               <input type="hidden" id="cat-edit-index" value="-1" />
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Nama Kategori *</label>
-                <input id="cat-name" type="text" required oninput="autoSlug(this.value, 'cat-slug')"
-                  placeholder="Masukkan nama kategori"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+                <input id="cat-name" type="text" required oninput="autoSlug(this.value, 'cat-slug')" placeholder="Masukkan nama kategori" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Slug URL *</label>
-                <input id="cat-slug" type="text" required placeholder="slug-kategori"
-                  class="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-slate-600" />
+                <input id="cat-slug" type="text" required placeholder="slug-kategori" class="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-slate-600" />
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Deskripsi Kanal (SEO Meta)</label>
-                <textarea id="cat-desc" rows="3" placeholder="Deskripsi singkat kanal berita..."
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-brand-600 focus:outline-none"></textarea>
+                <textarea id="cat-desc" rows="3" placeholder="Deskripsi singkat kanal berita..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-brand-600 focus:outline-none"></textarea>
               </div>
               <label class="flex items-center gap-2 text-xs font-semibold text-slate-700">
                 <input id="cat-active" type="checkbox" checked class="rounded border-slate-300 text-brand-600" />
                 <span>Status Aktif (Tampil di Navbar Publik)</span>
               </label>
               <div class="flex gap-2 pt-2">
-                <button type="submit"
-                  class="flex-1 rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                <button type="submit" class="flex-1 rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
                   💾 Simpan Kategori
                 </button>
-                <button type="button" onclick="resetCategoryForm()"
-                  class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                <button type="button" onclick="resetCategoryForm()" class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
                   Reset
                 </button>
               </div>
@@ -628,7 +567,7 @@
               </div>
             </div>
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs">
+              <table class="w-full min-w-[640px] text-left text-xs">
                 <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
                   <tr>
                     <th class="px-6 py-3.5">Nama Kategori</th>
@@ -649,24 +588,20 @@
         <!-- ========================================================== -->
         <section id="section-users" class="hidden grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm h-fit">
-            <h3 id="user-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah
-              Anggota Redaksi / User</h3>
+            <h3 id="user-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah Anggota Redaksi / User</h3>
             <form onsubmit="saveUser(event)" class="mt-4 space-y-4">
               <input type="hidden" id="user-edit-index" value="-1" />
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Nama Lengkap *</label>
-                <input id="user-name" type="text" required placeholder="Nama lengkap"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+                <input id="user-name" type="text" required placeholder="Nama lengkap" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Alamat Email *</label>
-                <input id="user-email" type="email" required placeholder="email@josjisnews.com"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+                <input id="user-email" type="email" required placeholder="email@josjis.news" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Peran Redaksi (Role) *</label>
-                <select id="user-role"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none">
+                <select id="user-role" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none">
                   <option value="super_admin">Super Admin (Akses Penuh)</option>
                   <option value="editor">Editor Redaksi (Bisa Publish & Headline)</option>
                   <option value="journalist" selected>Jurnalis / Wartawan (Draft & Review)</option>
@@ -674,16 +609,13 @@
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Password</label>
-                <input id="user-password" type="password" placeholder="Kosongkan jika tidak diubah"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+                <input id="user-password" type="password" placeholder="Kosongkan jika tidak diubah" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
               </div>
               <div class="flex gap-2 pt-2">
-                <button type="submit"
-                  class="flex-1 rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                <button type="submit" class="flex-1 rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
                   💾 Simpan User
                 </button>
-                <button type="button" onclick="resetUserForm()"
-                  class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                <button type="button" onclick="resetUserForm()" class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
                   Reset
                 </button>
               </div>
@@ -698,7 +630,7 @@
               </div>
             </div>
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs">
+              <table class="w-full min-w-[640px] text-left text-xs">
                 <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
                   <tr>
                     <th class="px-6 py-3.5">Nama & Email</th>
@@ -720,27 +652,23 @@
         <section id="section-ads" class="hidden grid grid-cols-1 gap-6 lg:grid-cols-12">
           <!-- Left 4 Cols: Form Tambah / Edit Slot Iklan -->
           <div class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm h-fit">
-            <h3 id="ad-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah / Edit
-              Slot Advertise</h3>
+            <h3 id="ad-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah / Edit Slot Advertise</h3>
             <form onsubmit="saveAd(event)" class="mt-4 space-y-4">
               <input type="hidden" id="ad-edit-index" value="-1" />
 
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Judul Kampanye / Nama Slot *</label>
-                <input id="ad-title" type="text" required placeholder="Misal: Banner Kampanye Bank Nasional"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
+                <input id="ad-title" type="text" required placeholder="Misal: Banner Kampanye Bank Nasional" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 focus:border-brand-600 focus:outline-none" />
               </div>
 
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Nama Sponsor / Pengiklan</label>
-                <input id="ad-sponsor" type="text" placeholder="Misal: PT Bank Nusantara Tbk"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+                <input id="ad-sponsor" type="text" placeholder="Misal: PT Bank Nusantara Tbk" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
               </div>
 
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Posisi Slot di Halaman Depan *</label>
-                <select id="ad-position"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-900 focus:border-brand-600 focus:outline-none">
+                <select id="ad-position" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-900 focus:border-brand-600 focus:outline-none">
                   <option value="leaderboard_top">Leaderboard Atas Beranda (970×90 / 728×90)</option>
                   <option value="infeed_home">In-Feed Beranda (Di Bawah Indeks Berita)</option>
                   <option value="sidebar_home">Sidebar Kanan Beranda (300×250)</option>
@@ -750,8 +678,7 @@
 
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Jenis Materi Iklan *</label>
-                <select id="ad-type" onchange="toggleAdTypeFields(this.value)"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-900 focus:border-brand-600 focus:outline-none">
+                <select id="ad-type" onchange="toggleAdTypeFields(this.value)" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-900 focus:border-brand-600 focus:outline-none">
                   <option value="image">🖼️ Banner Gambar + Link Tujuan</option>
                   <option value="html">💻 Kode HTML / Banner Teks Kustom</option>
                 </select>
@@ -759,48 +686,38 @@
 
               <!-- Field Khusus Tipe Gambar Banner -->
               <div id="ad-image-fields" class="space-y-3 rounded-xl border border-slate-200 bg-slate-50/70 p-3.5">
-                <div
-                  class="relative aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-white flex items-center justify-center">
-                  <img id="ad-image-preview" src="" alt="Preview Banner Iklan"
-                    class="hidden h-full w-full object-contain" />
-                  <span id="ad-image-empty" class="text-[11px] text-slate-400 px-3 text-center">Belum ada gambar banner
-                    dipilih</span>
+                <div class="relative aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-white flex items-center justify-center">
+                  <img id="ad-image-preview" src="" alt="Preview Banner Iklan" class="hidden h-full w-full object-contain" />
+                  <span id="ad-image-empty" class="text-[11px] text-slate-400 px-3 text-center">Belum ada gambar banner dipilih</span>
                 </div>
 
                 <div class="grid grid-cols-3 gap-1.5">
-                  <button type="button" onclick="openMediaModal('ad_banner', 'upload')"
-                    class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600">
+                  <button type="button" onclick="openMediaModal('ad_banner', 'upload')" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600">
                     📤 Unggah Baru
                   </button>
-                  <button type="button" onclick="openMediaModal('ad_banner', 'library')"
-                    class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600">
+                  <button type="button" onclick="openMediaModal('ad_banner', 'library')" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600">
                     🗂️ Direktori
                   </button>
-                  <button type="button" onclick="openMediaModal('ad_banner', 'link')"
-                    class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600">
+                  <button type="button" onclick="openMediaModal('ad_banner', 'link')" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-bold text-slate-700 hover:border-brand-500 hover:text-brand-600">
                     🔗 Link / Drive
                   </button>
                 </div>
 
                 <div>
                   <label class="block text-[11px] font-semibold text-slate-600">URL / Path Gambar Banner</label>
-                  <input id="ad-image-url" type="text" oninput="updateAdBannerPreview(this.value)"
-                    placeholder="/storage/uploads/images/... atau https://..."
-                    class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+                  <input id="ad-image-url" type="text" oninput="updateAdBannerPreview(this.value)" placeholder="/storage/uploads/images/... atau https://..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
                 </div>
               </div>
 
               <!-- Field Khusus Tipe HTML / Banner Teks -->
               <div id="ad-html-fields" class="hidden space-y-2">
                 <label class="block text-xs font-semibold text-slate-700">Kode HTML Banner / Script Iklan</label>
-                <textarea id="ad-html-code" rows="4" placeholder="<div class='...'>Konten HTML Banner</div>"
-                  class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 font-mono text-xs text-slate-800 focus:border-brand-600 focus:outline-none"></textarea>
+                <textarea id="ad-html-code" rows="4" placeholder="<div class='...'>Konten HTML Banner</div>" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 font-mono text-xs text-slate-800 focus:border-brand-600 focus:outline-none"></textarea>
               </div>
 
               <div>
                 <label class="block text-xs font-semibold text-slate-700">Link URL Tujuan Saat Diklik</label>
-                <input id="ad-target-url" type="url" placeholder="https://..."
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
+                <input id="ad-target-url" type="url" placeholder="https://..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-brand-600 focus:outline-none" />
               </div>
 
               <label class="flex items-center gap-2 text-xs font-semibold text-slate-700">
@@ -809,12 +726,10 @@
               </label>
 
               <div class="flex gap-2 pt-2">
-                <button type="submit"
-                  class="flex-1 rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+                <button type="submit" class="flex-1 rounded-xl bg-brand-600 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
                   💾 Simpan Slot Iklan
                 </button>
-                <button type="button" onclick="resetAdForm()"
-                  class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                <button type="button" onclick="resetAdForm()" class="rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">
                   Reset
                 </button>
               </div>
@@ -826,12 +741,11 @@
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-6 py-4">
               <div>
                 <h3 class="text-sm font-bold text-slate-900">Daftar Slot Advertise Halaman Depan & Artikel</h3>
-                <p class="text-xs text-slate-500">Kelola materi banner, posisi penempatan, status aktif/nonaktif, serta
-                  pantau jumlah tayangan & klik</p>
+                <p class="text-xs text-slate-500">Kelola materi banner, posisi penempatan, status aktif/nonaktif, serta pantau jumlah tayangan & klik</p>
               </div>
             </div>
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs">
+              <table class="w-full min-w-[640px] text-left text-xs">
                 <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
                   <tr>
                     <th class="px-6 py-3.5">Slot Kampanye & Sponsor</th>
@@ -855,32 +769,24 @@
   <!-- ========================================================================= -->
   <!-- MODAL MANAJER MEDIA TERPADU (Unggah Baru, Direktori Media, Link & Google Drive) -->
   <!-- ========================================================================= -->
-  <div id="media-manager-modal"
-    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-    <div
-      class="w-full max-w-4xl rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col max-h-[88vh]">
+  <div id="media-manager-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+    <div class="w-full max-w-4xl rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col max-h-[88vh]">
       <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
         <div>
-          <h3 id="media-modal-title" class="text-sm font-extrabold text-slate-900">Manajer Pustaka & Unggah Media
-            Redaksi</h3>
-          <p id="media-modal-subtitle" class="text-xs text-slate-500">Pilih file dari direktori server, unggah file baru
-            (Gambar/Video/PDF), atau tempel link URL / Google Drive.</p>
+          <h3 id="media-modal-title" class="text-sm font-extrabold text-slate-900">Manajer Pustaka & Unggah Media Redaksi</h3>
+          <p id="media-modal-subtitle" class="text-xs text-slate-500">Pilih file dari direktori server, unggah file baru (Gambar/Video/PDF), atau tempel link URL / Google Drive.</p>
         </div>
-        <button type="button" onclick="closeMediaModal()"
-          class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700 font-bold">✕</button>
+        <button type="button" onclick="closeMediaModal()" class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700 font-bold">✕</button>
       </div>
 
       <div class="flex border-b border-slate-200 bg-white px-6 pt-2 gap-2">
-        <button type="button" onclick="switchMediaModalTab('library')" id="mm-tab-library"
-          class="border-b-2 border-brand-600 px-4 py-2.5 text-xs font-bold text-brand-600">
+        <button type="button" onclick="switchMediaModalTab('library')" id="mm-tab-library" class="border-b-2 border-brand-600 px-4 py-2.5 text-xs font-bold text-brand-600">
           🗂️ Direktori Media
         </button>
-        <button type="button" onclick="switchMediaModalTab('upload')" id="mm-tab-upload"
-          class="border-b-2 border-transparent px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800">
+        <button type="button" onclick="switchMediaModalTab('upload')" id="mm-tab-upload" class="border-b-2 border-transparent px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800">
           📤 Unggah File Baru (Gambar / Video / PDF)
         </button>
-        <button type="button" onclick="switchMediaModalTab('link')" id="mm-tab-link"
-          class="border-b-2 border-transparent px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800">
+        <button type="button" onclick="switchMediaModalTab('link')" id="mm-tab-link" class="border-b-2 border-transparent px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800">
           ☁️🔗 Tempel Link URL / Google Drive
         </button>
       </div>
@@ -889,22 +795,14 @@
         <!-- TAB 1: DIREKTORI MEDIA -->
         <div id="mm-panel-library" class="space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center gap-1.5">
+            <div class="flex flex-wrap items-center gap-1.5">
               <span class="text-xs font-semibold text-slate-500 mr-1">Filter Direktori:</span>
-              <button type="button" onclick="filterMediaLibrary('all')" data-mfilter="all"
-                class="mfilter-btn rounded-full bg-brand-600 px-3 py-1 text-xs font-bold text-white">Semua</button>
-              <button type="button" onclick="filterMediaLibrary('image')" data-mfilter="image"
-                class="mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200">🖼️
-                Gambar</button>
-              <button type="button" onclick="filterMediaLibrary('video')" data-mfilter="video"
-                class="mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200">🎬
-                Video</button>
-              <button type="button" onclick="filterMediaLibrary('pdf')" data-mfilter="pdf"
-                class="mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200">📄
-                Dokumen PDF</button>
+              <button type="button" onclick="filterMediaLibrary('all')" data-mfilter="all" class="mfilter-btn rounded-full bg-brand-600 px-3 py-1 text-xs font-bold text-white">Semua</button>
+              <button type="button" onclick="filterMediaLibrary('image')" data-mfilter="image" class="mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200">🖼️ Gambar</button>
+              <button type="button" onclick="filterMediaLibrary('video')" data-mfilter="video" class="mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200">🎬 Video</button>
+              <button type="button" onclick="filterMediaLibrary('pdf')" data-mfilter="pdf" class="mfilter-btn rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200">📄 Dokumen PDF</button>
             </div>
-            <span class="text-[11px] text-slate-400">Menampilkan file asli dari direktori
-              <code>storage/uploads/</code></span>
+            <span class="text-[11px] text-slate-400">Menampilkan file asli dari direktori <code>storage/uploads/</code></span>
           </div>
 
           <div id="media-library-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4"></div>
@@ -913,25 +811,17 @@
         <!-- TAB 2: UNGGAH FILE BARU DARI KOMPUTER -->
         <div id="mm-panel-upload" class="hidden space-y-4">
           <div class="rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 text-center">
-            <div
-              class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 text-2xl">
-              📤</div>
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 text-2xl">📤</div>
             <h4 class="mt-3 text-sm font-bold text-slate-900">Pilih File dari Komputer untuk Diunggah ke Server</h4>
-            <p class="mt-1 text-xs text-slate-500">Mendukung Gambar (<strong>JPG, PNG, WebP, GIF</strong>), Video
-              (<strong>MP4, WebM</strong>), serta Dokumen (<strong>PDF</strong>)</p>
+            <p class="mt-1 text-xs text-slate-500">Mendukung Gambar (<strong>JPG, PNG, WebP, GIF</strong>), Video (<strong>MP4, WebM</strong>), serta Dokumen (<strong>PDF</strong>)</p>
 
-            <input id="mm-file-input" type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,application/pdf"
-              onchange="handleNewMediaUpload(event)" class="hidden" />
+            <input id="mm-file-input" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,application/pdf" onchange="handleNewMediaUpload(event)" class="hidden" />
             <div class="mt-5">
-              <button type="button" onclick="document.getElementById('mm-file-input').click()"
-                class="rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+              <button type="button" onclick="document.getElementById('mm-file-input').click()" class="rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
                 Pilih File Gambar / Video / PDF dari Komputer...
               </button>
             </div>
-            <p class="mt-3 text-[11px] text-slate-400">File yang diunggah akan disimpan ke direktori
-              <code>storage/uploads/</code> dan langsung disisipkan.
-            </p>
+            <p class="mt-3 text-[11px] text-slate-400">File yang diunggah akan disimpan ke direktori <code>storage/uploads/</code> dan langsung disisipkan.</p>
           </div>
         </div>
 
@@ -940,16 +830,12 @@
           <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-5 space-y-4">
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div class="sm:col-span-2">
-                <label class="block text-xs font-bold text-slate-700">Tempel Link URL (Gambar / Video / PDF / Link
-                  Google Drive) *</label>
-                <input id="mm-external-url" type="url"
-                  placeholder="https://drive.google.com/file/d/.../view atau https://..."
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900 focus:border-brand-600 focus:outline-none" />
+                <label class="block text-xs font-bold text-slate-700">Tempel Link URL (Gambar / Video / PDF / Link Google Drive) *</label>
+                <input id="mm-external-url" type="url" placeholder="https://drive.google.com/file/d/.../view atau https://..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900 focus:border-brand-600 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-700">Jenis Media</label>
-                <select id="mm-external-type"
-                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900">
+                <select id="mm-external-type" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900">
                   <option value="auto">Deteksi Otomatis</option>
                   <option value="image">🖼️ Gambar (Image / Foto Google Drive)</option>
                   <option value="video">🎬 Video (MP4 / Video Google Drive)</option>
@@ -960,13 +846,11 @@
 
             <div>
               <label class="block text-xs font-bold text-slate-700">Judul / Keterangan Caption Media</label>
-              <input id="mm-external-caption" type="text" placeholder="Masukkan keterangan media..."
-                class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-900 focus:border-brand-600 focus:outline-none" />
+              <input id="mm-external-caption" type="text" placeholder="Masukkan keterangan media..." class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-900 focus:border-brand-600 focus:outline-none" />
             </div>
 
             <div class="pt-2">
-              <button type="button" onclick="insertExternalMedia()"
-                class="rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
+              <button type="button" onclick="insertExternalMedia()" class="rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
                 ✓ Sisipkan Link Media
               </button>
             </div>
@@ -993,7 +877,7 @@
 
     // Interceptor fetch global agar setiap request ke /api/v1/ menyertakan token sesi admin
     const nativeFetch = window.fetch.bind(window);
-    window.fetch = async function (input, init = {}) {
+    window.fetch = async function(input, init = {}) {
       const url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
       const token = localStorage.getItem(AUTH_TOKEN_KEY) || '';
       const headers = new Headers(init.headers || {});
@@ -1003,6 +887,16 @@
       }
       const nextInit = { ...init, headers, credentials: 'same-origin' };
       const response = await nativeFetch(input, nextInit);
+
+      // Aksi tulis admin yang gagal (403/409/422/429/5xx): tampilkan pesan server & hentikan alur "sukses".
+      const verb = String(nextInit.method || 'GET').toUpperCase();
+      if (!response.ok && response.status !== 401 && verb !== 'GET' && url.includes('/api/v1/admin/') &&
+          !/\/admin\/(login|logout|media|password|2fa\/)/.test(url)) {
+        let msg = 'Aksi gagal (' + response.status + ').';
+        try { msg = (await response.clone().json()).message || msg; } catch (e) {}
+        showToast(msg, true);
+        throw new Error(msg);
+      }
 
       // Jika endpoint admin mengembalikan 401 (sesi berakhir / sudah logout), otomatis paksa ke layar login
       if (
@@ -1058,12 +952,26 @@
       }
     }
 
+    function applyRoleUi(role) {
+      const isEditorial = role === 'super_admin' || role === 'editor';
+      const hide = { categories: !isEditorial, ads: !isEditorial, users: role !== 'super_admin' };
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (hide[btn.dataset.tab] !== undefined) btn.classList.toggle('hidden', hide[btn.dataset.tab]);
+      });
+      const hl = document.getElementById('form-headline');
+      if (hl) { hl.closest('label').classList.toggle('hidden', !isEditorial); if (!isEditorial) hl.checked = false; }
+      const pub = document.querySelector('#form-status option[value="published"]');
+      if (pub) { pub.disabled = !isEditorial; pub.textContent = isEditorial ? 'Published (Tayang)' : 'Published (khusus Editor)'; }
+    }
+
     function showDashboardScreen(user) {
       currentUser = user;
       const loginEl = document.getElementById('login-screen');
       const dashEl = document.getElementById('dashboard-screen');
       document.getElementById('active-user-initial').textContent = (user.name || 'A').charAt(0).toUpperCase();
-      document.getElementById('active-role-badge').textContent = user.name || 'Administrator';
+      const roleLabel = { super_admin: 'Super Admin', editor: 'Editor', journalist: 'Jurnalis' }[user.role] || user.role;
+      document.getElementById('active-role-badge').textContent = (user.name || 'Administrator') + ' · ' + roleLabel;
+      applyRoleUi(user.role);
 
       loginEl.classList.add('hidden');
       loginEl.classList.remove('flex');
@@ -1073,13 +981,7 @@
     }
 
     async function verifyAdminSessionOnBoot() {
-      const token = localStorage.getItem(AUTH_TOKEN_KEY);
-      if (!token) {
-        clearClientAuthState();
-        showLoginScreen();
-        return;
-      }
-
+      try { localStorage.removeItem(AUTH_TOKEN_KEY); localStorage.removeItem(AUTH_USER_KEY); } catch (e) {}
       try {
         const res = await fetch('/api/v1/admin/me', { headers: { 'Accept': 'application/json' } });
         if (!res.ok) {
@@ -1117,7 +1019,7 @@
           throw new Error(json.message || 'Gagal mengunggah gambar');
         });
       }
-      abort() { }
+      abort() {}
     }
     function ServerUploadAdapterPlugin(editor) {
       editor.plugins.get('FileRepository').createUploadAdapter = (loader) => new ServerUploadAdapter(loader);
@@ -1247,14 +1149,34 @@
       }
     });
 
-    function showToast(msg) {
+    function showToast(msg, isError) {
       const banner = document.getElementById('toast-banner');
-      document.getElementById('toast-message').textContent = msg;
-      banner.classList.remove('hidden');
-      document.getElementById('db-status-pill').textContent = 'Tersimpan @ ' + new Date().toLocaleTimeString('id-ID');
+      document.getElementById('toast-message').textContent = (isError ? '⚠️ ' : '') + msg;
+      banner.className = 'rounded-xl border px-4 py-3 text-xs font-semibold flex items-center justify-between shadow-sm ' +
+        (isError ? 'border-rose-200 bg-rose-50 text-rose-800' : 'border-emerald-200 bg-emerald-50 text-emerald-800');
+      if (!isError) document.getElementById('db-status-pill').textContent = 'Tersimpan @ ' + new Date().toLocaleTimeString('id-ID');
     }
 
+    // ---- Laci sidebar (mobile/tablet)
+    function openSidebar() {
+      document.getElementById('admin-sidebar').classList.remove('-translate-x-full');
+      document.getElementById('sidebar-overlay').classList.remove('hidden');
+      document.getElementById('sidebar-toggle').setAttribute('aria-expanded', 'true');
+      document.body.classList.add('overflow-hidden');
+    }
+    function closeSidebar() {
+      const sb = document.getElementById('admin-sidebar');
+      if (!sb) return;
+      sb.classList.add('-translate-x-full');
+      document.getElementById('sidebar-overlay').classList.add('hidden');
+      document.getElementById('sidebar-toggle').setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('overflow-hidden');
+    }
+    document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeSidebar(); });
+    window.addEventListener('resize', () => { if (window.innerWidth >= 1024) closeSidebar(); });
+
     function switchTab(tab) {
+      closeSidebar();
       const sections = ['dashboard', 'articles', 'editor', 'categories', 'ads', 'users'];
       sections.forEach(s => {
         document.getElementById('section-' + s).classList.toggle('hidden', s !== tab);
@@ -1319,10 +1241,10 @@
       const days = Array.isArray(STATS.daily_views) && STATS.daily_views.length > 0
         ? STATS.daily_views
         : [
-          { label: 'H-6', views: 0 }, { label: 'H-5', views: 0 }, { label: 'H-4', views: 0 },
-          { label: 'H-3', views: 0 }, { label: 'H-2', views: 0 }, { label: 'Kemarin', views: 0 },
-          { label: 'Hari Ini', views: 0 }
-        ];
+            { label: 'H-6', views: 0 }, { label: 'H-5', views: 0 }, { label: 'H-4', views: 0 },
+            { label: 'H-3', views: 0 }, { label: 'H-2', views: 0 }, { label: 'Kemarin', views: 0 },
+            { label: 'Hari Ini', views: 0 }
+          ];
       const maxViews = Math.max(1, ...days.map(d => Number(d.views || 0)));
       chartEl.innerHTML = days.map((d, idx) => {
         const v = Number(d.views || 0);
@@ -1346,8 +1268,8 @@
       const statusBadge = (st) => st === 'published'
         ? '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">Published</span>'
         : st === 'review'
-          ? '<span class="rounded-full bg-amber-50 border border-amber-200 px-2.5 py-0.5 text-[11px] font-bold text-amber-700">Review</span>'
-          : '<span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-600">Draft</span>';
+        ? '<span class="rounded-full bg-amber-50 border border-amber-200 px-2.5 py-0.5 text-[11px] font-bold text-amber-700">Review</span>'
+        : '<span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-600">Draft</span>';
 
       // Render Dashboard Recent Table
       const recentBody = document.getElementById('dashboard-recent-articles');
@@ -1411,8 +1333,8 @@
           <td class="px-4 py-3.5 text-slate-500 max-w-xs truncate">${escapeHtml(c.desc)}</td>
           <td class="px-4 py-3.5">
             ${c.active
-          ? '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">Aktif</span>'
-          : '<span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-500">Nonaktif</span>'}
+              ? '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">Aktif</span>'
+              : '<span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-500">Nonaktif</span>'}
           </td>
           <td class="px-6 py-3.5 text-right space-x-1.5">
             <button onclick="editCategory(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 hover:border-brand-500">✏️ Edit</button>
@@ -1425,19 +1347,21 @@
       const roleBadge = (r) => r === 'super_admin'
         ? '<span class="rounded-full bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-[11px] font-bold text-rose-700">Super Admin</span>'
         : r === 'editor'
-          ? '<span class="rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-sky-700">Editor Redaksi</span>'
-          : '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">Jurnalis</span>';
+        ? '<span class="rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-sky-700">Editor Redaksi</span>'
+        : '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">Jurnalis</span>';
 
       document.getElementById('users-table-body').innerHTML = CMS_USERS.map((u, idx) => `
         <tr class="hover:bg-slate-50/80">
           <td class="px-6 py-3.5">
             <div class="font-bold text-slate-900">${escapeHtml(u.name)}</div>
             <div class="text-[11px] text-slate-400">${escapeHtml(u.email)}</div>
+            <div class="mt-0.5 text-[10px] font-bold ${u.two_factor ? 'text-emerald-600' : 'text-slate-400'}">${u.two_factor ? '🛡️ 2FA aktif' : '2FA belum aktif'}</div>
           </td>
           <td class="px-4 py-3.5">${roleBadge(u.role)}</td>
           <td class="px-4 py-3.5 text-slate-600">${u.role === 'journalist' ? 'Draft & Review' : '✓ Publish & Headline'}</td>
           <td class="px-4 py-3.5 font-mono text-slate-700">${Number(u.articles || 0)} artikel</td>
           <td class="px-6 py-3.5 text-right space-x-1.5">
+            ${u.two_factor && currentUser && u.id !== currentUser.id ? `<button onclick="resetUser2fa(${idx})" title="Setel ulang 2FA (perangkat hilang)" class="rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700 hover:bg-amber-100">🔓 Reset 2FA</button>` : ''}
             <button onclick="editUser(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 hover:border-brand-500">✏️ Edit</button>
             <button onclick="deleteUser(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>
           </td>
@@ -1472,11 +1396,11 @@
               <td class="px-4 py-3.5">${posLabels[ad.position] || escapeHtml(ad.position)}</td>
               <td class="px-4 py-3.5">
                 ${ad.ad_type === 'image'
-              ? `<div class="flex items-center gap-2">
+                  ? `<div class="flex items-center gap-2">
                        ${ad.image_url ? `<img src="${escapeHtml(ad.image_url)}" class="h-8 w-14 rounded border border-slate-200 object-cover" />` : ''}
                        <span class="font-semibold text-slate-700">🖼️ Banner Gambar</span>
                      </div>`
-              : '<span class="font-semibold text-slate-700">💻 HTML / Script</span>'}
+                  : '<span class="font-semibold text-slate-700">💻 HTML / Script</span>'}
               </td>
               <td class="px-4 py-3.5 font-mono text-slate-600">
                 <div>👁️ ${Number(ad.views_count || 0).toLocaleString('id-ID')} tayangan</div>
@@ -1485,8 +1409,8 @@
               <td class="px-4 py-3.5">
                 <button onclick="toggleAdStatus(${idx})" title="Klik untuk mengubah status tayang" class="cursor-pointer">
                   ${ad.active
-              ? '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700 hover:bg-emerald-100">✓ Aktif Tayang</span>'
-              : '<span class="rounded-full bg-slate-100 border border-slate-200 px-2.5 py-0.5 text-[11px] font-bold text-slate-500 hover:bg-slate-200">Nonaktif</span>'}
+                    ? '<span class="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700 hover:bg-emerald-100">✓ Aktif Tayang</span>'
+                    : '<span class="rounded-full bg-slate-100 border border-slate-200 px-2.5 py-0.5 text-[11px] font-bold text-slate-500 hover:bg-slate-200">Nonaktif</span>'}
                 </button>
               </td>
               <td class="px-6 py-3.5 text-right space-x-1.5">
@@ -1511,6 +1435,7 @@
         document.getElementById('form-category').value = a.category;
         document.getElementById('form-status').value = a.status;
         document.getElementById('form-headline').checked = Boolean(a.headline);
+        document.getElementById('form-tags').value = (a.tags || []).map(t => t.name || t).join(', ');
         setFeaturedImage(a.image || '', a.caption_image || '');
         if (ckEditorInstance) ckEditorInstance.setData(a.body || '');
       } else {
@@ -1518,6 +1443,7 @@
         document.getElementById('form-title').value = '';
         document.getElementById('form-slug').value = '';
         document.getElementById('form-excerpt').value = '';
+        document.getElementById('form-tags').value = '';
         setFeaturedImage('', '');
         if (ckEditorInstance) {
           ckEditorInstance.setData('');
@@ -1539,20 +1465,22 @@
         author: existing && existing.author ? existing.author : currentUser.name,
         status: document.getElementById('form-status').value,
         headline: document.getElementById('form-headline').checked,
+        tags: document.getElementById('form-tags').value,
         image: document.getElementById('form-featured-image').value,
         image_caption: document.getElementById('form-caption').value,
         body: ckEditorInstance ? sanitizeRichHtml(ckEditorInstance.getData()) : ''
       };
 
-      await fetch('/api/v1/admin/articles', {
+      const saveRes = await fetch('/api/v1/admin/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
       });
+      const saveJson = await saveRes.json().catch(() => ({}));
       await syncAdminFromDatabase();
 
       switchTab('articles');
-      showToast('Artikel "' + payload.title + '" berhasil disimpan ke database!');
+      showToast(saveJson.message ? ('"' + payload.title + '": ' + saveJson.message) : ('Artikel "' + payload.title + '" berhasil disimpan!'));
     }
 
     async function deleteArticle(idx) {
@@ -2096,6 +2024,14 @@
           body: JSON.stringify({ email, password })
         });
         const json = await res.json();
+        if (res.ok && json.status === '2fa_required' && json.challenge) {
+          pendingChallenge = json.challenge;
+          document.querySelector('#login-screen form[onsubmit="handleLogin(event)"]').classList.add('hidden');
+          document.getElementById('login-2fa-form').classList.remove('hidden');
+          document.getElementById('login-password').value = '';
+          const c = document.getElementById('login-2fa-code'); c.value = ''; c.focus();
+          return;
+        }
         if (!res.ok || json.status !== 'success' || !json.token) {
           errBox.textContent = json.message || 'Login gagal. Periksa email dan password Anda.';
           errBox.classList.remove('hidden');
@@ -2103,8 +2039,11 @@
         }
 
         // Simpan token sesi & user ke localStorage
-        localStorage.setItem(AUTH_TOKEN_KEY, json.token);
-        localStorage.setItem(AUTH_USER_KEY, JSON.stringify(json.user));
+        // Sesi dipegang cookie httpOnly; token TIDAK disimpan di JS agar tahan XSS.
+        onLoginSuccess(json);
+        if (json.must_change_password) {
+          setTimeout(() => openPasswordModal('Password Anda belum memenuhi standar keamanan. Silakan ganti sekarang.'), 400);
+        }
 
         // Kosongkan field password demi keamanan
         document.getElementById('login-password').value = '';
@@ -2139,6 +2078,250 @@
       showLoginScreen('Anda telah berhasil keluar (logout). Silakan login kembali untuk mengakses dashboard.');
     }
   </script>
-</body>
 
+  <!-- MODAL GANTI PASSWORD -->
+  <div id="pw-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/50 p-4">
+    <form onsubmit="submitPassword(event)" class="w-full max-w-sm space-y-3 rounded-2xl bg-white p-6 shadow-2xl">
+      <h3 class="text-base font-extrabold text-slate-900">Ganti Password</h3>
+      <p id="pw-note" class="text-xs text-slate-500">Minimal 10 karakter, kombinasi huruf dan angka.</p>
+      <div id="pw-error" class="hidden rounded-lg bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700"></div>
+      <input id="pw-current" type="password" required autocomplete="current-password" placeholder="Password saat ini" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+      <input id="pw-new" type="password" required minlength="10" autocomplete="new-password" placeholder="Password baru" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+      <div class="flex gap-2 pt-1">
+        <button type="submit" class="flex-1 rounded-xl bg-brand-600 py-2 text-xs font-bold text-white hover:bg-brand-700">Simpan</button>
+        <button type="button" onclick="closePasswordModal()" class="flex-1 rounded-xl border border-slate-300 py-2 text-xs font-semibold text-slate-600">Batal</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    function openPasswordModal(note) {
+      document.getElementById('pw-note').textContent = note || 'Minimal 10 karakter, kombinasi huruf dan angka.';
+      document.getElementById('pw-error').classList.add('hidden');
+      const m = document.getElementById('pw-modal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+    }
+    function closePasswordModal() {
+      const m = document.getElementById('pw-modal');
+      m.classList.add('hidden'); m.classList.remove('flex');
+      document.getElementById('pw-current').value = ''; document.getElementById('pw-new').value = '';
+    }
+    async function submitPassword(e) {
+      e.preventDefault();
+      const err = document.getElementById('pw-error');
+      err.classList.add('hidden');
+      const res = await fetch('/api/v1/admin/password', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ current_password: document.getElementById('pw-current').value, new_password: document.getElementById('pw-new').value })
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) { err.textContent = json.message || 'Gagal mengganti password.'; err.classList.remove('hidden'); return; }
+      closePasswordModal();
+      showToast(json.message || 'Password berhasil diganti.');
+    }
+  </script>
+
+  <!-- MODAL KEAMANAN AKUN / 2FA -->
+  <div id="sec-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/50 p-4">
+    <div class="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
+      <div class="flex items-start justify-between">
+        <h3 class="text-base font-extrabold text-slate-900">🛡️ Keamanan Akun — Verifikasi 2 Langkah</h3>
+        <button onclick="closeSecurityModal()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+      </div>
+      <p id="sec-note" class="mt-1 text-xs text-slate-500"></p>
+      <div id="sec-error" class="mt-3 hidden rounded-lg bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700"></div>
+
+      <!-- Status: nonaktif -->
+      <div id="sec-off" class="mt-4 hidden space-y-3">
+        <p class="text-xs text-slate-600">2FA menambah lapisan kedua: selain password, login butuh kode 6 digit dari ponsel Anda. Sangat disarankan untuk Super Admin &amp; Editor.</p>
+        <button onclick="startTwoFactorSetup()" class="w-full rounded-xl bg-emerald-600 py-2 text-xs font-bold text-white hover:bg-emerald-700">Aktifkan 2FA</button>
+      </div>
+
+      <!-- Setup -->
+      <div id="sec-setup" class="mt-4 hidden space-y-3">
+        <ol class="list-decimal space-y-1 pl-5 text-xs text-slate-600">
+          <li>Buka aplikasi autentikator → <em>Tambah akun</em> → <em>Masukkan kunci setup</em> (atau buka tautan di bawah dari ponsel).</li>
+          <li>Isi kunci di bawah, jenis <strong>berbasis waktu (TOTP)</strong>.</li>
+          <li>Masukkan kode 6 digit yang muncul untuk mengonfirmasi.</li>
+        </ol>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-3 text-center">
+          <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Kunci setup</div>
+          <div id="sec-secret" class="mt-1 select-all break-all font-mono text-sm font-bold tracking-wider text-slate-900"></div>
+          <a id="sec-uri" href="#" class="mt-2 inline-block text-[11px] font-semibold text-brand-600 underline">Buka di aplikasi autentikator ↗</a>
+        </div>
+        <input id="sec-enable-code" type="text" inputmode="numeric" maxlength="7" autocomplete="one-time-code" placeholder="Kode 6 digit" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-center font-mono text-lg tracking-[0.3em]" />
+        <button onclick="confirmTwoFactorEnable()" class="w-full rounded-xl bg-emerald-600 py-2 text-xs font-bold text-white hover:bg-emerald-700">Konfirmasi &amp; Aktifkan</button>
+      </div>
+
+      <!-- Kode pemulihan (tampil sekali) -->
+      <div id="sec-codes" class="mt-4 hidden space-y-3">
+        <div class="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800"><strong>Simpan kode pemulihan ini sekarang.</strong> Tiap kode hanya bisa dipakai sekali bila ponsel hilang. Kode ini <u>tidak akan ditampilkan lagi</u>.</div>
+        <pre id="sec-codes-list" class="select-all rounded-xl bg-slate-900 p-3 text-center font-mono text-sm leading-7 text-emerald-300"></pre>
+        <div class="flex gap-2">
+          <button onclick="copyRecoveryCodes()" class="flex-1 rounded-xl border border-slate-300 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50">Salin</button>
+          <button onclick="downloadRecoveryCodes()" class="flex-1 rounded-xl border border-slate-300 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50">Unduh .txt</button>
+        </div>
+        <button onclick="refreshSecurityModal()" class="w-full rounded-xl bg-slate-900 py-2 text-xs font-bold text-white">Sudah saya simpan</button>
+      </div>
+
+      <!-- Status: aktif -->
+      <div id="sec-on" class="mt-4 hidden space-y-3">
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">✓ 2FA aktif · Sisa kode pemulihan: <span id="sec-remaining">0</span></div>
+        <p class="text-xs text-slate-500">Untuk mengubah pengaturan, konfirmasi dengan password dan kode 2FA (atau kode pemulihan).</p>
+        <input id="sec-pw" type="password" autocomplete="current-password" placeholder="Password saat ini" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+        <input id="sec-code" type="text" autocomplete="one-time-code" maxlength="16" placeholder="Kode 6 digit / kode pemulihan" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-mono" />
+        <div class="flex gap-2">
+          <button onclick="regenRecoveryCodes()" class="flex-1 rounded-xl border border-slate-300 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50">Buat kode pemulihan baru</button>
+          <button id="sec-disable-btn" onclick="disableTwoFactor()" class="flex-1 rounded-xl border border-rose-200 bg-rose-50 py-2 text-xs font-bold text-rose-700 hover:bg-rose-100">Nonaktifkan 2FA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    let pendingChallenge = null;
+    let lastRecoveryCodes = [];
+
+    function onLoginSuccess(json) {
+      pendingChallenge = null;
+      document.getElementById('login-2fa-form').classList.add('hidden');
+      const lf = document.querySelector('#login-screen form[onsubmit="handleLogin(event)"]');
+      if (lf) lf.classList.remove('hidden');
+      if (json.used_recovery_code) {
+        setTimeout(() => showToast('Anda masuk dengan kode pemulihan. Sisa: ' + json.recovery_remaining + '. Buat kode baru di Keamanan Akun.', true), 600);
+      }
+      if (json.must_enable_2fa) {
+        setTimeout(() => openSecurityModal('Peran Anda wajib memakai 2FA. Aktifkan sekarang untuk melanjutkan.'), 500);
+      }
+    }
+
+    function cancelLogin2fa() {
+      pendingChallenge = null;
+      document.getElementById('login-2fa-form').classList.add('hidden');
+      document.querySelector('#login-screen form[onsubmit="handleLogin(event)"]').classList.remove('hidden');
+    }
+
+    async function handleLogin2fa(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('login-error');
+      const btn = document.getElementById('login-2fa-btn');
+      errBox.classList.add('hidden');
+      btn.disabled = true; btn.textContent = 'Memverifikasi...';
+      try {
+        const res = await fetch('/api/v1/admin/login/2fa', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ challenge: pendingChallenge, code: document.getElementById('login-2fa-code').value })
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || json.status !== 'success') {
+          errBox.textContent = json.message || 'Verifikasi gagal.';
+          errBox.classList.remove('hidden');
+          if (res.status === 401 && /kedaluwarsa/i.test(json.message || '') || res.status === 429) cancelLogin2fa();
+          return;
+        }
+        document.getElementById('login-2fa-code').value = '';
+        showDashboardScreen(json.user);
+        onLoginSuccess(json);
+        await syncAdminFromDatabase();
+      } catch (err) {
+        errBox.textContent = 'Gagal menghubungi server.'; errBox.classList.remove('hidden');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Verifikasi & Masuk →';
+      }
+    }
+
+    /* ---------- Modal Keamanan Akun ---------- */
+    function secShow(id) {
+      ['sec-off', 'sec-setup', 'sec-codes', 'sec-on'].forEach(x => document.getElementById(x).classList.toggle('hidden', x !== id));
+    }
+    function secError(msg) {
+      const el = document.getElementById('sec-error');
+      el.textContent = msg || ''; el.classList.toggle('hidden', !msg);
+    }
+    async function secApi(path, body) {
+      const res = await fetch('/api/v1/admin/2fa/' + path, {
+        method: body === undefined ? 'GET' : 'POST', headers: { 'Content-Type': 'application/json' },
+        body: body === undefined ? undefined : JSON.stringify(body)
+      });
+      const json = await res.json().catch(() => ({}));
+      return { ok: res.ok, json };
+    }
+    async function openSecurityModal(note) {
+      const m = document.getElementById('sec-modal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+      document.getElementById('sec-note').textContent = note || '';
+      await refreshSecurityModal();
+    }
+    function closeSecurityModal() {
+      const m = document.getElementById('sec-modal');
+      m.classList.add('hidden'); m.classList.remove('flex');
+      lastRecoveryCodes = [];
+      document.getElementById('sec-codes-list').textContent = '';
+    }
+    async function refreshSecurityModal() {
+      secError('');
+      ['sec-pw', 'sec-code', 'sec-enable-code'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('sec-codes-list').textContent = ''; lastRecoveryCodes = [];
+      const { ok, json } = await secApi('status');
+      if (!ok) { secError(json.message || 'Gagal memuat status.'); return; }
+      if (json.data.enabled) {
+        document.getElementById('sec-remaining').textContent = json.data.recovery_remaining;
+        document.getElementById('sec-disable-btn').disabled = !!json.data.required;
+        document.getElementById('sec-disable-btn').title = json.data.required ? 'Peran Anda wajib memakai 2FA' : '';
+        secShow('sec-on');
+      } else { secShow('sec-off'); }
+    }
+    async function startTwoFactorSetup() {
+      secError('');
+      const { ok, json } = await secApi('setup', {});
+      if (!ok) { secError(json.message || 'Gagal memulai.'); return; }
+      document.getElementById('sec-secret').textContent = json.data.secret_text;
+      document.getElementById('sec-uri').href = json.data.uri;
+      secShow('sec-setup');
+      document.getElementById('sec-enable-code').focus();
+    }
+    function showRecoveryCodes(codes) {
+      lastRecoveryCodes = codes || [];
+      document.getElementById('sec-codes-list').textContent = lastRecoveryCodes.join('\n');
+      secShow('sec-codes');
+    }
+    async function confirmTwoFactorEnable() {
+      secError('');
+      const { ok, json } = await secApi('enable', { code: document.getElementById('sec-enable-code').value });
+      if (!ok) { secError(json.message || 'Kode salah.'); return; }
+      showRecoveryCodes(json.data.recovery_codes);
+      if (currentUser) { currentUser.two_factor = true; }
+      syncAdminFromDatabase();
+    }
+    async function regenRecoveryCodes() {
+      secError('');
+      const { ok, json } = await secApi('recovery-codes', { password: document.getElementById('sec-pw').value, code: document.getElementById('sec-code').value });
+      if (!ok) { secError(json.message || 'Gagal.'); return; }
+      showRecoveryCodes(json.data.recovery_codes);
+    }
+    async function disableTwoFactor() {
+      secError('');
+      if (!confirm('Nonaktifkan 2FA? Akun Anda jadi lebih rentan bila password bocor.')) return;
+      const { ok, json } = await secApi('disable', { password: document.getElementById('sec-pw').value, code: document.getElementById('sec-code').value });
+      if (!ok) { secError(json.message || 'Gagal.'); return; }
+      showToast(json.message || '2FA dinonaktifkan.');
+      await refreshSecurityModal();
+      syncAdminFromDatabase();
+    }
+    function copyRecoveryCodes() {
+      navigator.clipboard && navigator.clipboard.writeText(lastRecoveryCodes.join('\n'));
+      showToast('Kode pemulihan disalin ke clipboard.');
+    }
+    function downloadRecoveryCodes() {
+      const blob = new Blob(['Kode pemulihan JosjisNews (sekali pakai)\n\n' + lastRecoveryCodes.join('\n') + '\n'], { type: 'text/plain' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'josjisnews-kode-pemulihan.txt';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
+    }
+    async function resetUser2fa(idx) {
+      const u = CMS_USERS[idx];
+      if (!u || !confirm('Setel ulang 2FA untuk ' + u.email + '? Sesi pengguna itu akan diakhiri.')) return;
+      await fetch('/api/v1/admin/users/' + encodeURIComponent(u.id) + '/2fa-reset', { method: 'POST' });
+      await syncAdminFromDatabase();
+      showToast('2FA ' + u.email + ' disetel ulang.');
+    }
+  </script>
+</body>
 </html>
