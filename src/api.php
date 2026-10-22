@@ -310,7 +310,13 @@ function api_bootstrap(PDO $pdo)
 
     $daily = [];
     $names = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
-    $stDay = $pdo->prepare('SELECT COUNT(*) FROM article_views WHERE date(viewed_at) = ?');
+    // Jurnalis hanya melihat statistik tulisannya sendiri.
+    if ($isEditorial) {
+        $stDay = $pdo->prepare('SELECT COUNT(*) FROM article_views WHERE date(viewed_at) = ?');
+    } else {
+        $stDay = $pdo->prepare('SELECT COUNT(*) FROM article_views v INNER JOIN articles a ON a.id = v.article_id
+            WHERE a.user_id = ' . (int) $admin['id'] . ' AND date(v.viewed_at) = ?');
+    }
     for ($i = 6; $i >= 0; $i--) {
         $d = gmdate('Y-m-d', strtotime("-{$i} days"));
         $stDay->execute([$d]);
@@ -325,7 +331,8 @@ function api_bootstrap(PDO $pdo)
         'advertisements' => $ads,
         'media'          => scan_media(),
         'stats'          => [
-            'total_views' => (int) $pdo->query('SELECT COALESCE(SUM(views_count),0) FROM articles')->fetchColumn(),
+            'total_views' => (int) $pdo->query('SELECT COALESCE(SUM(views_count),0) FROM articles'
+                . ($isEditorial ? '' : ' WHERE user_id = ' . (int) $admin['id']))->fetchColumn(),
             'daily_views' => $daily,
         ],
         'me'             => array_diff_key($admin, ['token' => 1]), // token sesi tidak boleh sampai ke JS
@@ -401,6 +408,33 @@ function api_admin(PDO $pdo, array $admin, $uri, $method)
     if ($uri === '/api/v1/admin/articles' && $method === 'POST') {
         return api_save_article($pdo, $admin, request_json());
     }
+    // Antrean review: editor/super admin menyetujui (terbit) atau mengembalikan ke draft.
+    if ($method === 'POST' && preg_match('#^/api/v1/admin/articles/(\d+)/review$#', $uri, $m)) {
+        require_admin($pdo, EDITORIAL);
+        $act = (string) (request_json()['action'] ?? '');
+        if (!in_array($act, ['approve', 'reject'], true)) {
+            json_error('Aksi harus "approve" atau "reject".', 422);
+        }
+        $st = $pdo->prepare('SELECT id, status, title, published_at FROM articles WHERE id = ?');
+        $st->execute([(int) $m[1]]);
+        $a = $st->fetch();
+        if (!$a) {
+            json_error('Artikel ora ditemokake.', 404);
+        }
+        if ($a['status'] !== 'review') {
+            json_error('Artikel iki ora lagi ing antrean review.', 409);
+        }
+        if ($act === 'approve') {
+            $pdo->prepare("UPDATE articles SET status = 'published', published_at = COALESCE(published_at, ?), updated_at = datetime('now') WHERE id = ?")
+                ->execute([gmdate('Y-m-d H:i:s'), $a['id']]);
+            audit($pdo, $admin['id'], 'article_approve', $a['title']);
+            json_out(['status' => 'success', 'message' => 'Artikel disetujui dan langsung tayang.', 'saved_status' => 'published']);
+        }
+        $pdo->prepare("UPDATE articles SET status = 'draft', updated_at = datetime('now') WHERE id = ?")->execute([$a['id']]);
+        audit($pdo, $admin['id'], 'article_reject', $a['title']);
+        json_out(['status' => 'success', 'message' => 'Artikel dikembalikan ke draft penulis.', 'saved_status' => 'draft']);
+    }
+
     if ($method === 'DELETE' && preg_match('#^/api/v1/admin/articles/(\d+)$#', $uri, $m)) {
         $st = $pdo->prepare('SELECT id, user_id, status, title FROM articles WHERE id = ?');
         $st->execute([(int) $m[1]]);

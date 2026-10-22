@@ -151,6 +151,11 @@
             <span id="badge-count-articles" class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">0</span>
           </button>
 
+          <button onclick="switchTab('review')" data-tab="review" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+            <span class="flex items-center gap-2.5">🕒 Antrean Review</span>
+            <span id="badge-count-review" class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">0</span>
+          </button>
+
           <button onclick="openArticleEditor(-1)" data-tab="editor" class="nav-btn flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
             <span class="flex items-center gap-2.5">✍️ Tulis Berita</span>
           </button>
@@ -226,11 +231,20 @@
         <!-- TAB 1: DASHBOARD -->
         <!-- ========================================================== -->
         <section id="section-dashboard" class="space-y-6">
+          <!-- Peran Anda -->
+          <div id="role-card" class="hidden rounded-2xl border p-4 sm:p-5">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="role-card-badge" class="rounded-full px-3 py-1 text-[11px] font-bold"></span>
+              <span id="role-card-title" class="text-sm font-bold text-slate-900"></span>
+            </div>
+            <ul id="role-card-list" class="mt-3 grid grid-cols-1 gap-x-6 gap-y-1.5 text-xs text-slate-700 sm:grid-cols-2"></ul>
+          </div>
+
           <!-- 4 KPI Stat Cards (100% Real Data dari Database) -->
           <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
             <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Artikel</span>
+                <span id="kpi-articles-label" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Artikel</span>
                 <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 text-brand-600 text-base">📰</span>
               </div>
               <div class="mt-3 flex items-baseline gap-2">
@@ -241,13 +255,13 @@
 
             <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Pembaca</span>
+                <span id="kpi-views-label" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Pembaca</span>
                 <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600 text-base">👁️</span>
               </div>
               <div class="mt-3 flex items-baseline gap-2">
                 <span id="kpi-views" class="text-3xl font-extrabold text-slate-900">0</span>
               </div>
-              <p class="mt-1 text-xs text-slate-500">Akumulasi pembaca seluruh artikel</p>
+              <p id="kpi-views-sub" class="mt-1 text-xs text-slate-500">Akumulasi pembaca seluruh artikel</p>
             </div>
 
             <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
@@ -261,7 +275,7 @@
               <p class="mt-1 text-xs text-slate-500">Kanal aktif di navigasi publik</p>
             </div>
 
-            <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
+            <div id="kpi-card-users" class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tim Redaksi & User</span>
                 <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 text-base">👥</span>
@@ -302,15 +316,15 @@
                     <span>✍️ Tulis Artikel Baru</span>
                     <span class="text-brand-600">→</span>
                   </button>
-                  <button onclick="switchTab('categories'); resetCategoryForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                  <button data-need="editorial" onclick="switchTab('categories'); resetCategoryForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
                     <span>📁 Kelola Kategori Kanal</span>
                     <span class="text-brand-600">→</span>
                   </button>
-                  <button onclick="switchTab('ads'); resetAdForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                  <button data-need="editorial" onclick="switchTab('ads'); resetAdForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
                     <span>📢 Kelola Slot Advertise (Iklan)</span>
                     <span class="text-brand-600">→</span>
                   </button>
-                  <button onclick="switchTab('users'); resetUserForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
+                  <button data-need="super" onclick="switchTab('users'); resetUserForm();" class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-xs font-bold text-slate-800 hover:border-brand-500 hover:bg-brand-50/40 transition-colors">
                     <span>👥 Kelola Akun Redaksi</span>
                     <span class="text-brand-600">→</span>
                   </button>
@@ -364,6 +378,13 @@
               <button onclick="openArticleEditor(-1)" class="rounded-xl bg-brand-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-brand-700">
                 + Tulis Berita Baru
               </button>
+            </div>
+            <div id="article-filters" class="flex flex-wrap items-center gap-2 border-b border-slate-100 px-4 py-3 sm:px-6">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Tampilkan:</span>
+              <button type="button" data-af="all" onclick="setArticleFilter('all')" class="af-btn rounded-full px-3 py-1 text-xs font-bold">Semua</button>
+              <button type="button" data-af="review" onclick="setArticleFilter('review')" class="af-btn rounded-full px-3 py-1 text-xs font-bold">Review</button>
+              <button type="button" data-af="published" onclick="setArticleFilter('published')" class="af-btn rounded-full px-3 py-1 text-xs font-bold">Tayang</button>
+              <button type="button" data-af="draft" onclick="setArticleFilter('draft')" class="af-btn rounded-full px-3 py-1 text-xs font-bold">Draft</button>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full min-w-[640px] text-left text-xs">
@@ -492,7 +513,9 @@
                 </div>
 
                 <div>
-                  <label class="block text-xs font-semibold text-slate-700">Kategori Kanal</label>
+                  <p id="status-hint" class="hidden -mt-2 rounded-lg bg-amber-50 px-3 py-2 text-[11px] text-amber-800"></p>
+
+                <label class="block text-xs font-semibold text-slate-700">Kategori Kanal</label>
                   <select id="form-category" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"></select>
                 </div>
 
@@ -527,6 +550,31 @@
         <!-- ========================================================== -->
         <!-- TAB 4: CRUD KATEGORI KANAL -->
         <!-- ========================================================== -->
+        <!-- ========================================================== -->
+        <!-- TAB: ANTREAN REVIEW (Editor / Super Admin) -->
+        <!-- ========================================================== -->
+        <section id="section-review" class="hidden space-y-4">
+          <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div class="border-b border-slate-200 px-4 py-4 sm:px-6">
+              <h3 class="text-sm font-bold text-slate-900">Antrean Review</h3>
+              <p class="text-xs text-slate-500">Tulisan jurnalis yang menunggu persetujuan. <strong>Setujui</strong> untuk langsung tayang, atau <strong>Kembalikan</strong> ke draft penulis untuk diperbaiki.</p>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[640px] text-left text-xs">
+                <thead class="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3.5">Judul Berita</th>
+                    <th class="px-4 py-3.5">Kategori</th>
+                    <th class="px-4 py-3.5">Penulis</th>
+                    <th class="px-6 py-3.5 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="review-table-body" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
         <section id="section-categories" class="hidden grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div class="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm h-fit">
             <h3 id="cat-form-title" class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Tambah Kategori Baru</h3>
@@ -952,16 +1000,106 @@
       }
     }
 
+    const ROLE_INFO = {
+      super_admin: {
+        label: 'Super Admin', badge: 'bg-rose-50 text-rose-700 border-rose-200', box: 'border-rose-200 bg-rose-50/40',
+        title: 'Akses penuh',
+        can: ['Melihat dan menyunting semua artikel', 'Menyetujui tulisan di Antrean Review', 'Mengelola & menghapus kategori', 'Mengelola slot iklan', 'Mengelola pengguna & reset 2FA', 'Melihat jejak audit'],
+        cant: []
+      },
+      editor: {
+        label: 'Editor', badge: 'bg-sky-50 text-sky-700 border-sky-200', box: 'border-sky-200 bg-sky-50/40',
+        title: 'Mengelola konten & menyetujui tulisan',
+        can: ['Melihat dan menyunting semua artikel', 'Menyetujui / mengembalikan tulisan di Antrean Review', 'Menerbitkan langsung & menetapkan headline', 'Mengelola kategori dan slot iklan'],
+        cant: ['Tidak bisa mengelola pengguna', 'Tidak bisa menghapus kategori']
+      },
+      journalist: {
+        label: 'Jurnalis', badge: 'bg-emerald-50 text-emerald-700 border-emerald-200', box: 'border-emerald-200 bg-emerald-50/40',
+        title: 'Menulis & mengirim untuk di-review',
+        can: ['Menulis dan menyunting tulisan Anda sendiri', 'Mengirim tulisan ke editor (status Review)', 'Melihat statistik tulisan Anda sendiri'],
+        cant: ['Tidak bisa menerbitkan langsung (menunggu persetujuan editor)', 'Tidak melihat tulisan penulis lain', 'Tulisan yang sudah tayang hanya bisa disunting editor']
+      }
+    };
+
+    function isEditorialRole() { return !!currentUser && (currentUser.role === 'super_admin' || currentUser.role === 'editor'); }
+    function canEditArticle(a) {
+      if (!currentUser) return false;
+      if (isEditorialRole()) return true;
+      return Number(a.author_id) === Number(currentUser.id) && a.status !== 'published';
+    }
+    function canDeleteArticle(a) { return canEditArticle(a); }
+
     function applyRoleUi(role) {
       const isEditorial = role === 'super_admin' || role === 'editor';
-      const hide = { categories: !isEditorial, ads: !isEditorial, users: role !== 'super_admin' };
+      const hide = { categories: !isEditorial, ads: !isEditorial, review: !isEditorial, users: role !== 'super_admin' };
       document.querySelectorAll('.nav-btn').forEach(btn => {
         if (hide[btn.dataset.tab] !== undefined) btn.classList.toggle('hidden', hide[btn.dataset.tab]);
       });
+      // Aksi cepat & kartu yang tidak berlaku disembunyikan
+      document.querySelectorAll('[data-need]').forEach(el => {
+        const need = el.dataset.need;
+        el.classList.toggle('hidden', (need === 'editorial' && !isEditorial) || (need === 'super' && role !== 'super_admin'));
+      });
+      const kUsers = document.getElementById('kpi-card-users');
+      if (kUsers) kUsers.classList.toggle('hidden', role !== 'super_admin');
+
+      // Label statistik sesuai cakupan data
+      const own = !isEditorial;
+      document.getElementById('kpi-articles-label').textContent = own ? 'Tulisan Saya' : 'Total Artikel';
+      document.getElementById('kpi-views-label').textContent = own ? 'Pembaca Tulisan Saya' : 'Total Pembaca';
+      document.getElementById('kpi-views-sub').textContent = own ? 'Akumulasi pembaca tulisan Anda' : 'Akumulasi pembaca seluruh artikel';
+
       const hl = document.getElementById('form-headline');
       if (hl) { hl.closest('label').classList.toggle('hidden', !isEditorial); if (!isEditorial) hl.checked = false; }
       const pub = document.querySelector('#form-status option[value="published"]');
       if (pub) { pub.disabled = !isEditorial; pub.textContent = isEditorial ? 'Published (Tayang)' : 'Published (khusus Editor)'; }
+      const hint = document.getElementById('status-hint');
+      if (hint) {
+        hint.classList.toggle('hidden', isEditorial);
+        hint.textContent = 'Sebagai Jurnalis, artikel yang Anda "terbitkan" akan masuk Antrean Review dan tayang setelah disetujui editor.';
+      }
+
+      // Kartu "Peran Anda"
+      const info = ROLE_INFO[role];
+      const card = document.getElementById('role-card');
+      if (info && card) {
+        card.className = 'rounded-2xl border p-4 sm:p-5 ' + info.box;
+        const badge = document.getElementById('role-card-badge');
+        badge.className = 'rounded-full border px-3 py-1 text-[11px] font-bold ' + info.badge;
+        badge.textContent = 'Peran Anda: ' + info.label;
+        document.getElementById('role-card-title').textContent = info.title;
+        document.getElementById('role-card-list').innerHTML =
+          info.can.map(t => `<li class="flex gap-2"><span class="text-emerald-600 font-bold">✓</span><span>${escapeHtml(t)}</span></li>`).join('') +
+          info.cant.map(t => `<li class="flex gap-2 text-slate-500"><span class="text-slate-400 font-bold">✕</span><span>${escapeHtml(t)}</span></li>`).join('');
+      }
+    }
+
+    // Filter status daftar artikel
+    let ARTICLE_FILTER = 'all';
+    function setArticleFilter(f) {
+      ARTICLE_FILTER = f;
+      renderAll();
+    }
+    function paintArticleFilters() {
+      document.querySelectorAll('.af-btn').forEach(b => {
+        const active = b.dataset.af === ARTICLE_FILTER;
+        const n = b.dataset.af === 'all' ? CMS_ARTICLES.length : CMS_ARTICLES.filter(a => a.status === b.dataset.af).length;
+        const label = { all: 'Semua', review: 'Review', published: 'Tayang', draft: 'Draft' }[b.dataset.af];
+        b.textContent = label + ' (' + n + ')';
+        b.className = 'af-btn rounded-full px-3 py-1 text-xs font-bold ' + (active ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200');
+      });
+    }
+
+    // Antrean review: setujui / kembalikan
+    async function reviewArticle(id, action) {
+      const verb = action === 'approve' ? 'menyetujui dan menayangkan' : 'mengembalikan ke draft';
+      if (!confirm('Yakin ' + verb + ' artikel ini?')) return;
+      const res = await fetch('/api/v1/admin/articles/' + encodeURIComponent(id) + '/review', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action })
+      });
+      const json = await res.json().catch(() => ({}));
+      await syncAdminFromDatabase();
+      showToast(json.message || 'Selesai.');
     }
 
     function showDashboardScreen(user) {
@@ -971,6 +1109,7 @@
       document.getElementById('active-user-initial').textContent = (user.name || 'A').charAt(0).toUpperCase();
       const roleLabel = { super_admin: 'Super Admin', editor: 'Editor', journalist: 'Jurnalis' }[user.role] || user.role;
       document.getElementById('active-role-badge').textContent = (user.name || 'Administrator') + ' · ' + roleLabel;
+      document.getElementById('active-user-initial').title = roleLabel;
       applyRoleUi(user.role);
 
       loginEl.classList.add('hidden');
@@ -1177,7 +1316,7 @@
 
     function switchTab(tab) {
       closeSidebar();
-      const sections = ['dashboard', 'articles', 'editor', 'categories', 'ads', 'users'];
+      const sections = ['dashboard', 'articles', 'review', 'editor', 'categories', 'ads', 'users'];
       sections.forEach(s => {
         document.getElementById('section-' + s).classList.toggle('hidden', s !== tab);
       });
@@ -1192,6 +1331,7 @@
 
       const titles = {
         dashboard: ['Dashboard Analitik Redaksi', 'Pantau performa artikel, antrean review, kategori, dan tim redaksi secara real-time.'],
+        review: ['Antrean Review', 'Setujui atau kembalikan tulisan jurnalis yang menunggu persetujuan editor.'],
         articles: ['Manajemen Artikel Berita', 'Kelola seluruh berita, status tayang, headline, dan buka artikel di CKEditor 5.'],
         editor: ['Ruang Penulisan Berita (CKEditor 5)', 'Gunakan toolbar untuk mengatur font, paragraf, list, tabel, dan sisipkan media.'],
         categories: ['Manajemen Kategori Kanal', 'Tambah, ubah, aktif/nonaktifkan, atau hapus kanal kategori berita.'],
@@ -1232,6 +1372,8 @@
       document.getElementById('kpi-users').textContent = CMS_USERS.length;
 
       document.getElementById('badge-count-articles').textContent = CMS_ARTICLES.length;
+      document.getElementById('badge-count-review').textContent = CMS_ARTICLES.filter(a => a.status === 'review').length;
+      paintArticleFilters();
       document.getElementById('badge-count-categories').textContent = CMS_CATEGORIES.length;
       document.getElementById('badge-count-ads').textContent = CMS_ADS.length;
       document.getElementById('badge-count-users').textContent = CMS_USERS.length;
@@ -1290,9 +1432,9 @@
             <td class="px-4 py-3.5">${statusBadge(a.status)}</td>
             <td class="px-4 py-3.5 font-mono text-slate-600">${Number(a.views || 0).toLocaleString('id-ID')}</td>
             <td class="px-6 py-3.5 text-right">
-              <button onclick="openArticleEditor(${idx})" class="rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-brand-600 hover:border-brand-500 shadow-sm">
-                ✏️ Edit
-              </button>
+              ${canEditArticle(a)
+                ? `<button onclick="openArticleEditor(${idx})" class="rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-brand-600 hover:border-brand-500 shadow-sm">✏️ Edit</button>`
+                : '<span class="text-[11px] text-slate-400">🔒 Hanya editor</span>'}
             </td>
           </tr>
         `).join('');
@@ -1300,16 +1442,27 @@
 
       // Render Full Articles Table
       const fullTable = document.getElementById('cms-table-body');
-      if (CMS_ARTICLES.length === 0) {
+      const shown = CMS_ARTICLES.map((a, idx) => ({ a, idx })).filter(x => ARTICLE_FILTER === 'all' || x.a.status === ARTICLE_FILTER);
+      const actionCell = (a, idx) => {
+        const edit = canEditArticle(a)
+          ? `<button onclick="openArticleEditor(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-brand-600 hover:border-brand-500">✏️ Edit</button>` : '';
+        const del = canDeleteArticle(a)
+          ? `<button onclick="deleteArticle(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>` : '';
+        const note = (!edit && !del) ? '<span class="text-[11px] text-slate-400" title="Tulisan yang sudah tayang hanya bisa disunting editor">🔒 Hanya editor</span>' : '';
+        return edit + del + note;
+      };
+      if (shown.length === 0) {
         fullTable.innerHTML = `
           <tr>
             <td colspan="7" class="px-6 py-8 text-center text-xs text-slate-400">
-              Belum ada artikel berita. Silakan klik tombol <strong>+ Tulis Berita Baru</strong> di kanan atas.
+              ${CMS_ARTICLES.length === 0
+                ? 'Belum ada artikel berita. Silakan klik tombol <strong>+ Tulis Berita Baru</strong> di kanan atas.'
+                : 'Tidak ada artikel dengan status ini.'}
             </td>
           </tr>
         `;
       } else {
-        fullTable.innerHTML = CMS_ARTICLES.map((a, idx) => `
+        fullTable.innerHTML = shown.map(({ a, idx }) => `
           <tr class="hover:bg-slate-50/80">
             <td class="px-6 py-3.5 font-bold text-slate-900">${escapeHtml(a.title)}</td>
             <td class="px-4 py-3.5 text-slate-600">${escapeHtml(a.category)}</td>
@@ -1317,12 +1470,28 @@
             <td class="px-4 py-3.5">${statusBadge(a.status)}</td>
             <td class="px-4 py-3.5">${a.headline ? '<span class="text-emerald-600 font-bold">✓ Headline</span>' : '—'}</td>
             <td class="px-4 py-3.5 font-mono text-slate-600">${Number(a.views || 0).toLocaleString('id-ID')}</td>
-            <td class="px-6 py-3.5 text-right space-x-1.5">
-              <button onclick="openArticleEditor(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-brand-600 hover:border-brand-500">✏️ Edit</button>
-              <button onclick="deleteArticle(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>
-            </td>
+            <td class="px-6 py-3.5 text-right space-x-1.5">${actionCell(a, idx)}</td>
           </tr>
         `).join('');
+      }
+
+      // Antrean review (khusus editor / super admin)
+      const reviewBody = document.getElementById('review-table-body');
+      if (reviewBody) {
+        const queue = CMS_ARTICLES.map((a, idx) => ({ a, idx })).filter(x => x.a.status === 'review');
+        reviewBody.innerHTML = queue.length === 0
+          ? '<tr><td colspan="4" class="px-6 py-10 text-center text-xs text-slate-400">Tidak ada tulisan yang menunggu review. 🎉</td></tr>'
+          : queue.map(({ a, idx }) => `
+            <tr class="hover:bg-slate-50/80">
+              <td class="px-6 py-3.5 font-bold text-slate-900">${escapeHtml(a.title)}</td>
+              <td class="px-4 py-3.5 text-slate-600">${escapeHtml(a.category)}</td>
+              <td class="px-4 py-3.5 text-slate-600">${escapeHtml(a.author)}</td>
+              <td class="px-6 py-3.5 text-right space-x-1.5 whitespace-nowrap">
+                <button onclick="openArticleEditor(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 hover:border-brand-500">👁️ Tinjau</button>
+                <button onclick="reviewArticle(${a.id}, 'approve')" class="rounded-lg bg-emerald-600 px-2.5 py-1 text-xs font-bold text-white hover:bg-emerald-700">✓ Setujui &amp; Terbitkan</button>
+                <button onclick="reviewArticle(${a.id}, 'reject')" class="rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700 hover:bg-amber-100">↩ Kembalikan</button>
+              </td>
+            </tr>`).join('');
       }
 
       // Render Categories Table
@@ -1338,7 +1507,9 @@
           </td>
           <td class="px-6 py-3.5 text-right space-x-1.5">
             <button onclick="editCategory(${idx})" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 hover:border-brand-500">✏️ Edit</button>
-            <button onclick="deleteCategory(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>
+            ${currentUser && currentUser.role === 'super_admin'
+              ? `<button onclick="deleteCategory(${idx})" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">🗑️ Hapus</button>`
+              : '<span class="text-[11px] text-slate-400" title="Hanya Super Admin yang bisa menghapus kategori">🔒 Super Admin</span>'}
           </td>
         </tr>
       `).join('');

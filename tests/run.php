@@ -484,6 +484,81 @@ check('(hid) /admin menjadi 404', http('GET', '/admin')['code'] === 404);
 check('(hid) beranda tidak memuat path rahasia', strpos(http('GET', '/')['body'], 'ruang-redaksi') === false);
 $base = $origBase;
 
+echo "== Peran: antrean review, hak akses, dan statistik per peran\n";
+$base = $b2; // server uji 2FA (DB segar); blok sebelumnya mengembalikan $base ke server utama
+$dbh2->exec('DELETE FROM rate_limits');
+$rU = http('POST', '/api/v1/admin/users', ['name' => 'Jurnalis Review', 'email' => 'jr@uji.test', 'role' => 'journalist', 'password' => 'Jurnalis-2026ok'], auth($adm));
+$rJ = http('POST', '/api/v1/admin/login', ['email' => 'jr@uji.test', 'password' => 'Jurnalis-2026ok']);
+$rE = http('POST', '/api/v1/admin/login', ['email' => 'dua@uji.test', 'password' => 'Editor-Dua-2026x']);
+$jt = $rJ['json']['token'] ?? '';
+$et = $rE['json']['token'] ?? '';
+check('(rv) jurnalis & editor bisa login', $jt !== '' && $et !== '', 'user=' . $rU['body'] . ' | j=' . $rJ['body'] . ' | e=' . $rE['body']);
+
+$r = http('POST', '/api/v1/admin/articles', ['title' => 'Review A', 'category' => 'event-komunitas', 'status' => 'published', 'body' => '<p>a</p>'], auth($jt));
+$ida = (int) ($r['json']['id'] ?? 0);
+$slugA = $r['json']['slug'] ?? '';
+check('(rv) tulisan jurnalis yang "terbit" masuk status review', ($r['json']['saved_status'] ?? '') === 'review');
+$r = http('POST', '/api/v1/admin/articles', ['title' => 'Review B', 'category' => 'event-komunitas', 'status' => 'review', 'body' => '<p>b</p>'], auth($jt));
+$idb = (int) ($r['json']['id'] ?? 0);
+$slugB = $r['json']['slug'] ?? '';
+
+$r = http('POST', "/api/v1/admin/articles/$ida/review", ['action' => 'approve'], auth($jt));
+check('(rv) jurnalis tidak boleh menyetujui (403)', $r['code'] === 403);
+$r = http('POST', "/api/v1/admin/articles/$ida/review", ['action' => 'hapus'], auth($et));
+check('(rv) aksi review tidak valid ditolak (422)', $r['code'] === 422);
+
+$titlesOf = function ($tok) {
+    $rr = http('GET', '/api/v1/bootstrap?mode=admin', null, auth($tok));
+    return [array_column($rr['json']['data']['articles'] ?? [], 'title'), $rr['json']['data'] ?? []];
+};
+list($tE, ) = $titlesOf($et);
+list($tJ, $dJ) = $titlesOf($jt);
+check('(rv) editor melihat tulisan jurnalis di antrean', in_array('Review A', $tE, true) && in_array('Review B', $tE, true));
+check('(rv) jurnalis hanya melihat tulisannya sendiri', count($tJ) === 2 && !in_array('Milik Admin', $tJ, true));
+check('(rv) jurnalis tidak menerima daftar pengguna/iklan', empty($dJ['users']) && empty($dJ['advertisements']));
+
+$r = http('POST', "/api/v1/admin/articles/$ida/review", ['action' => 'approve'], auth($et));
+check('(rv) editor menyetujui -> terbit', $r['code'] === 200 && ($r['json']['saved_status'] ?? '') === 'published', $r['body']);
+check('(rv) artikel yang disetujui tampil di publik', http('GET', '/api/v1/articles/' . $slugA)['code'] === 200);
+$r = http('POST', "/api/v1/admin/articles/$idb/review", ['action' => 'reject'], auth($et));
+check('(rv) editor mengembalikan -> draft', $r['code'] === 200 && ($r['json']['saved_status'] ?? '') === 'draft');
+check('(rv) artikel yang dikembalikan tidak tampil di publik', http('GET', '/api/v1/articles/' . $slugB)['code'] === 404);
+$r = http('POST', "/api/v1/admin/articles/$ida/review", ['action' => 'approve'], auth($et));
+check('(rv) menyetujui artikel yang sudah tayang ditolak (409)', $r['code'] === 409);
+$r = http('POST', '/api/v1/admin/articles/999999/review', ['action' => 'approve'], auth($et));
+check('(rv) artikel tak dikenal (404)', $r['code'] === 404);
+
+$r = http('POST', '/api/v1/admin/articles', ['id' => $ida, 'title' => 'Diubah', 'category' => 'event-komunitas', 'body' => '<p>x</p>'], auth($jt));
+check('(rv) jurnalis tidak bisa menyunting tulisannya yang sudah tayang (403)', $r['code'] === 403);
+$r = http('POST', '/api/v1/admin/articles', ['id' => $idb, 'title' => 'Review B (revisi)', 'category' => 'event-komunitas', 'status' => 'published', 'body' => '<p>b2</p>'], auth($jt));
+check('(rv) jurnalis bisa merevisi draft sendiri & mengirim ulang ke review', $r['code'] === 200 && ($r['json']['saved_status'] ?? '') === 'review', $r['body']);
+
+// statistik dibatasi per peran
+$r = http('POST', '/api/v1/admin/articles', ['title' => 'Milik Admin', 'category' => 'event-komunitas', 'status' => 'published', 'body' => '<p>m</p>'], auth($adm));
+$idm = (int) ($r['json']['id'] ?? 0);
+$dbh2->exec("UPDATE articles SET views_count = 500 WHERE id = $idm");
+$dbh2->exec("UPDATE articles SET views_count = 7 WHERE id = $ida");
+for ($i = 0; $i < 3; $i++) {
+    $dbh2->exec("INSERT INTO article_views (article_id, ip_address, viewed_at) VALUES ($idm, '9.9.9.$i', datetime('now'))");
+}
+$dbh2->exec("INSERT INTO article_views (article_id, ip_address, viewed_at) VALUES ($ida, '8.8.8.8', datetime('now'))");
+list(, $dJ) = $titlesOf($jt);
+list(, $dE) = $titlesOf($et);
+check('(rv) total pembaca jurnalis = hanya tulisannya (7)', ($dJ['stats']['total_views'] ?? -1) === 7, (string) ($dJ['stats']['total_views'] ?? 'x'));
+check('(rv) total pembaca editor mencakup semua (>= 507)', ($dE['stats']['total_views'] ?? 0) >= 507);
+$todayJ = end($dJ['stats']['daily_views'])['views'] ?? -1;
+$todayE = end($dE['stats']['daily_views'])['views'] ?? -1;
+// Editor melihat tayangan milik admin (3) di atas milik jurnalis; jurnalis tidak melihat yang 3 itu.
+check('(rv) grafik harian jurnalis hanya tulisannya (selisih = 3 tayangan milik admin)', $todayJ >= 1 && ($todayE - $todayJ) === 3, "j=$todayJ e=$todayE");
+
+$r = http('DELETE', '/api/v1/admin/categories/1', null, auth($et));
+check('(rv) editor tidak boleh menghapus kategori (403)', $r['code'] === 403);
+check('(rv) editor tidak boleh melihat jejak audit (403)', http('GET', '/api/v1/admin/audit-logs', null, auth($et))['code'] === 403);
+$r = http('GET', '/api/v1/admin/audit-logs', null, auth($adm));
+$actions = array_column($r['json']['data'] ?? [], 'action');
+check('(rv) jejak audit mencatat setujui & kembalikan', in_array('article_approve', $actions, true) && in_array('article_reject', $actions, true));
+$base = $origBase;
+
 echo "== 2FA TOTP: kebijakan REQUIRE_2FA=1 (server terpisah)\n";
 list($pr3, $b3) = start_server('tf-req', ['REQUIRE_2FA' => '1']);
 register_shutdown_function(function () use ($pr3) {
