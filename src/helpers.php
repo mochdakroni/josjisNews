@@ -272,6 +272,31 @@ function sanitize_css($css)
     return $out;
 }
 
+/** Tulis node DOM yang sudah bersih menjadi HTML (deterministik, tanpa pemformatan libxml). */
+function sanitize_serialize(DOMNode $n)
+{
+    static $void = ['br' => 1, 'hr' => 1, 'img' => 1, 'input' => 1, 'col' => 1, 'source' => 1];
+    if ($n->nodeType === XML_TEXT_NODE) {
+        return str_replace("\xC2\xA0", '&nbsp;', htmlspecialchars($n->nodeValue, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+    }
+    if ($n->nodeType !== XML_ELEMENT_NODE) {
+        return '';
+    }
+    $tag = strtolower($n->nodeName);
+    $out = '<' . $tag;
+    foreach ($n->attributes as $a) {
+        $out .= ' ' . $a->nodeName . '="' . htmlspecialchars($a->nodeValue, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"';
+    }
+    $out .= '>';
+    if (isset($void[$tag])) {
+        return $out;
+    }
+    foreach ($n->childNodes as $c) {
+        $out .= sanitize_serialize($c);
+    }
+    return $out . '</' . $tag . '>';
+}
+
 function sanitize_html($html)
 {
     $html = (string) $html;
@@ -451,9 +476,10 @@ function sanitize_html($html)
     };
     $clean($root);
 
+    // Penulis HTML sendiri: hasil identik di semua versi PHP/libxml (saveHTML() PHP 7.0 menyisipkan baris baru).
     $out = '';
     foreach ($root->childNodes as $c) {
-        $out .= $doc->saveHTML($c);
+        $out .= sanitize_serialize($c);
     }
     return trim($out);
 }
