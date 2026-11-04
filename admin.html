@@ -1238,6 +1238,8 @@
             supportAllValues: true
           },
           alignment: { options: ['left', 'center', 'right', 'justify'] },
+          // Simpan embed (YouTube/Vimeo/Drive) sebagai <iframe> agar tayang di halaman publik, bukan tag <oembed>.
+          mediaEmbed: { previewsInData: true },
           list: { properties: { styles: true, startIndex: true, reversed: true } },
           image: {
             resizeUnit: '%',

@@ -193,6 +193,110 @@ function iframe_src_allowed($src)
     return (in_array($host, $allowed, true) && str_starts_with(strtolower($src), 'https://')) ? $src : '';
 }
 
+/**
+ * Saring atribut style: hanya properti & nilai yang aman (allowlist ketat).
+ * Dibutuhkan editor (rata kanan-kiri, warna, ukuran huruf, lebar gambar/tabel, dsb).
+ * Tidak ada url(), expression(), position, atau apa pun yang bisa menimpa UI situs.
+ */
+function sanitize_css($css)
+{
+    $css = (string) $css;
+    if (strlen($css) > 1200 || preg_match('/(?:url\s*\(|expression|javascript|vbscript|behavior|binding|@|\\\\|\/\*|<|>)/i', $css)) {
+        return '';
+    }
+    $len = '-?\d+(?:\.\d+)?(?:px|em|rem|%|pt|ex|ch|vw|vh)?';
+    $lenAuto = '(?:' . $len . '|auto)';
+    $color = '(?:#[0-9a-f]{3,8}|(?:rgb|hsl)a?\(\s*[\d.%\s,\/-]+\)|[a-z]{3,20})';
+    $boxLen = '(?:' . $lenAuto . '\s*){1,4}';
+    $loose = '[A-Za-z0-9 #%.,()\/-]{1,80}';
+    $fontFam = '[A-Za-z0-9 ,\'"-]{1,100}';
+    $borderStyle = '(?:none|solid|dotted|dashed|double|groove|ridge|inset|outset|hidden)';
+
+    $rules = [
+        'text-align'       => '(?:left|right|center|justify|start|end)',
+        'color'            => $color,
+        'background-color' => $color,
+        'font-size'        => '(?:' . $len . '|xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)',
+        'font-family'      => $fontFam,
+        'font-weight'      => '(?:normal|bold|bolder|lighter|[1-9]00)',
+        'font-style'       => '(?:normal|italic|oblique)',
+        'text-decoration'  => '(?:(?:none|underline|line-through|overline)\s*)+',
+        'line-height'      => '(?:\d+(?:\.\d+)?|' . $len . '|normal)',
+        'width'            => $lenAuto,
+        'height'           => $lenAuto,
+        'min-width'        => $lenAuto,
+        'max-width'        => '(?:' . $len . '|none)',
+        'margin'           => $boxLen,
+        'margin-left'      => $lenAuto,
+        'margin-right'     => $lenAuto,
+        'margin-top'       => $lenAuto,
+        'margin-bottom'    => $lenAuto,
+        'padding'          => $boxLen,
+        'padding-left'     => $len,
+        'padding-right'    => $len,
+        'padding-top'      => $len,
+        'padding-bottom'   => $len,
+        'float'            => '(?:left|right|none)',
+        'display'          => '(?:block|inline|inline-block|table|table-cell|none)',
+        'vertical-align'   => '(?:top|middle|bottom|baseline|super|sub|text-top|text-bottom)',
+        'list-style-type'  => '[a-z-]{3,30}',
+        'border'           => $loose,
+        'border-top'       => $loose,
+        'border-bottom'    => $loose,
+        'border-left'      => $loose,
+        'border-right'     => $loose,
+        'border-style'     => '(?:' . $borderStyle . '\s*){1,4}',
+        'border-width'     => $boxLen,
+        'border-color'     => '(?:' . $color . '\s*){1,4}',
+        'border-collapse'  => '(?:collapse|separate)',
+        'aspect-ratio'     => '\d+(?:\.\d+)?\s*\/\s*\d+(?:\.\d+)?',
+        'object-fit'       => '(?:fill|contain|cover|none|scale-down)',
+        'white-space'      => '(?:normal|nowrap|pre|pre-wrap|pre-line)',
+    ];
+
+    $out = '';
+    foreach (explode(';', $css) as $decl) {
+        if (strpos($decl, ':') === false) {
+            continue;
+        }
+        $parts = explode(':', $decl, 2);
+        $prop = strtolower(trim($parts[0]));
+        $val = trim($parts[1]);
+        if ($val === '' || !isset($rules[$prop])) {
+            continue;
+        }
+        if (preg_match('/^' . $rules[$prop] . '$/i', $val)) {
+            $out .= $prop . ':' . $val . ';';
+        }
+    }
+    return $out;
+}
+
+/** Tulis node DOM yang sudah bersih menjadi HTML (deterministik, tanpa pemformatan libxml). */
+function sanitize_serialize(DOMNode $n)
+{
+    static $void = ['br' => 1, 'hr' => 1, 'img' => 1, 'input' => 1, 'col' => 1, 'source' => 1];
+    if ($n->nodeType === XML_TEXT_NODE) {
+        return str_replace("\xC2\xA0", '&nbsp;', htmlspecialchars($n->nodeValue, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+    }
+    if ($n->nodeType !== XML_ELEMENT_NODE) {
+        return '';
+    }
+    $tag = strtolower($n->nodeName);
+    $out = '<' . $tag;
+    foreach ($n->attributes as $a) {
+        $out .= ' ' . $a->nodeName . '="' . htmlspecialchars($a->nodeValue, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"';
+    }
+    $out .= '>';
+    if (isset($void[$tag])) {
+        return $out;
+    }
+    foreach ($n->childNodes as $c) {
+        $out .= sanitize_serialize($c);
+    }
+    return $out . '</' . $tag . '>';
+}
+
 function sanitize_html($html)
 {
     $html = (string) $html;
@@ -201,13 +305,14 @@ function sanitize_html($html)
     }
 
     $allowedTags = [
-        'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'a', 'ul', 'ol', 'li', 'h2', 'h3', 'h4',
+        'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'a', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
         'blockquote', 'figure', 'figcaption', 'img', 'video', 'source', 'iframe', 'table', 'thead',
-        'tbody', 'tr', 'th', 'td', 'hr', 'span', 'div', 'code', 'pre', 'mark', 'sub', 'sup', 'small',
+        'tbody', 'tfoot', 'tr', 'th', 'td', 'caption', 'colgroup', 'col', 'hr', 'span', 'div', 'code', 'pre', 'mark',
+        'sub', 'sup', 'small', 'label', 'input', 'del', 'ins',
     ];
-    $dropWithContent = ['script', 'style', 'object', 'embed', 'applet', 'link', 'meta', 'form', 'input',
+    $dropWithContent = ['script', 'style', 'object', 'embed', 'applet', 'link', 'meta', 'form',
         'button', 'textarea', 'select', 'svg', 'math', 'noscript', 'template', 'base', 'title'];
-    $globalAttrs = ['class'];
+    $globalAttrs = ['class', 'style'];
     $tagAttrs = [
         'a'          => ['href', 'target', 'rel', 'title'],
         'img'        => ['src', 'alt', 'width', 'height', 'loading', 'title'],
@@ -216,7 +321,10 @@ function sanitize_html($html)
         'iframe'     => ['src', 'width', 'height', 'allowfullscreen', 'allow', 'loading', 'title'],
         'th'         => ['colspan', 'rowspan'],
         'td'         => ['colspan', 'rowspan'],
-        'ol'         => ['start'],
+        'col'        => ['span'],
+        'ol'         => ['start', 'reversed'],
+        'input'      => ['type', 'checked', 'disabled'],
+        'div'        => ['data-oembed-url'],
     ];
 
     $prev = libxml_use_internal_errors(true);
@@ -272,7 +380,17 @@ function sanitize_html($html)
                 if (!in_array($lname, $permitted, true)) {
                     continue;
                 }
-                if ($lname === 'class') {
+                if ($lname === 'style') {
+                    $val = sanitize_css($val);
+                    if ($val === '') {
+                        continue;
+                    }
+                } elseif ($lname === 'data-oembed-url') {
+                    $val = iframe_src_allowed($val);
+                    if ($val === '') {
+                        continue;
+                    }
+                } elseif ($lname === 'class') {
                     $val = trim(preg_replace('/[^A-Za-z0-9_\- ]+/', '', $val));
                     if ($val === '') {
                         continue;
@@ -301,7 +419,11 @@ function sanitize_html($html)
                 } elseif ($lname === 'preload') {
                     $val = in_array($val, ['none', 'metadata', 'auto'], true) ? $val : 'metadata';
                 } elseif ($lname === 'type') {
-                    if (!preg_match('#^(video|audio)/[a-z0-9.+\-]+$#i', $val)) {
+                    if ($tag === 'input') {
+                        if ($val !== 'checkbox') {
+                            continue;
+                        }
+                    } elseif (!preg_match('#^(video|audio)/[a-z0-9.+\-]+$#i', $val)) {
                         continue;
                     }
                 } elseif ($lname === 'allow') {
@@ -310,7 +432,14 @@ function sanitize_html($html)
                 $child->setAttribute($lname, $val);
             }
 
-            if ($tag === 'a') {
+            if ($tag === 'input') {
+                if (strtolower($child->getAttribute('type')) !== 'checkbox') {
+                    $node->removeChild($child);
+                    continue;
+                }
+                $child->setAttribute('type', 'checkbox');
+                $child->setAttribute('disabled', 'disabled');
+            } elseif ($tag === 'a') {
                 $href = $child->getAttribute('href');
                 if ($href === '') {
                     // Tautan tanpa href yang aman: jadikan teks biasa.
@@ -347,9 +476,10 @@ function sanitize_html($html)
     };
     $clean($root);
 
+    // Penulis HTML sendiri: hasil identik di semua versi PHP/libxml (saveHTML() PHP 7.0 menyisipkan baris baru).
     $out = '';
     foreach ($root->childNodes as $c) {
-        $out .= $doc->saveHTML($c);
+        $out .= sanitize_serialize($c);
     }
     return trim($out);
 }
