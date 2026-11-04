@@ -95,6 +95,7 @@ function http($method, $url, $body = null, array $headers = [], $raw = false)
 
 
 require_once $root . '/src/totp.php';
+require_once $root . '/src/helpers.php';
 
 /** Jalankan server tambahan dengan DB segar + env tambahan. Mengembalikan [proc, base]. */
 function start_server($tag, array $extraEnv = [])
@@ -309,6 +310,27 @@ for ($i = 0; $i < 35; $i++) {
 }
 check('pencarian di-rate-limit (429)', $last === 429, (string) $last);
 
+echo "== Format artikel: simpan -> baca kembali (end-to-end)\n";
+// End-to-end: simpan lewat API lalu baca kembali (publik & admin) -> tidak berubah
+$rich = '<h1>Judul Utama</h1><p style="text-align:justify;">Rata kanan-kiri</p><p class="lead-paragraph">Lead</p><p class="fact-box">Fakta</p>'
+    . '<ol><li>satu</li></ol><figure class="table"><table><tbody><tr><td style="text-align:center;">c</td></tr></tbody></table></figure>';
+$r = http('POST', '/api/v1/admin/articles', ['title' => 'Uji Format Editor', 'category' => 'event-komunitas', 'status' => 'published', 'body' => $rich], auth($admin));
+$fmtSlug = $r['json']['slug'] ?? '';
+$fmtId = $r['json']['id'] ?? 0;
+$pub = http('GET', '/api/v1/articles/' . $fmtSlug);
+check('(e2e) justify, H1, gaya blok, tabel utuh di API publik', ($pub['json']['data']['content_body'] ?? '') === $rich, substr((string) ($pub['json']['data']['content_body'] ?? ''), 0, 200));
+$adm = http('GET', '/api/v1/bootstrap?mode=admin', null, auth($admin));
+$adminBody = '';
+foreach ($adm['json']['data']['articles'] ?? [] as $a) {
+    if ((int) $a['id'] === (int) $fmtId) {
+        $adminBody = $a['body'];
+    }
+}
+check('(e2e) isi yang dibuka kembali di editor sama dengan yang disimpan', $adminBody === $rich);
+$r = http('POST', '/api/v1/admin/articles', ['id' => $fmtId, 'title' => 'Uji Format Editor', 'category' => 'event-komunitas', 'status' => 'published', 'body' => $adminBody], auth($admin));
+$pub2 = http('GET', '/api/v1/articles/' . $fmtSlug);
+check('(e2e) simpan ulang berkali-kali tidak mengubah isi (idempoten)', ($pub2['json']['data']['content_body'] ?? '') === $rich);
+
 echo "== Logout\n";
 $r = http('POST', '/api/v1/admin/logout', [], auth($admin));
 $r = http('GET', '/api/v1/admin/me', null, auth($admin));
@@ -321,6 +343,35 @@ for ($i = 0; $i < 12; $i++) {
 }
 check('brute force diblokir (429)', $last === 429, (string) $last);
 
+
+echo "== Format artikel dari editor (justify, gaya blok, judul, daftar, tabel)\n";
+$san = function ($h) {
+    return sanitize_html($h);
+};
+check('justify (style text-align) dipertahankan', strpos($san('<p style="text-align:justify;">x</p>'), 'style="text-align:justify;"') !== false);
+check('rata tengah/kanan dipertahankan', strpos($san('<p style="text-align:center;">x</p>'), 'text-align:center') !== false && strpos($san('<h2 style="text-align:right;">x</h2>'), 'text-align:right') !== false);
+check('judul H1, H5, H6 tidak jadi teks polos', strpos($san('<h1>a</h1>'), '<h1>a</h1>') !== false && strpos($san('<h5>a</h5><h6>b</h6>'), '<h5>a</h5><h6>b</h6>') !== false);
+foreach (['lead-paragraph', 'fact-box', 'baca-juga-box'] as $cls) {
+    check("gaya blok class=$cls dipertahankan", strpos($san('<p class="' . $cls . '">x</p>'), 'class="' . $cls . '"') !== false);
+}
+$colored = $san('<span style="color:hsl(0, 75%, 60%);background-color:#ffee00;font-size:24px;font-family:Georgia, serif;">w</span>');
+check('warna, latar, ukuran & jenis huruf dipertahankan', strpos($colored, 'color:hsl(0, 75%, 60%)') !== false && strpos($colored, 'background-color:#ffee00') !== false && strpos($colored, 'font-size:24px') !== false && strpos($colored, 'font-family:Georgia, serif') !== false);
+check('lebar gambar (figure style) & tabel dipertahankan', strpos($san('<figure class="image image_resized" style="width:50%;"><img src="/x.png"></figure>'), 'style="width:50%;"') !== false
+    && strpos($san('<table><tr><td style="width:30%;text-align:center">c</td></tr></table>'), 'width:30%') !== false);
+check('daftar bernomor: list-style-type, start, reversed', strpos($san('<ol style="list-style-type:lower-alpha;" start="3" reversed="reversed"><li>a</li></ol>'), 'lower-alpha') !== false);
+$todo = $san('<ul class="todo-list"><li><label class="todo-list__label"><input type="checkbox" disabled="disabled" checked="checked"><span>t</span></label></li></ul>');
+check('daftar tugas: kotak centang dipertahankan & selalu disabled', strpos($todo, 'type="checkbox"') !== false && strpos($todo, 'disabled') !== false);
+check('input selain checkbox dibuang', strpos($san('<input type="text" name="x"><input type="password">'), '<input') === false);
+$yt = $san('<div data-oembed-url="https://www.youtube.com/watch?v=abc"><div style="padding-bottom:56.25%;height:0;"><iframe src="https://www.youtube.com/embed/abc"></iframe></div></div>');
+check('embed YouTube dipertahankan', strpos($yt, 'youtube.com/embed/abc') !== false && strpos($yt, 'data-oembed-url') !== false);
+check('embed dari host asing dibuang', strpos($san('<div data-oembed-url="https://evil.example/x"><iframe src="https://evil.example/x"></iframe></div>'), 'evil.example') === false);
+check('style berbahaya ditolak: url(), expression, javascript', strpos($san('<p style="background:url(javascript:alert(1))">a</p>'), 'style') === false
+    && strpos($san('<span style="color:red;expression(alert(1))">c</span>'), 'expression') === false
+    && strpos($san('<p style="color:red;background-image:url(//evil/x)">d</p>'), 'url') === false);
+check('style tak diizinkan dibuang: position:fixed (tidak bisa menimpa UI)', strpos($san('<p style="position:fixed;top:0;left:0;width:100%;height:100%;color:red">b</p>'), 'position') === false
+    && strpos($san('<p style="position:fixed;top:0;left:0;width:100%;height:100%;color:red">b</p>'), 'color:red') !== false);
+check('style dengan escape CSS / komentar ditolak', strpos($san('<p style="color:red\\3b background:blue">e</p>'), 'style') === false && strpos($san('<p style="co/**/lor:red">e</p>'), 'style') === false);
+check('atribut event tetap dibuang di elemen ber-style', strpos($san('<p style="text-align:justify" onclick="x()">f</p>'), 'onclick') === false);
 
 echo "== 2FA TOTP: vektor uji RFC 6238 (SHA1, 8 digit)\n";
 $rfcSecret = base32_encode_str('12345678901234567890');

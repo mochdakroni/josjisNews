@@ -47,6 +47,78 @@
     };
   </script>
 
+  <style>
+    /* ===== Isi artikel: mengikuti seluruh keluaran editor (CKEditor) ===== */
+    .article-body { color: #27272a; overflow-wrap: anywhere; }
+    .dark .article-body { color: #e4e4e7; }
+    .article-body > * + * { margin-top: 1.25em; }
+    .article-body h1, .article-body h2, .article-body h3, .article-body h4, .article-body h5, .article-body h6 {
+      font-family: Merriweather, Georgia, serif; font-weight: 800; line-height: 1.3; color: #09090b; margin-top: 1.8em; }
+    .dark .article-body h1, .dark .article-body h2, .dark .article-body h3, .dark .article-body h4, .dark .article-body h5, .dark .article-body h6 { color: #fff; }
+    .article-body h1 { font-size: 1.9em; font-weight: 900; }
+    .article-body h2 { font-size: 1.5em; }
+    .article-body h3 { font-size: 1.25em; }
+    .article-body h4 { font-size: 1.1em; }
+    .article-body h5, .article-body h6 { font-size: 1em; }
+    .article-body a { color: #e11d48; text-decoration: underline; text-underline-offset: 3px; }
+    .article-body ul { list-style: disc; padding-left: 1.6em; }
+    .article-body ol { list-style: decimal; padding-left: 1.6em; }
+    .article-body ul ul, .article-body ol ul { list-style: circle; }
+    .article-body li { margin: .4em 0; }
+    .article-body ul.todo-list { list-style: none; padding-left: 0; }
+    .article-body .todo-list input[type=checkbox] { margin-right: .5em; vertical-align: middle; }
+    .article-body blockquote { border-left: 4px solid #e11d48; background: #f4f4f5; padding: 1rem 1.25rem; border-radius: 0 .75rem .75rem 0; font-family: Merriweather, Georgia, serif; font-style: italic; }
+    .dark .article-body blockquote { background: #18181b; }
+    .article-body hr { border: 0; border-top: 1px solid #d4d4d8; margin: 2rem 0; }
+    .dark .article-body hr { border-top-color: #3f3f46; }
+    .article-body .page-break { display: none; }
+    .article-body mark { padding: 0 .15em; border-radius: .2em; }
+    .article-body .marker-yellow { background-color: #fdfd77; color: #18181b; }
+    .article-body .marker-green { background-color: #63f963; color: #18181b; }
+    .article-body .marker-pink { background-color: #fc5c7c; color: #18181b; }
+    .article-body .marker-blue { background-color: #72cdfd; color: #18181b; }
+    .article-body .pen-red { color: #e91313; background-color: transparent; }
+    .article-body .pen-green { color: #118800; background-color: transparent; }
+    /* Gaya blok dari menu "Style" editor */
+    .article-body .lead-paragraph { font-size: 1.12em; font-weight: 500; color: #1e293b; border-left: 3px solid #e11d48; padding-left: 12px; }
+    .dark .article-body .lead-paragraph { color: #e2e8f0; }
+    .article-body .fact-box { background: #fff1f2; border: 1px solid #fecdd3; border-radius: 10px; padding: 12px 16px; color: #1e293b; }
+    .dark .article-body .fact-box { background: #3b0a14; border-color: #7f1d1d; color: #fecdd3; }
+    .article-body .baca-juga-box { background: #f8fafc; border-left: 4px solid #e11d48; padding: 10px 14px; font-weight: 600; }
+    .dark .article-body .baca-juga-box { background: #18181b; }
+    /* Gambar & keterangan */
+    .article-body img, .article-body video { max-width: 100%; height: auto; border-radius: .75rem; }
+    .article-body figure { margin: 1.75rem 0; }
+    .article-body figure.image { display: table; margin-left: auto; margin-right: auto; }
+    .article-body figure.image > img { display: block; margin: 0 auto; }
+    .article-body figure.image_resized { display: block; box-sizing: border-box; }
+    .article-body figure.image_resized > img { width: 100%; }
+    .article-body .image-style-side { float: right; max-width: 50%; margin-left: 1.5rem; }
+    .article-body .image-style-align-left { float: left; margin-right: 1.5rem; }
+    .article-body .image-style-align-right { float: right; margin-left: 1.5rem; }
+    .article-body .image-style-align-center, .article-body .image-style-block-align-center { margin-left: auto; margin-right: auto; }
+    .article-body .image-style-block-align-left { margin-left: 0; margin-right: auto; }
+    .article-body .image-style-block-align-right { margin-left: auto; margin-right: 0; }
+    .article-body figcaption { font-size: .8em; text-align: center; color: #71717a; margin-top: .5rem; display: table-caption; caption-side: bottom; }
+    .article-body > *:last-child::after, .article-body::after { content: ""; display: block; clear: both; }
+    /* Tabel */
+    .article-body figure.table { display: block; overflow-x: auto; }
+    .article-body table { border-collapse: collapse; width: 100%; }
+    .article-body th, .article-body td { border: 1px solid #d4d4d8; padding: .5rem .75rem; vertical-align: top; }
+    .article-body th { background: #f4f4f5; font-weight: 700; text-align: left; }
+    .dark .article-body th, .dark .article-body td { border-color: #3f3f46; }
+    .dark .article-body th { background: #18181b; }
+    .article-body caption { caption-side: bottom; font-size: .8em; color: #71717a; padding-top: .4rem; }
+    /* Kode */
+    .article-body code { background: #f4f4f5; padding: .1em .35em; border-radius: .3em; font-size: .9em; }
+    .dark .article-body code { background: #27272a; }
+    .article-body pre { background: #18181b; color: #e4e4e7; padding: 1rem; border-radius: .75rem; overflow-x: auto; font-size: .85em; line-height: 1.6; }
+    .article-body pre code { background: none; padding: 0; color: inherit; }
+    /* Embed video / dokumen */
+    .article-body iframe { max-width: 100%; border: 0; border-radius: .75rem; }
+    .article-body div[data-oembed-url] > div { position: relative; padding-bottom: 56.25%; height: 0; }
+    .article-body div[data-oembed-url] iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  </style>
 </head>
 <body class="min-h-screen flex flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased selection:bg-brand-600 selection:text-white transition-colors duration-200">
   <noscript><div class="mx-auto max-w-3xl p-6"><!--NOSCRIPT--></div></noscript>
@@ -316,7 +388,7 @@
             </div>
 
             <!-- Article HTML Content -->
-            <div id="detail-content-body" class="text-[18px] leading-[1.85] text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500 [&_img]:max-w-full [&_img]:h-auto [&_iframe]:max-w-full [&_video]:max-w-full [&_video]:h-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto break-words"></div>
+            <div id="detail-content-body" class="article-body text-[18px] leading-[1.85]"></div>
 
             <!-- Related Tags -->
             <div id="detail-tags-wrapper" class="hidden mt-10 border-t border-zinc-200 dark:border-zinc-800 pt-6">
@@ -1016,7 +1088,7 @@
         '2': { cls: 'text-[22px] leading-[1.95]', label: 'Gedhe Banget (22px)' },
       };
       const cfg = map[String(currentFontStep)];
-      bodyEl.className = `${cfg.cls} text-zinc-800 dark:text-zinc-200 space-y-5 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:pt-4 [&_h2]:text-zinc-950 dark:[&_h2]:text-white [&_h3]:font-serif [&_h3]:text-xl [&_h3]:font-bold [&_h3]:pt-3 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-600 [&_blockquote]:bg-zinc-100 dark:[&_blockquote]:bg-zinc-900 [&_blockquote]:p-4 [&_blockquote]:rounded-r-xl [&_blockquote]:font-serif [&_blockquote]:italic [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_figure]:my-6 [&_figure_img]:rounded-xl [&_figcaption]:mt-2 [&_figcaption]:text-xs [&_figcaption]:text-center [&_figcaption]:text-zinc-500 [&_img]:max-w-full [&_img]:h-auto [&_iframe]:max-w-full [&_video]:max-w-full [&_video]:h-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto break-words`;
+      bodyEl.className = `article-body ${cfg.cls}`;
       labelEl.textContent = cfg.label;
     }
 
